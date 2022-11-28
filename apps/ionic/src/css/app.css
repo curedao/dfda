@@ -6686,8 +6686,8 @@ button.item.item-button-right {
 .card .item:first-child,
 .list-inset .item:first-child,
 .padding > .list .item:first-child {
-  border-top-left-radius: 2px;
-  border-top-right-radius: 2px;
+  border-top-left-radius: 10px;
+  border-top-right-radius: 10px;
   /* background-color: rgba(255, 255, 255, .5); */
   backdrop-filter: blur(5px);
   box-shadow: 0 1px 3px rgb(0 0 0 / 30%);
@@ -7860,8 +7860,9 @@ textarea[disabled],
 input[readonly]:not(.cloned-text-input),
 textarea[readonly]:not(.cloned-text-input),
 select[readonly] {
-  background-color: #f8f8f8;
-  cursor: not-allowed; }
+  /* background-color: #f8f8f8; */
+  cursor: not-allowed;
+  }
 
 input[type="radio"][disabled],
 input[type="checkbox"][disabled],
@@ -26643,4 +26644,17 @@ linear-gradient(-45deg, rgb(0 46 255), rgb(60 0 255), rgb(35 213 64), rgb(255 0 
 .data-source-buttons {
   display: inline-flex;
   text-align: center;
+}
+
+.transparent-bg {
+  background-color: transparent;
+}
+.datetime-input {
+  background-color: transparent;
+  cursor: pointer;
+}
+
+.spinner-container {
+  text-align: center;
+  position: relative;
 }

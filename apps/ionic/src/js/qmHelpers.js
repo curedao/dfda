@@ -14,7 +14,6 @@ if(typeof navigator !== "undefined"){
         navigator.mozGetUserMedia ||
         navigator.msGetUserMedia);
 }
-const API_PORTAL = 'api-portal';
 var qm = {
     alert: {
         errorAlert: function(title, text){
@@ -136,12 +135,6 @@ var qm = {
                 qm.urlHelper.indexOfCurrentUrl('app/configuration') !== -1 ||
                 qm.urlHelper.indexOfCurrentUrl('configuration-index.html') !== -1 ||
                 qm.urlHelper.subDomainContains('builder');
-        },
-        isApiPortal: function(){
-            if(typeof window === "undefined"){
-                return false;
-            }
-            return qm.urlHelper.subDomainContains(API_PORTAL) || qm.storage.getItem(API_PORTAL);
         },
         isPhysician: function(){
             if(typeof window === "undefined"){
@@ -447,9 +440,9 @@ var qm = {
         getClientId: function(successHandler){
             qm.clientId = qm.api.getClientIdFromBuilderQueryOrSubDomain();
             if(qm.platform.isBackEnd()){
-                var clientId = process.env.CUREDAO_CLIENT_ID;
+                var clientId = process.env.CONNECTOR_QUANTIMODO_CLIENT_ID;
                 if(clientId && clientId.trim() !== "") {
-                    return process.env.CUREDAO_CLIENT_ID;
+                    return process.env.CONNECTOR_QUANTIMODO_CLIENT_ID;
                 }
             }
             var appSettings = qm.getAppSettings();
@@ -594,6 +587,15 @@ var qm = {
             remoteLocal: 'https://utopia.quantimo.do',
         },
         getApiOrigin: function(){
+            //return this.apiOrigins.local
+            if(qm.appMode.isBackEnd() && process.env.API_ORIGIN){
+                return process.env.API_ORIGIN;
+            }
+            return "https://local.quantimo.do";
+            return "http://cd-api.test:800";
+            return "https://app.quantimo.do";
+            return 'https://curedao-n66b6ronka-uc.a.run.app'
+            return window.location.origin;
             var apiOrigin = qm.urlHelper.getParam(qm.items.apiOrigin);
             if(apiOrigin && apiOrigin !== qm.storage.getItem(qm.items.apiOrigin)){
                 qm.storage.setItem(qm.items.apiOrigin, apiOrigin);
@@ -3030,7 +3032,7 @@ var qm = {
                     }
                     return qm.staticData.connectors;
                 }else{
-                    qmLog.error("Could not get connectors from qm.staticData.connectors");
+                    qmLog.warn("Could not get connectors from qm.staticData.connectors");
                     qm.connectorHelper.getConnectorsFromApi({}, successHandler, errorHandler);
                 }
             }
@@ -3873,7 +3875,7 @@ var qm = {
             return qm.env.getEnv('CUREDAO_PERSONAL_ACCESS_TOKEN')
         },
         getClientSecret: function(){
-            return qm.env.getEnv('CUREDAO_CLIENT_SECRET')
+            return qm.env.getEnv('CONNECTOR_QUANTIMODO_CLIENT_SECRET')
         },
         getEncryptionSecret: function(){
             return qm.env.getEnv('ENCRYPTION_SECRET')

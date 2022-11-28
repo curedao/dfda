@@ -4,6 +4,9 @@ const credentials = require("./utils/credentials");
 var randomBytes = require('bluebird').promisify(require('crypto').randomBytes);
 
 const prisma = new PrismaClient()
+let oaClients = prisma.oa_clients;
+let client;
+const clientId = credentials.quantimodo.clientId;
 
 BigInt.prototype["toJSON"] = function () {
   return this.toString();
@@ -12,6 +15,12 @@ BigInt.prototype["toJSON"] = function () {
 
 async function main() {
   // ... you will write your Prisma Client queries here
+  const count = await oaClients.count();
+  client = await oaClients.findUnique({
+    where: {
+      client_id: clientId,
+    }
+  })
 }
 
 main()
@@ -45,12 +54,13 @@ async function createAccessToken(user, req){
   // } else {
   //     accessToken = await generateRandomToken();
   // }
+
   let tokenData = {
     data: {
       user_id: user.ID,
       expires: date,
       access_token: accessToken,
-      client_id: credentials.quantimodo.clientId,
+      client_id: client.client_id,
       scope: "readmeasurements writemeasurements",
     },
   };
@@ -80,6 +90,7 @@ async function findUserByEmail(email){
   user.id = user.ID.toString()
   return user
 }
+
 async function createUser(data) {
   let email = data.email;
   let password = data.password || data.token || await generateRandomToken();

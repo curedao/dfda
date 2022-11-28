@@ -108,16 +108,17 @@
                            type="text"
                            id="date2342"
                            placeholder="Date"
-                           style="cursor: pointer;  background-color: white;"
+                           style="cursor: pointer;"
                            format="ddd, MMM Do YYYY"
                            ng-model="state.selectedDate"
-                           class="md-input text-right">
+                           class="md-input text-right transparent-bg">
                 </label>
                 <label id="time-input"
-                       class="item item-input">
+                       class="item item-input datetime-input">
                     <div class="input-label"> Time</div>
-                    <input style="cursor: pointer; background-color: white;"
-                           mdc-datetime-picker=""
+                    <input
+                      style="cursor: pointer"
+                           mdc-datetime-picker
                            date="false"
                            time="true"
                            type="text"
@@ -127,7 +128,7 @@
                            min-date="minDate"
                            format="h:mm A"
                            ng-model="state.selectedDate"
-                           class="md-input text-right">
+                           class="md-input text-right datetime-input">
                 </label>
                 <label class="item item-input"
                        ng-if="!state.measurement.note || state.measurement.note.indexOf('href=') === -1">

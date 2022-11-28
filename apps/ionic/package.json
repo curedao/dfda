@@ -24,7 +24,7 @@
     "compromise": "11.11.0",
     "coveralls": "3.1.1",
     "cross-env": "6.0.3",
-    "cypress": "^10.6.0",
+    "cypress": "^11.2.0",
     "cypress-cucumber-preprocessor": "4.2.0",
     "cypress-failed-log": "2.9.2",
     "cypress-junit-reporter": "1.3.1",

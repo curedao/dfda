@@ -3,6 +3,8 @@
   "version": "0.0.1",
   "license": "MIT",
   "scripts": {
+    "start-api": "cd apps/api && npm run start",
+    "cypress:open": "cd apps/ionic && npm run cy:open",
     "start": "nx serve",
     "build": "nx build",
     "test": "nx test",
@@ -60,4 +62,3 @@
     "@typescript-eslint/eslint-plugin": "5.3.1"
   }
 }
-

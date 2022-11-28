@@ -10,11 +10,11 @@
 			"description": "Should match the name you used in your config.xml",
 			"value": "YourAppDisplayNameHere"
 		},
-		"CUREDAO_CLIENT_ID": {
+		"CONNECTOR_QUANTIMODO_CLIENT_ID": {
 			"description": "The QuantiModo client id generated at https://app.quantimo.do/api/v2/apps",
 			"value": "your_quantimodo_client_id_here"
 		},
-		"CUREDAO_CLIENT_SECRET": {
+		"CONNECTOR_QUANTIMODO_CLIENT_SECRET": {
 			"description": "The QuantiModo client secret generated at https://app.quantimo.do/api/v2/apps",
 			"value": "your_quantimodo_client_secret_here"
 		}

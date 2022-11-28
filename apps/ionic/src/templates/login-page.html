@@ -112,6 +112,7 @@
                                             </div>
                                         </md-input-container>
                                         <md-button type="submit"
+                                                   id="registerButton"
                                                    ng-click="state.emailRegister()"
                                                    class="md-raised md-primary rainbow-gradient-animation center">
                                             Sign Up
@@ -148,7 +149,9 @@
                                                 <div ng-message="required">This is required.</div>
                                             </div>
                                         </md-input-container>
-                                        <md-button type="submit" ng-click="state.emailLogin(true)"
+                                        <md-button type="submit"
+                                                   id="emailLogin"
+                                                   ng-click="state.emailLogin()"
                                                    class="md-raised md-primary rainbow-gradient-animation center">
                                             Login
                                         </md-button>

@@ -4,8 +4,12 @@ let unixTime = Math.floor(Date.now() / 1000)
 let urls = {
   physicianOAuth: '/api/v1/oauth/authorize?response_type=token&scope=readmeasurements&client_id=m-thinkbynumbers-org',
 }
-let testUsername = `testuser${unixTime}`
-let testEmail = `testuser${unixTime}@gmail.com`
+function generateTestEmail(){
+  let testUsername = `testuser${unixTime}`;
+  let testEmail = `${testUsername}@quantimo.do`;
+  return testEmail;
+}
+let testEmail = generateTestEmail();
 function enterPasswordsAndClickRegister () {
   cy.get('#password-group > input').type('testing123')
   cy.get('#password-confirm-group > input').type('testing123')
@@ -13,9 +17,9 @@ function enterPasswordsAndClickRegister () {
 }
 function validRegistration () {
   changeTestUsernameAndEmail()
-  cy.get('#username-group > input')
-        .clear()
-        .type(testUsername)
+  // cy.get('#username-group > input')
+  //       .clear()
+  //       .type(testUsername)
   cy.get('#email-group > input')
         .clear()
         .type(testEmail)
@@ -23,8 +27,7 @@ function validRegistration () {
 }
 function changeTestUsernameAndEmail () {
   unixTime = Math.floor(Date.now() / 1000)
-  testUsername = `testuser${unixTime}`
-  testEmail = `testuser${unixTime}@gmail.com`
+  testEmail = generateTestEmail();
 }
 function checkIntroWithAccessToken () {
   cy.url().should('include', 'intro')

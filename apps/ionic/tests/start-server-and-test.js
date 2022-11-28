@@ -22,7 +22,7 @@ let services = [
 ]
 qmLog.info("Starting services...", services)
 let id = getCurrentGitCommitSha()+"-"+getHumanDateTime()
-let test = `npx currents run --parallel --record --key ${envHelper.getenvOrException('CURRENTS_RECORD_KEY')} --ci-build-id ${id}`
+let test = `npx currents run --parallel --record --key ${envHelper.getEnvOrException('CURRENTS_RECORD_KEY')} --ci-build-id ${id}`
 if(envHelper.getenv('APP_DEBUG')) {
   utils.printArguments({ services, test })
 }

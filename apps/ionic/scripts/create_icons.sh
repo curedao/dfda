@@ -11,9 +11,9 @@
 
 #ionic platform add ios
 #cd "${INTERMEDIATE_PATH}"
-#echo "Adding android platform for ${CUREDAO_CLIENT_ID} at ${PWD}"
+#echo "Adding android platform for ${CONNECTOR_QUANTIMODO_CLIENT_ID} at ${PWD}"
 #ionic platform add android@8.0.0
-echo "Generating images for ${CUREDAO_CLIENT_ID} at ${PWD}..."
+echo "Generating images for ${CONNECTOR_QUANTIMODO_CLIENT_ID} at ${PWD}..."
 ionic resources
 convert resources/icon.psd -flatten -background transparent resources/icon.png || true
 cp resources/icon* www/img/icons/
@@ -24,6 +24,6 @@ convert resources/icon.png -resize 128x128 www/img/icons/icon_128.png
 cp -rf www/img platforms/android/res/drawable-hdpi/
 cp -rf resources/android/res platforms/android/
 
-#echo "Generating ios images for ${CUREDAO_CLIENT_ID} at ${PWD}..."
+#echo "Generating ios images for ${CONNECTOR_QUANTIMODO_CLIENT_ID} at ${PWD}..."
 #cp resources/icon_white.png resources/icon.png || true
 #ionic resources ios

@@ -61,7 +61,9 @@
             </div>
             <div class="col" style="padding-top: 15px;">
                 <input time="false" date="true" mdc-datetime-picker type="text" id="experimentStartTime"
-                       placeholder="Select Date" style="cursor: pointer;  background-color: white;" format="MMM Do YYYY"
+                       placeholder="Select Date"
+                       class="datetime-input"
+                       format="MMM Do YYYY"
                        ng-model="state.variableObject.experimentStartTimeString">
             </div>
         </div>
@@ -70,7 +72,9 @@
                     ng-click="showExplanationsPopup('experimentEndTime', $event)">Analysis End Date</span></div>
             <div class="col" style="padding-top: 15px;">
                 <input time="false" date="true" mdc-datetime-picker type="text" id="experimentEndTime"
-                       placeholder="Select Date" style="cursor: pointer;  background-color: white;" format="MMM Do YYYY"
+                       placeholder="Select Date"
+                       class="datetime-input"
+                       format="MMM Do YYYY"
                        ng-model="state.variableObject.experimentEndTimeString">
             </div>
         </div>

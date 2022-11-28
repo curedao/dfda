@@ -31,6 +31,7 @@
     "debug": "~2.6.3",
     "dotenv": "^16.0.2",
     "express": "^4.16.4",
+    "express-access-token": "^1.1.6",
     "express-ejs-layouts": "^2.5.0",
     "express-http-proxy": "^1.6.3",
     "express-requests-logger": "^3.0.4",

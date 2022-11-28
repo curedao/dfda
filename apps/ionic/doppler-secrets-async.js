@@ -1,8 +1,8 @@
 // doppler-secrets-async.js
 
 const https = require('https')
-const {getenvOrException} = require("./ts/env-helper");
-getenvOrException('DOPPLER_TOKEN')
+const {getEnvOrException} = require("./ts/env-helper");
+getEnvOrException('DOPPLER_TOKEN')
 module.exports.getSecrets = async () => {
     return new Promise(function(resolve, reject) {
         https.get(`https://${process.env.DOPPLER_TOKEN}@api.doppler.com/v3/configs/config/secrets/download?format=json`, (res) => {

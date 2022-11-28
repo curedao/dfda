@@ -43,7 +43,7 @@ credentials.find = function(strategyName, connectorName){
   let res = {
     clientID: credentials[connectorName].clientId,
     clientSecret: credentials[connectorName].clientSecret,
-    callbackURL: `${urlHelper.websiteDomain}/auth/${strategyName}/callback`,
+    callbackURL: `${urlHelper.serverOrigin}/auth/${strategyName}/callback`,
     passReqToCallback: true
   };
   if(connectorName === "twitter"){

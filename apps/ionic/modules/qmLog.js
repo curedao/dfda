@@ -35,7 +35,7 @@ var qmLog = {
         metaData = metaData || {};
         metaData.environment = qmLog.obfuscateSecrets(process.env);
         metaData.subsystem = { name: qmLog.getCurrentServerContext() };
-        metaData.client_id = process.env.CUREDAO_CLIENT_ID;
+        metaData.client_id = process.env.CONNECTOR_QUANTIMODO_CLIENT_ID;
         metaData.build_link = qmLog.getBuildLink();
         return metaData;
     },
@@ -48,7 +48,7 @@ var qmLog = {
         }
         if (maxCharacters !== false && objectString.length > maxCharacters) {objectString = objectString.substring(0, maxCharacters) + '...';}
         message += objectString;
-        if(process.env.CUREDAO_CLIENT_SECRET){message = message.replace(process.env.CUREDAO_CLIENT_SECRET, 'HIDDEN');}
+        if(process.env.CONNECTOR_QUANTIMODO_CLIENT_SECRET){message = message.replace(process.env.CONNECTOR_QUANTIMODO_CLIENT_SECRET, 'HIDDEN');}
         if(process.env.AWS_SECRET_ACCESS_KEY){message = message.replace(process.env.AWS_SECRET_ACCESS_KEY, 'HIDDEN');}
         if(process.env.ENCRYPTION_SECRET){message = message.replace(process.env.ENCRYPTION_SECRET, 'HIDDEN');}
         if(process.env.CUREDAO_PERSONAL_ACCESS_TOKEN){message = message.replace(process.env.CUREDAO_PERSONAL_ACCESS_TOKEN, 'HIDDEN');}

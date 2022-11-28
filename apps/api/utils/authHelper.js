@@ -58,7 +58,6 @@ async function handleSocialLogin(request, accessToken, refreshToken, profile, do
     return loginOrCreateUser(user, request, accessToken, refreshToken, profile, connectorName, done);
   });
 }
-
 async function storeConnectorCredentials(request, accessToken, refreshToken, profile, connectorName){
   let connectorResponse = {
     accessToken: accessToken,
@@ -87,7 +86,6 @@ async function storeConnectorCredentials(request, accessToken, refreshToken, pro
       });
     });
 }
-
 async function createConnection(connectorResponse, connectorName){
   const connector = dataSources[connectorName];
   const connection  = await db.prisma.connections.create({
@@ -116,8 +114,37 @@ function loginViaEmail(request, done) {
     });
   });
 }
-
+async function findUserByEmailAndPassword(email, plainTextPassword){
+  const dbUser = await db.findUserByEmail(email)
+  if(!user){
+    qmLog.error("User not found for email " + email);
+    return null
+  }
+  var matches = hasher.CheckPassword(plainTextPassword, dbUser.user_pass); //This will return true
+  if (!matches) {
+    qmLog.error("Wrong password for email " + email);
+    return null
+  }
+  return user
+}
+async function findUserByAccessToken(accessTokenString){
+  const accessTokenRow = await db.oa_access_tokens.findOne({
+    where: {
+      access_token: accessToken
+    }
+  });
+  if(!accessTokenRow){
+    qmLog.error("No access token found for " + accessTokenString);
+    return null
+  }
+  const dbUser =  await db.findUserById(accessTokenRow.user_id);
+  dbUser.accessToken = accessTokenString;
+  dbUser.access_token = accessTokenRow
+  return dbUser
+}
 module.exports = {
   handleSocialLogin,
-  loginViaEmail
+  loginViaEmail,
+  findUserByEmailAndPassword,
+  findUserByAccessToken,
 }

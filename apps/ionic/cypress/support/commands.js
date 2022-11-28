@@ -77,7 +77,7 @@ Cypress.Commands.add('goToApiLoginPageAndLogin', function (email, password) {
     if (password === void 0) { password = testUserPassword; }
     cy.log("=== goToApiLoginPageAndLogin as " + email + " ===");
     cy.visitApi("/api/v2/auth/login?logout=1");
-    cy.enterCredentials('input[name="user_login"]', email, 'input[name="user_pass"]', password, 'input[type="submit"]');
+    cy.enterCredentials('input[name="email"]', email, 'input[name="password"]', password, 'input[type="submit"]');
 });
 Cypress.Commands.add('goToMobileConnectPage', function () {
     cy.log("=== goToMobileConnectPage ===");
@@ -89,7 +89,7 @@ Cypress.Commands.add('logoutViaApiLogoutUrl', function () {
     cy.visitApi("/api/v2/auth/logout").then(function () {
         cy.wait(2000);
         cy.visitApi("/api/v2/auth/login").then(function () {
-            cy.get('input[name="user_login"]')
+            cy.get('input[name="email"]')
                 .type(testUserName)
                 .clear();
         });
@@ -115,6 +115,7 @@ Cypress.Commands.add('loginWithAccessTokenIfNecessary', function (path, waitForA
     var withToken = UpdateQueryString('access_token', accessToken, path);
     cy.visitIonicAndSetApiOrigin(withToken);
     if (waitForAvatar) {
+        debugger
         cy.get('#navBarAvatar > img', { timeout: 40000 });
     }
 });
@@ -209,9 +210,9 @@ Cypress.Commands.add('clearAndType', function (selector, text) {
         .type(text, { force: true });
 });
 Cypress.Commands.add('enterCredentials', function (usernameSelector, username, passwordSelector, password, submitSelector) {
-    if (usernameSelector === void 0) { usernameSelector = 'input[name="user_login"]'; }
+    if (usernameSelector === void 0) { usernameSelector = 'input[name="email"]'; }
     if (username === void 0) { username = 'testuser'; }
-    if (passwordSelector === void 0) { passwordSelector = 'input[name="user_pass"]'; }
+    if (passwordSelector === void 0) { passwordSelector = 'input[name="password"]'; }
     if (password === void 0) { password = 'testing123'; }
     if (submitSelector === void 0) { submitSelector = 'input[type="submit"]'; }
     cy.log("=== enterCredentials ===");
@@ -241,11 +242,11 @@ Cypress.Commands.add('enterNewUserCredentials', function (clickAccept) {
     var d = new Date();
     var newUserLogin = "testuser" + d.getTime();
     var newUserEmail = "testuser" + d.getTime() + "@gmail.com";
-    cy.get('input[name="user_login"]').type(newUserLogin, { force: true });
-    cy.get('input[name="user_email"]').type(newUserEmail, { force: true });
-    cy.get('input[name="user_pass"]').click({ force: true }).type('qwerty', { force: true });
-    cy.get('input[name="user_pass_confirmation"]').click({ force: true }).type('qwerty', { force: true });
-    cy.get('input[type="submit"]').click({ force: true });
+   // cy.get('input[name="user_login"]').type(newUserLogin, { force: true });
+    cy.get('input[name="email"]').type(newUserEmail, { force: true });
+    cy.get('input[name="password"]').click({ force: true }).type('qwerty', { force: true });
+    cy.get('input[name="passwordConfirm"]').click({ force: true }).type('qwerty', { force: true });
+    cy.get('#registerButton').click({ force: true });
     if (!baseUrl) {
         throw new Error("baseUrl is not set in cypress.json");
     }

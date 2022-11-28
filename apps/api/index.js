@@ -4,19 +4,17 @@ var express = require('express'),
     logger = require('morgan');
 app.use(logger('dev'));
 const path = require('path');
-const envPath = path.resolve('./.env');
-const {loadEnvFromDopplerOrDotEnv} = require("../ionic/ts/env-helper")
-loadEnvFromDopplerOrDotEnv(envPath);
+const envPath = path.resolve('../../.env');
+const envHelper = require("../ionic/ts/env-helper")
+envHelper.loadEnvFromDopplerOrDotEnv(envPath);
 const { initialize } = require('@oas-tools/core');
 const proxy = require('express-http-proxy');
 const http = require("http");
 const {numberFormat} = require("underscore.string");
 const qm = require("../ionic/src/js/qmHelpers");
-let envHelper = require("../ionic/ts/env-helper")
 var crypto = require('crypto');
 var audit = require('express-requests-logger')
 const Str = require('@supercharge/strings')
-require("dotenv").config();
 const urlHelper = require("./utils/urlHelper");
 const passport = require('passport')
 global.Q = require('q');
@@ -66,3 +64,9 @@ app.use('/', require('./routes/auth'));
 //app.use('/', require('./routes/github'));
 var server = http.createServer(app);
 server.listen(urlHelper.serverPort);
+console.info('Server running at ' + urlHelper.serverOrigin);
+server.on('error', (e) => {
+    if (e.code === 'EADDRINUSE') {
+        console.error('Address in use, retrying...');
+    }
+})

@@ -2,7 +2,7 @@ import Octokit from "@octokit/rest"
 // @ts-ignore
 import * as git from "simple-git"
 import _str from "underscore.string"
-import {envs, getenv, getGithubAccessToken, loadEnv} from "./env-helper"
+import {envNames, getenv, getGithubAccessToken, loadEnv} from "./env-helper"
 import * as qmLog from "./qm.log"
 import * as qmShell from "./qm.shell"
 import {getBuildLink} from "./test-helpers"

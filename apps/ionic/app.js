@@ -7,6 +7,8 @@ Bugsnag.start({
 var express = require('express')
     var app = express()
 var middleware = Bugsnag.getPlugin('express')
+const envHelper = require('./ts/env-helper');
+envHelper.loadEnvFromDopplerOrDotEnv(null)
 // This must be the first piece of middleware in the stack.
 // It can only capture errors in downstream middleware
 app.use(middleware.requestHandler)
@@ -23,7 +25,7 @@ app.get('*', function(req, res){
 })
 app.set('port', process.env.PORT || 5000)
 app.listen(app.get('port'), function () {
-    console.log('Express server listening on port ' + app.get('port'))
+    console.log('Express Web App server listening on port ' + app.get('port'))
 })
 // This handles any errors that Express catches. This needs to go before other
 // error handlers. Bugsnag will call the `next` error handler if it exists.

@@ -1,12 +1,6 @@
-<div class="card" ng-show="state.loading" style="border-radius: 15px;">
-    <div class="item">
-        <div class="row" style="text-align: center; margin: auto;">
-            <ion-spinner></ion-spinner>
-            <p style=" text-align: center; line-height: normal; font-size: 18px;">
-
-            </p>
-        </div>
-    </div>
+<div class="spinner-container" ng-show="state.loading">
+    <ion-spinner name="bubbles">
+    </ion-spinner>
 </div>
 <div ng-repeat="(key, qmChart) in state.variableObject.charts">
     <div ng-if="qmChart && qmChart.highchartConfig"

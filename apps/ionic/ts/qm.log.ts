@@ -1,7 +1,7 @@
 import Bugsnag from "@bugsnag/js"
 // @ts-ignore
 import qm from "../src/js/qmHelpers.js"
-import {envs, getenv, getenvOrException, getQMClientIdIfSet, qmPlatform} from "./env-helper"
+import {envNames, getenv, getEnvOrException, getQMClientIdIfSet, qmPlatform} from "./env-helper"
 import {getBuildLink, getCiProvider} from "./test-helpers"
 
 export function le(s: string, meta: any) {
@@ -20,7 +20,7 @@ function isTruthy(value: any) {
 // getenvOrException(envs.BUGSNAG_API_KEY)
 function getBugsnag() {
     Bugsnag.start({
-        apiKey: getenvOrException(envs.BUGSNAG_API_KEY),
+        apiKey: getEnvOrException(envNames.BUGSNAG_API_KEY),
         releaseStage:  getCurrentServerContext(),
         onError(event: { addMetadata: (arg0: string, arg1: any) => void }) {
             event.addMetadata("GLOBAL_META_DATA", addMetaData())
@@ -45,7 +45,7 @@ export function error(message: string|any, metaData?: any, maxCharacters?: numbe
         message = "=====================\n"+message+"\n====================="
     }
     console.error(message)
-    if(getenv(envs.BUGSNAG_API_KEY)) {
+    if(getenv(envNames.BUGSNAG_API_KEY)) {
         getBugsnag().notify(obfuscateStringify(message), metaData)
     }
 }

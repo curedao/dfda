@@ -73,24 +73,33 @@
                             <option ng-repeat="frequency in state.frequencies">{{frequency.name}}</option>
                         </select>
                     </md-input-container>
-                    <md-input-container class="md-block" ng-hide="state.trackingReminder.reminderFrequency < 86400"
+                    <md-input-container class="md-block datetime-input"
+                                        ng-hide="state.trackingReminder.reminderFrequency < 86400"
                                         flex-gt-sm>
                         <label>Reminder time</label>
-                        <input style="cursor: pointer; background-color: white" mdc-datetime-picker="" date="false"
+                        <input mdc-datetime-picker
+                               date="false"
                                time="true"
-                               type="text" id="materialFirstReminderStartTime" short-time="true" placeholder="Time"
-                               min-date="minDate" format="h:mm a" ng-model="state.firstReminderStartTimeMoment"
-                               class="md-input reminder-time">
+                               type="text"
+                               id="materialFirstReminderStartTime"
+                               short-time="true"
+                               placeholder="Time"
+                               min-date="minDate"
+                               format="h:mm a"
+                               ng-model="state.firstReminderStartTimeMoment"
+                               class="md-input datetime-input">
                     </md-input-container>
                     <span ng-click="showAdditionalReminderTime()">
                 <!-- Tooltip doesn't hide itself for some reason <md-tooltip md-direction="down">Add additional time</md-tooltip>-->
-                <i id="additionalTimeButton" class="ion-plus-circled" style="font-size: 25px;"
+                <i id="additionalTimeButton"
+                   class="ion-plus-circled"
+                   style="font-size: 25px;"
                    ng-hide="state.hideAdditionalReminderTimeButton || state.trackingReminder.reminderFrequency < 86400"></i>
             </span>
                 </div>
                 <label ng-hide="true || state.trackingReminder.reminderFrequency < 86400" class="item item-input">
                     <div class="input-label">Reminder time</div>
-                    <md-button id="oldFirstReminderStartTime" class="button button-block up-top reminder-time"
+                    <md-button id="oldFirstReminderStartTime" class="button button-block up-top"
                                ng-click="oldOpenReminderStartTimePicker('first')"
                                style="text-align:left;font-size:14px;border:none;color:black;background-color: white;margin-bottom: 0px;margin-top: 0px;padding-left: 0px;">
                         {{state.firstReminderStartTimeEpochTime | fromUnixTimestampToLocalTimeOfDay}}
@@ -104,16 +113,21 @@
                         </div>
                     </div>
                     <div class="col-6">
-                        <input style="cursor: pointer; background-color: white" mdc-datetime-picker="" date="false"
+                        <input mdc-datetime-picker date="false"
                                time="true" type="text"
-                               id="materialSecondReminderStartTime" short-time="true" placeholder="Time"
-                               min-date="minDate" format="h:mm a" ng-model="state.secondReminderStartTimeMoment"
-                               class=" md-input reminder-time">
+                               id="materialSecondReminderStartTime"
+                               short-time="true"
+                               placeholder="Time"
+                               min-date="minDate"
+                               format="h:mm a"
+                               ng-model="state.secondReminderStartTimeMoment"
+                               class="md-input datetime-input">
                     </div>
                 </label>
                 <label ng-hide="true || state.trackingReminder.reminderFrequency < 86400" class="item item-input">
                     <div class="input-label">2nd reminder time</div>
-                    <md-button id="oldSecondReminderStartTime" class="button button-block up-top reminder-time"
+                    <md-button id="oldSecondReminderStartTime"
+                               class="button button-block up-top"
                                ng-click="oldOpenReminderStartTimePicker('second')"
                                style="text-align:left;font-size:14px;border:none;color:black;background-color: white;margin-bottom: 0px;margin-top: 0px; padding-left: 0px;">
                         {{state.secondReminderStartTimeEpochTime | fromUnixTimestampToLocalTimeOfDay}}
@@ -127,15 +141,22 @@
                         </div>
                     </div>
                     <div class="col-6">
-                        <input style="cursor: pointer; background-color: white" mdc-datetime-picker="" date="false"
-                               time="true" type="text" id="materialThirdReminderStartTime" short-time="true"
-                               placeholder="Time" min-date="minDate" format="h:mm a"
-                               ng-model="state.thirdReminderStartTimeMoment" class="md-input reminder-time">
+                        <input mdc-datetime-picker
+                               date="false"
+                               time="true" type="text"
+                               id="materialThirdReminderStartTime"
+                               short-time="true"
+                               placeholder="Time"
+                               min-date="minDate"
+                               format="h:mm a"
+                               ng-model="state.thirdReminderStartTimeMoment"
+                               class="md-input datetime-input">
                     </div>
                 </label>
                 <label ng-hide="true || state.trackingReminder.reminderFrequency < 86400" class="item item-input">
                     <div class="input-label">3nd reminder time</div>
-                    <md-button id="oldThirdReminderStartTime" class="button button-block up-top reminder-time"
+                    <md-button id="oldThirdReminderStartTime"
+                               class="button button-block up-top"
                                ng-click="oldOpenReminderStartTimePicker('third')"
                                style="text-align:left;font-size:14px;border:none;color:black;background-color: white;margin-bottom: 0px;margin-top: 0px;padding-left: 0px;">
                         {{state.thirdReminderStartTimeEpochTime | fromUnixTimestampToLocalTimeOfDay}}
@@ -158,19 +179,29 @@
                 <div layout="row" layout-margin
                      ng-if="!stateParams.favorite && state.trackingReminder.variableCategoryName === 'Treatments'">
                     <md-input-container>
-                        <input time="false" date="true" mdc-datetime-picker type="text" id="selectedStartTrackingDate"
-                               placeholder="Start Date" style="cursor: pointer;  background-color: white;"
-                               format="L" ng-model="state.selectedStartTrackingDate">
+                        <input time="false" date="true"
+                               mdc-datetime-picker type="text"
+                               id="selectedStartTrackingDate"
+                               placeholder="Start Date"
+                               class="datetime-input"
+                               format="L"
+                               ng-model="state.selectedStartTrackingDate">
                     </md-input-container>
                     <i class="ion-android-cancel" style="font-size: 25px;"
-                       ng-click="state.selectedStartTrackingDate = null;" ng-if="state.selectedStartTrackingDate"></i>
+                       ng-click="state.selectedStartTrackingDate = null;"
+                       ng-if="state.selectedStartTrackingDate"></i>
                     <md-input-container>
-                        <input time="false" date="true" mdc-datetime-picker type="text" id="selectedStopTrackingDate"
-                               placeholder="End Date" style="cursor: pointer;  background-color: white;"
-                               format="L" ng-model="state.selectedStopTrackingDate">
+                        <input time="false" date="true"
+                               mdc-datetime-picker type="text"
+                               id="selectedStopTrackingDate"
+                               placeholder="End Date"
+                               class="datetime-input"
+                               format="L"
+                               ng-model="state.selectedStopTrackingDate">
                     </md-input-container>
                     <i class="ion-android-cancel" style="font-size: 25px;"
-                       ng-click="state.selectedStopTrackingDate = null;" ng-if="state.selectedStopTrackingDate"></i>
+                       ng-click="state.selectedStopTrackingDate = null;"
+                       ng-if="state.selectedStopTrackingDate"></i>
                 </div>
                 <label ng-show="state.trackingReminder.variableCategoryName === 'Treatments' && state.showMoreOptions"
                        class="item item-input">

@@ -337,7 +337,7 @@ angular.module('starter').controller('ConfigurationCtrl', function($state, $scop
         data = JSON.parse(JSON.stringify(data));  //Prevent from updating $rootScope.appSettings
         if(generic){
             data.appDisplayName = "__APP_DISPLAY_NAME__";
-            data.clientId = "__CUREDAO_CLIENT_ID__";
+            data.clientId = "__CONNECTOR_QUANTIMODO_CLIENT_ID__";
             data.appDescription = configurationService.defaultAppDescriptions[data.appType];
             filename = $rootScope.appSettings.appType;
         }

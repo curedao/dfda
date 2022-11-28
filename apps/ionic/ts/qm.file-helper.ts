@@ -6,7 +6,7 @@ import * as mime from "mime"
 import * as path from "path"
 import * as Q from "q"
 import rimraf from "rimraf"
-import {envs, getenvOrException} from "./env-helper"
+import {envNames, getEnvOrException} from "./env-helper"
 import * as qmLog from "./qm.log"
 const defaultS3Bucket = "qmimages"
 // tslint:disable-next-line:no-var-requires
@@ -50,8 +50,8 @@ export function deleteFile(filename: string) {
 
 export function getS3Client() {
     const s3Options = {
-        accessKeyId: getenvOrException([envs.QM_AWS_ACCESS_KEY_ID, envs.AWS_ACCESS_KEY_ID]),
-        secretAccessKey: getenvOrException([envs.QM_AWS_SECRET_ACCESS_KEY, envs.AWS_SECRET_ACCESS_KEY]),
+        accessKeyId: getEnvOrException([envNames.QM_AWS_ACCESS_KEY_ID, envNames.AWS_ACCESS_KEY_ID]),
+        secretAccessKey: getEnvOrException([envNames.QM_AWS_SECRET_ACCESS_KEY, envNames.AWS_SECRET_ACCESS_KEY]),
     }
     return new AWS.S3(s3Options)
 }

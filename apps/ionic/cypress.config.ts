@@ -1,20 +1,21 @@
 import {defineConfig} from "cypress";
-
+import * as envHelper from "./ts/env-helper";
+envHelper.loadEnvFromDopplerOrDotEnv(null);
 //import * as qmLog from "./ts/qm.log;
-
 const {env} = process;
-let baseUrl = env.BASE_URL || "http://localhost:5000";
+let baseUrl = envHelper.getRequiredEnv("EXPRESS_ORIGIN");
 let apiOrigin = env.API_ORIGIN || "https://app.quantimo.do";
 let appOrigin = env.OAUTH_APP_ORIGIN || baseUrl;
 let builderOrigin = env.BUILDER_ORIGIN || appOrigin
-export default defineConfig({
+let cypressProjectId = env.CYPRESS_PROJECT_ID || null;
+let cypressConfig: Cypress.ConfigOptions = {
   e2e: {
     setupNodeEvents(on, config) {
       // implement node event listeners here
-      //const conf = JSON.parse(JSON.stringify(config));
-      // qmLog.debug("setupNodeEvents Plugin Events", on);
-      // qmLog.info("setupNodeEvents Config:", config);
-      // qmLog.info("setupNodeEvents config.env:", config.env);
+      const conf = JSON.parse(JSON.stringify(config));
+      console.debug("setupNodeEvents Plugin Events", on);
+      console.info("setupNodeEvents Config:", config);
+      console.info("setupNodeEvents config.env:", config.env);
     },
     "chromeWebSecurity": false,
     "baseUrl": baseUrl,
@@ -36,4 +37,8 @@ export default defineConfig({
     },
     "screenshotsFolder": "cypress/reports/assets"
   },
-});
+};
+if(cypressProjectId){
+  cypressConfig.projectId = cypressProjectId;
+}
+export default defineConfig(cypressConfig);
