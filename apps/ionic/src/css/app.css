@@ -26394,7 +26394,7 @@ linear-gradient(-45deg, rgb(0 46 255), rgb(60 0 255), rgb(35 213 64), rgb(255 0 
 #google-button,
 #facebook-button,
 #signUpButton,
-#circle-page-body-text,
+.pulsating-glowing-text,
 #signInButton {
   font-size: 8em;
   background-color: #18191f;
@@ -26419,7 +26419,7 @@ linear-gradient(-45deg, rgb(0 46 255), rgb(60 0 255), rgb(35 213 64), rgb(255 0 
   animation-delay: 0.1s;
 }
 
-#signInButton, #signUpButton, #circle-page-body-text{
+#signInButton, #signUpButton, .pulsating-glowing-text{
   /*border-radius: 5px;*/
   font-size: 2em;
   animation-delay: 0.1s;
@@ -26438,7 +26438,7 @@ linear-gradient(-45deg, rgb(0 46 255), rgb(60 0 255), rgb(35 213 64), rgb(255 0 
   animation-delay: 0.9s;
 }
 
-#circle-page-body-text {
+.pulsating-glowing-text {
   animation-delay: 1.1s;
   font-size: 30px;
   line-height: 1.5;
@@ -26538,7 +26538,7 @@ linear-gradient(-45deg, rgb(0 46 255), rgb(60 0 255), rgb(35 213 64), rgb(255 0 
   border-radius: 10px;
 }
 
-#variable-search-result {
+.variable-search-result {
   background-color: rgba(255, 255, 255, .6);
   backdrop-filter: blur(5px);
   /*background: white;*/
@@ -26565,7 +26565,7 @@ linear-gradient(-45deg, rgb(0 46 255), rgb(60 0 255), rgb(35 213 64), rgb(255 0 
 
 .search-result-title {
   font-size: 1.2rem;
-  color: black;
+  /*color: black;*/
 }
 
 
@@ -26657,4 +26657,100 @@ linear-gradient(-45deg, rgb(0 46 255), rgb(60 0 255), rgb(35 213 64), rgb(255 0 
 .spinner-container {
   text-align: center;
   position: relative;
+}
+
+
+#search-loading {
+  display: block;
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+  line-height: 103px;
+  text-align: center;
+  color: white;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  margin: -60px 0 0 -60px;
+  font-size: 50px;
+  transform-origin: center;
+  border: none;
+  box-shadow: 0px 0px 40px 35px rgba(82, 82, 157,0.4);
+  animation: blink 3s infinite;
+  /*     background-color: #629aa9; */
+}
+
+#search-loading i:before{
+  position: absolute;
+  top: 25%;
+  left: 25%;
+  animation: fly 3.5s linear infinite;
+  z-index: 99;
+  color: #ee6123;
+}
+
+.blockUI {
+  border: none !important;
+}
+
+@keyframes fly {
+  0% {
+    transform: translate(-80%, 20%) scale(.5);
+  }
+  5% {
+    transform: translate(-50%, 20%) scale(.7);
+  }
+  10% {
+    transform: translate(-10%, 0) scale(.9);
+  }
+  15% {
+    transform: translate(10%, -20%) scale(1);
+  }
+  20% {
+    transform: translate(40%, -40%) scale(1.2);
+  }
+  30% {
+    transform: translate(60%, -50%) scale(1.2);
+  }
+  40% {
+    transform: translate(40%, -70%) scale(1.3);
+  }
+  50% {
+    transform: translate(-30%, -50%) scale(1.2);
+  }
+  55% {
+    transform: translate(-20%, -20%) scale(1.1);
+  }
+  60% {
+    transform: translate(0, 0) scale(1);
+  }
+  65% {
+    transform: translate(50%, 20%) scale(.9);
+  }
+  75% {
+    transform: translate(80%, 10%) scale(1.1);
+  }
+  80% {
+    transform: translate(60%, 30%) scale(.9);
+  }
+  85% {
+    transform: translate(30%, 40%) scale(.9);
+  }
+  90% {
+    transform: translate(0, 40%) scale(.7);
+  }
+  100% {
+    transform: translate(-50%, 20%) scale(.5);
+  }
+}
+@keyframes blink {
+  0% {
+    background: #629aa9;
+  }
+  50% {
+    background: #4f4f9a;
+  }
+  100% {
+    background: #629aa9;
+  }
 }

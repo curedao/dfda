@@ -84,7 +84,7 @@ var qmStates = [
         "params": {
             "excludeDuplicateBloodPressure": true,
             "variableSearchParameters": {
-                "limit": 100,
+                "limit": 50,
                 "includePublic": true
             },
             "title": "Select a Variable",
@@ -103,7 +103,7 @@ var qmStates = [
         "cache": false,
         "params": {
             "variableSearchParameters": {
-                "limit": 100,
+                "limit": 50,
                 "includePublic": true
             },
             "title": "Select a Variable",
@@ -122,7 +122,7 @@ var qmStates = [
         "cache": false,
         "params": {
             "variableSearchParameters": {
-                "limit": 100,
+                "limit": 50,
                 "includePublic": true
             },
             "title": "Select a Variable",
@@ -149,7 +149,7 @@ var qmStates = [
             "variableCategoryName": null,
             "excludeDuplicateBloodPressure": true,
             "variableSearchParameters": {
-                "limit": 100,
+                "limit": 50,
                 "includePublic": true,
                 // Don't do this or blood pressure doesn't show up. Plus we just put manualTracking at the top anyway.  "manualTracking": true
             },
@@ -179,7 +179,7 @@ var qmStates = [
             "nextState": "app.reminderAdd",
             "excludeDuplicateBloodPressure": true,
             "variableSearchParameters": {
-                "limit": 100,
+                "limit": 50,
                 "includePublic": true,
                 // Don't do this or blood pressure doesn't show up. Plus we just put manualTracking at the top anyway.  "manualTracking": true
             },
@@ -211,7 +211,7 @@ var qmStates = [
             "pageTitle": "Add a favorite",
             "excludeDuplicateBloodPressure": true,
             "variableSearchParameters": {
-                "limit": 100,
+                "limit": 50,
                 "includePublic": true,
                 // Don't do this or blood pressure doesn't show up. Plus we just put manualTracking at the top anyway.  "manualTracking": true
             },
@@ -345,7 +345,7 @@ var qmStates = [
             "doNotShowAddVariableButton": true,
             "excludeSingularBloodPressure": true,
             "variableSearchParameters": {
-                "limit": 100,
+                "limit": 50,
                 "includePublic": false
             },
             "hideNavigationMenu": null,

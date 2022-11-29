@@ -4,12 +4,14 @@
         <div class="middle">
             <div class="inner" style="text-align: center; color: white;">
                 <div ng-include="'templates/fragments/circle-page.html'"></div>
-                <md-button id="goToReminderSearchFromOnboarding" class="button circle-page-button"
+                <md-button id="goToReminderSearchFromOnboarding"
+                           class="button circle-page-button"
                            ng-if="circlePage.addButtonText"
                            ng-click="goToReminderSearchFromOnboarding($event)">
                     <i class="ion-plus-round"> &nbsp; {{circlePage.addButtonText}} &nbsp;</i>
                 </md-button>
-                <md-button id="enableLocationTrackingButton" class="button circle-page-button"
+                <md-button id="enableLocationTrackingButton"
+                           class="button circle-page-button"
                            ng-if="circlePage.id === 'locationTrackingPage'&& !state.requireUpgrades"
                            ng-click="enableLocationTrackingWithMeasurements($event)">
                     <i class="{{variableCategories.Location.ionIcon}}"> &nbsp; Yes &nbsp;</i>

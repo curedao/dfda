@@ -10,10 +10,11 @@ describe('Onboarding', function () {
     cy.disableSpeechAndSkipIntro()
     cy.get('#signUpButton').click({force: true})
     cy.enterNewUserCredentials(true)
-    cy.url().contains("finish", {timeout: 45000})
+    //cy.debug()
+    //cy.url().should('contain', "onboarding", {timeout: 45000})
   })
   it('Enables weather tracking from onboarding', function () {
-    cy.loginWithAccessTokenIfNecessary('/#/app/onboarding')
+    cy.loginWithAccessTokenIfNecessary('/#/app/onboarding', false)
     cy.wait(2000)
     cy.get('#goToReminderSearchFromOnboarding', { timeout: 30000 }).click({ force: true })
     cy.wait(5000)

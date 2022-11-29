@@ -1,11 +1,14 @@
 <ion-view hide-nav-bar="hideNavigationMenu">
     <ion-nav-title>{{state.title}}</ion-nav-title>
     <ion-content>
+        <md-progress-linear md-mode="indeterminate"
+                            ng-show="state.searching || showSearchLoader">
+        </md-progress-linear>
         <div id="variable-category-selector-card">
             <label id="variable-category-selector-label"
                 class="item item-input item-select">
                 <div class="input-label"
-                     style="white-space:normal; width: 60%">Category Filter
+                     style="white-space:normal; width: 60%">Category Filter 👉
                 </div>
                 <select id="variable-category-selector"
                         ng-model="state.variableSearchParameters.variableCategoryName"
@@ -40,34 +43,40 @@
             </label>
         </div>
         <div id="variable-search-results">
-            <ion-list>
-                <ion-item
-                  class="glass"
-                  style="text-align: center; margin: auto; border-bottom: 1px solid rgb(221, 221, 221);"
-                          ng-show="state.searching || showSearchLoader">
-                    <ion-spinner></ion-spinner>
-                </ion-item>
-            </ion-list>
-            <ion-list ng-show="state.variableSearchResults.length" class>
+
+            <div id="search-loading"
+                 ng-show="state.searching || showSearchLoader"
+                 class="theme-color">
+                <i class="icon ion-search"></i>
+            </div>
+            <ion-list class>
                 <!--<ion-item ng-click="selectVariable(item)" ng-repeat="item in state.variableSearchResults | orderBy:'-latestMeasurementTime' | limitTo:5 | unique:'id'  ">-->
-                <ion-item id="variable-search-result"
-                          class="glass"
+                <ion-item id="variable-search-result-{{$index}}"
+                          class="glass variable-search-result"
                           ng-click="selectVariable(item)"
                           ng-repeat="item in state.variableSearchResults | unique:'name' track by $index">
                     <div>
                         <!-- For some reason, putting displayName on new line in HTML code also produces new line in rendered HTML even though there's no <br> -->
-                        <div class="search-result-title"><i ng-if="item.ionIcon" class="icon {{item.ionIcon}}"></i>&nbsp
-                                                                                                             {{item
-                          .displayName}}</div>
+                        <div class="search-result-title ">
+                            <img alt=""
+                                 style="max-height: 30px; float: left; margin-right: 5px;"
+                                 ng-src="{{ item.imageUrl }}"
+                                 class="icon"/>
+                            <!--<i ng-if="item.ionIcon" class="icon {{item.ionIcon}}"></i>-->
+                            <span style="font-size: 1.2rem"
+                              class="pulsating-glowing-text">
+                                {{ item.displayName }}
+                            </span>
+                        </div>
                         <small ng-if="item.subtitle">{{item.subtitle}}</small>
                         <small ng-if="!item.subtitle && item.latestMeasurementTime">
                             Recorded {{item.latestMeasurementTime | fromNow}} - {{item.numberOfRawMeasurements}} measurements
                         </small>
                     </div>
                 </ion-item>
-            </ion-list>
-            <ion-list ng-if="state.showAddVariableButton && !state.searching">
-                <ion-item id="new-variable-button" style="border-top: 1px solid rgb(221, 221, 221);"
+                <ion-item id="new-variable-button"
+                          ng-if="state.showAddVariableButton && !state.searching"
+                          class="glass variable-search-result"
                           ng-click="addNewVariable()"> {{state.addNewVariableButtonText}}
                 </ion-item>
             </ion-list>

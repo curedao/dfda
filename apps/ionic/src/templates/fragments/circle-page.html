@@ -5,16 +5,23 @@
             <div style="position: relative; display: block; padding-top: 20px;">
                 <div style="z-index: 8; ">
                     <img id="circle-page-image" ng-src="{{circlePage.image.url}}"
-                         style="width: 100px; height: 100px; margin: auto;" alt="{{circlePage.title}}"
+                         style="width: 100px; height: 100px; margin: auto;"
+                         alt="{{circlePage.title}}"
                          src="{{circlePage.image.url}}">
                 </div>
             </div>
         </div>
         <br>
-        <p id="circle-page-title" ng-if="circlePage.title" style="font-size: 30px; line-height: 1;">
-            {{circlePage.title}}</p>
-        <span id="circle-page-body-text" ng-if="circlePage.bodyText" ng-bind-html="circlePage.bodyText"
-              style="font-size: 22px; line-height: 1.5; padding: 5px;"></span>
+        <p id="circle-page-title"
+           ng-if="circlePage.title"
+           style="font-size: 30px; line-height: 1;">
+            {{circlePage.title}}
+        </p>
+        <span id="circle-page-body-text"
+              ng-if="circlePage.bodyText"
+              ng-bind-html="circlePage.bodyText"
+              style="font-size: 22px; line-height: 1.5; padding: 5px;">
+        </span>
         <br>
     </div>
 </div>

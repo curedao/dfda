@@ -115,7 +115,7 @@ Cypress.Commands.add('loginWithAccessTokenIfNecessary', function (path, waitForA
     var withToken = UpdateQueryString('access_token', accessToken, path);
     cy.visitIonicAndSetApiOrigin(withToken);
     if (waitForAvatar) {
-        debugger
+        //debugger
         cy.get('#navBarAvatar > img', { timeout: 40000 });
     }
 });

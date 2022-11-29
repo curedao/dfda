@@ -42,11 +42,11 @@
                         <md-tooltip
                           md-direction="down">Switch back to your account from {{user.displayName}}
                         </md-tooltip>
-                        <a ng-if="user && user.avatar"
+                        <a ng-if="user && user.avatarImage"
                            class="button button-clear">
                             <img class="menu-avatar"
                                  id="patientAvatarRight"
-                                 ng-src="{{user.avatar}}">
+                                 ng-src="{{user.avatarImage}}">
                         </a>
                         <button id="switch-button-right"
                                 class="button button-icon ion-arrow-swap"></button>
@@ -64,10 +64,10 @@
                     </a>
                     <a id="navBarAvatar"
                        href="#/app/settings"
-                       ng-if="!physicianUser && user && user.avatar && !platform.isMobile"
+                       ng-if="!physicianUser && user && user.avatarImage && !platform.isMobile"
                        class="button button-clear hide-xs">
                         <img class="menu-avatar"
-                             ng-src="{{user.avatar}}">
+                             ng-src="{{user.avatarImage}}">
                     </a>
                     <button id="menu-search-button"
                             style="padding: 0;"
@@ -149,11 +149,11 @@
                  style="cursor:pointer;"
                  ng-click="goToState('app.settings')"
                  ng-if="!appSettings.designMode && !physicianUser && user && user.displayName && (user.stripeActive || !appSettings.additionalSettings.monetizationSettings.subscriptionsEnabled.value)">
-                <a ng-if="user && user.avatar"
+                <a ng-if="user && user.avatarImage"
                    class="button button-clear">
                     <img class="menu-avatar"
                          id="menuAvatar"
-                         ng-src="{{user.avatar}}">
+                         ng-src="{{user.avatarImage}}">
                 </a>
                 <h1 class="title nav-bar-text"
                     style="position: fixed; bottom: 0;">{{user.displayName}}
@@ -164,11 +164,11 @@
                  ng-click="switchBackToPhysician()"
                  ng-if="!appSettings.designMode && physicianUser">
                 <md-tooltip md-direction="down">Switch back to your account</md-tooltip>
-                <a ng-if="user && user.avatar"
+                <a ng-if="user && user.avatarImage"
                    class="button button-clear">
                     <img class="menu-avatar"
                          id="patientAvatar"
-                         ng-src="{{user.avatar}}">
+                         ng-src="{{user.avatarImage}}">
                 </a>
                 <h1 class="title nav-bar-text"
                     style="position: fixed; bottom: 0;">{{user.displayName}}
