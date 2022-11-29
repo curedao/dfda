@@ -13,18 +13,42 @@ let unauthorizedResponse = {
   "message": "You are not authorized to access this resource.",
   "status": 401
 };
+function getAccessTokenFromRequest(req, res, next) {
+    const bearerHeader = req.headers['authorization'];
+    if (bearerHeader) {
+      const bearer = bearerHeader.split(' ');
+      const bearerToken = bearer[1];
+      return req.token = bearerToken;
+    } else {
+      // Forbidden
+      return null;
+    }
+}
 //Use the req.isAuthenticated() function to check if user is Authenticated
-checkAuthenticated = (req, res, next) => {
+checkAuthenticated = async (req, res, next) => {
+  //debugger
   let authorized = req.isAuthenticated();
   let user = req.user
-  let accessToken = req.accessToken;
+  let accessToken = getAccessTokenFromRequest(req, res, next);
   if(!accessToken && user && user.accessToken){
     accessToken = user.accessToken || user.access_token.access_token;
   }
-  if(!user && accessToken){
-    user = authHelper.findUserByAccessToken(accessToken);
+  if(!user){
+    if(accessToken){
+      user = await authHelper.findUserByAccessToken(accessToken);
+      if(!user){
+        console.error("No user or access token found in request", req);
+      } else {
+        req.session.user = req.user = user;
+      }
+    } else {
+      console.error("No user or access token found in request", req);
+    }
   }
   if(!user){
+    if(accessToken){
+      console.error("User not found for accessToken " + accessToken);
+    }
     if(req.path.startsWith("/api")){
       return res.status(403).send('Forbidden');
     } else {

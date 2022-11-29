@@ -128,9 +128,9 @@ async function findUserByEmailAndPassword(email, plainTextPassword){
   return user
 }
 async function findUserByAccessToken(accessTokenString){
-  const accessTokenRow = await db.oa_access_tokens.findOne({
+  const accessTokenRow = await db.prisma.oa_access_tokens.findFirst({
     where: {
-      access_token: accessToken
+      access_token: accessTokenString
     }
   });
   if(!accessTokenRow){

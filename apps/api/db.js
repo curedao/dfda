@@ -21,6 +21,9 @@ async function main() {
       client_id: clientId,
     }
   })
+  if(!client){
+    throw Error("Client not found for client_id " + clientId);
+  }
 }
 
 main()
