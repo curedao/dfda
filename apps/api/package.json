@@ -45,6 +45,7 @@
     "passport-google-oauth2": "^0.2.0",
     "passport-local": "^1.0.0",
     "passport-twitter": "^1.0.4",
+    "passport-withings": "0.1.0",
     "prisma-docs-generator": "^0.5.0",
     "q": "^1.5.1",
     "sequelize-typescript": "^2.1.5",

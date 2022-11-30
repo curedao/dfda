@@ -115,23 +115,10 @@ async function createUser(data) {
   return user
 }
 
-
-authUser = async function(request, accessToken, refreshToken, profile, done){
-  console.log("authUser", profile)
-  let user = await findUserByEmail(profile.email)
-  if(!user){
-    user = createUser(profile)
-  }
-  //return done(null, profile);
-  return done(null, user);
-}
-
-
 module.exports =  {
   prisma,
   createAccessToken,
   findUserByEmail,
   findUserById,
-  createUser,
-  authUser
+  createUser
 }
