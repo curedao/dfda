@@ -587,19 +587,14 @@ var qm = {
             remoteLocal: 'https://utopia.quantimo.do',
         },
         getApiOrigin: function(){
-            //return window.location.origin;
-            //return this.apiOrigins.local
             if(qm.appMode.isBackEnd() && process.env.API_ORIGIN){
                 return process.env.API_ORIGIN;
             }
-            return "https://local.quantimo.do";
-            //return "http://cd-api.test:800";
-            //return "https://app.quantimo.do";
-            //return 'https://curedao-n66b6ronka-uc.a.run.app'
             var apiOrigin = qm.urlHelper.getParam(qm.items.apiOrigin);
             if(apiOrigin && apiOrigin !== qm.storage.getItem(qm.items.apiOrigin)){
                 qm.storage.setItem(qm.items.apiOrigin, apiOrigin);
             }
+            return window.location.origin;
             if(!apiOrigin && qm.appMode.isDebug() && qm.platform.isMobile() && (!qm.getUser() || qm.getUser().id === 230)){
                 apiOrigin = qm.api.apiOrigins.remoteLocal;
             }
