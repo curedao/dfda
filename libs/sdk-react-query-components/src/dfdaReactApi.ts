@@ -4,20 +4,13 @@
 import type { AxiosInstance, AxiosRequestConfig } from 'axios'
 // noinspection JSUnusedGlobalSymbols,TypeScriptRedundantGenericType
 // noinspection TypeScriptRedundantGenericType
-import axios from 'axios'
-import { mean } from 'mathjs'
+import axios from 'axios';
+import { Canvas, createCanvas, loadImage } from 'canvas';
+import { mean } from 'mathjs';
 import {
-  MutationFunction,
-  QueryClient,
-  useMutation,
-  UseMutationOptions,
-  UseMutationResult,
-  useQuery,
-  useQueryClient,
-  UseQueryOptions,
-  UseQueryResult,
-} from 'react-query'
-import { Canvas, createCanvas, loadImage } from 'canvas'
+    MutationFunction, QueryClient, useMutation, UseMutationOptions, UseMutationResult, useQuery,
+    useQueryClient, UseQueryOptions, UseQueryResult
+} from 'react-query';
 
 export function getAccessToken(): string | null {
   const queryParams = new URLSearchParams(window.location.search)
