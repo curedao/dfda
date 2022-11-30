@@ -1,8 +1,0 @@
-{
-  "$schema": "../../node_modules/nx/schemas/project-schema.json",
-  "name": "hldata-api-spec",
-  "sourceRoot": "libs/hldata-api-spec/src",
-  "projectType": "library",
-  "targets": {},
-  "tags": []
-}
