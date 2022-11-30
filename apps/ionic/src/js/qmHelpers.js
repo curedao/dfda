@@ -587,15 +587,15 @@ var qm = {
             remoteLocal: 'https://utopia.quantimo.do',
         },
         getApiOrigin: function(){
+            //return window.location.origin;
             //return this.apiOrigins.local
             if(qm.appMode.isBackEnd() && process.env.API_ORIGIN){
                 return process.env.API_ORIGIN;
             }
             return "https://local.quantimo.do";
-            return "http://cd-api.test:800";
-            return "https://app.quantimo.do";
-            return 'https://curedao-n66b6ronka-uc.a.run.app'
-            return window.location.origin;
+            //return "http://cd-api.test:800";
+            //return "https://app.quantimo.do";
+            //return 'https://curedao-n66b6ronka-uc.a.run.app'
             var apiOrigin = qm.urlHelper.getParam(qm.items.apiOrigin);
             if(apiOrigin && apiOrigin !== qm.storage.getItem(qm.items.apiOrigin)){
                 qm.storage.setItem(qm.items.apiOrigin, apiOrigin);
@@ -4302,7 +4302,7 @@ var qm = {
         }
     },
     geoLocation: {
-        getFoursqureClientId: function(){
+        getFoursquareClientId: function(){
             if(qm.privateConfig && qm.privateConfig.FOURSQUARE_CLIENT_ID){/** @namespace qm.privateConfig.FOURSQUARE_CLIENT_ID */
                 return qm.privateConfig.FOURSQUARE_CLIENT_ID;
             }
@@ -11753,7 +11753,7 @@ var qm = {
                 params.sort = '-latestMeasurementTime';
             }
             if(!params.limit){params.limit = qm.userVariables.defaultLimit;}
-            qm.api.get('api/v3/variables', [], params, function (variables){
+            qm.api.get('api/v3/userVariables', [], params, function (variables){
                 variables =  variables.variables || variables
                 qm.variablesHelper.saveToLocalStorage(variables);
                 deferred.resolve(variables);

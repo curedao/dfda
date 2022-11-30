@@ -1,6 +1,9 @@
 <ion-view hide-nav-bar="hideNavigationMenu">
     <ion-nav-title>{{state.title}}</ion-nav-title>
     <ion-content ng-class="{ isBrowserView : platform.isWeb == true }">
+        <md-progress-linear md-mode="indeterminate"
+                            ng-show="state.loading">
+        </md-progress-linear>
         <ion-refresher on-refresh="refreshHistory()"
                        style="text-align: center; margin: auto;">
         </ion-refresher>
@@ -135,17 +138,12 @@
             </div>
         </ion-list>
         <div id="loader-card"
-             class="card"
-             ng-show="state.loading"
-             style="border-radius: 15px;">
-            <div class="item">
-                <div class="row" style="text-align: center; margin: auto;">
-                    <ion-spinner></ion-spinner>
-                    <p style=" text-align: center; line-height: normal; font-size: 18px;">&nbsp &nbsp
-                        {{state.loadingText}}
-                    </p>
-                </div>
-            </div>
+             class="pulsating-glowing-text center"
+             ng-show="state.loading">
+            <span>
+            <ion-spinner style="float: left; padding: 5px;"></ion-spinner>
+            {{state.loadingText}}
+            </span>
         </div>
         <!--Infinite scroll doesn't work on web for some reason.  Various solutions like collection-repeat cause double scroll bar-->
         <div style="text-align: center;"
