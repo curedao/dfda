@@ -5,7 +5,7 @@
         <i id="card-icon" ng-if="!card.avatar" class="icon balanced {{card.ionIcon}}"></i>
         <img id="card-image" style="max-width: 40px; max-height: 40px;" ng-if="card.avatar" ng-src="{{card.avatar}}">
     </span>
-        <span style="text-align: center; height: 40px; line-height: 40px; white-space: nowrap; font-family: 'Open Sans', sans-serif;">
+        <span style="text-align: center; height: 40px; line-height: 40px; white-space: nowrap;">
             <p ng-if="!platform.isMobile"
                 style="font-size: 24px; color: white; margin-left: 50px; margin-right: 50px; white-space: normal;">
                 {{card.title || card.headerTitle}}
@@ -23,20 +23,11 @@
     <!-- Also htmlContent has black text which is bad on blue background-->
 <!--    <div ng-if="card.htmlContent" style="padding: 5px;" ng-bind-html="trustAsHtml(card.htmlContent)"></div>-->
     <p style="padding: 10px; text-align: center; color: white;">{{card.content}}</p>
-    <div ng-repeat="button in card.buttons">
-        <div class="row">
-            <div class="button-bar">
-                <a id="{{button.id}}" class="button button-clear button-balanced"
-                    ng-if="!button.clickHandler"
-                    ng-click="generalButtonClickHandler(button)">
-                    <i class="{{button.ionIcon}}"> &nbsp; {{button.text}} &nbsp;</i>
-                </a>
-                <a id="{{button.id}}" class="button button-clear button-balanced"
-                    ng-if="button.clickHandler"
-                    ng-click="button.clickHandler(button)">
-                    <i class="{{button.ionIcon}}"> &nbsp; {{button.text}} &nbsp;</i>
-                </a>
-            </div>
-        </div>
+    <div class="center pb-2">
+        <md-button id="{{button.id}}" class="md-primary md-raised"
+                   ng-repeat="button in card.buttons"
+                   ng-click="generalButtonClickHandler(button)">
+            <i class="{{button.ionIcon}}"> &nbsp; {{button.text}} &nbsp;</i>
+        </md-button>
     </div>
 </div>
