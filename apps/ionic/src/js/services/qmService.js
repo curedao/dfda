@@ -3807,8 +3807,8 @@ angular.module('starter').factory('qmService', ["$http", "$q", "$rootScope", "$i
         qmService.getLocationInfoFromFoursquare = function($http){
             function whatsAt(latitude, longitude){
                 return $http.get('https://api.foursquare.com/v2/venues/search?ll=' + latitude + ',' + longitude +
-                    '&intent=browse&radius=30&client_id=' + qm.geoLocation.getFoursqureClientId() + '&client_secret=' +
-                    qm.geoLocation.getFoursquareClientSecret() + '&v=20151201');
+                                 '&intent=browse&radius=30&client_id=' + qm.geoLocation.getFoursquareClientId() + '&client_secret=' +
+                                 qm.geoLocation.getFoursquareClientSecret() + '&v=20151201');
             }
             return {whatsAt: whatsAt};
         };
@@ -3900,7 +3900,7 @@ angular.module('starter').factory('qmService', ["$http", "$q", "$rootScope", "$i
             return qm.storage.getItem(qm.items.lastLatitude) !== coordinates.latitude && qm.storage.getItem(qm.items.lastLongitude) !== coordinates.longitude;
         }
         function lookupGoogleAndFoursquareLocationAndPostMeasurement(coordinates, isBackground){
-            if(!qm.geoLocation.getFoursqureClientId() || !qm.geoLocation.getFoursquareClientSecret()){
+            if(!qm.geoLocation.getFoursquareClientId() || !qm.geoLocation.getFoursquareClientSecret()){
                 qmLog.error('Please add FOURSQUARE_CLIENT_ID & FOURSQUARE_CLIENT_SECRET to private config');
                 return;
             }

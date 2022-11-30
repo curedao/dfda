@@ -1,14 +1,7 @@
-<div class="spinner-container" ng-show="state.loading">
-    <ion-spinner name="bubbles">
-    </ion-spinner>
-</div>
-<div ng-repeat="(key, qmChart) in state.variableObject.charts">
-    <div ng-if="qmChart && qmChart.highchartConfig"
-         class="card primary-outcome-variable-reporting-chart" style="border-radius: 15px;">
-        <div class="item item-text-wrap">
-            <highchart id="{{qmChart.chartId}}"
-                       config="qmChart.highchartConfig">
-            </highchart>
-        </div>
-    </div>
+<div ng-repeat="(key, qmChart) in state.variableObject.charts"
+    ng-if="qmChart && qmChart.highchartConfig"
+     class="card transparent-bg highcharts-container">
+        <highchart id="{{qmChart.chartId}}"
+                   config="qmChart.highchartConfig">
+        </highchart>
 </div>

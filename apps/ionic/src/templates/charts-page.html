@@ -64,21 +64,32 @@
                     <span class="input-label right-text">{{state.variableObject.variableId}}</span>
                 </label>
             </div>
-            <div class="list card" ng-click="compareButtonClick()">
-                <a id="compareButton" class="item item-icon-left"> <i class="icon ion-plus positive"></i> Compare
-                    Another Variable </a>
-            </div>
-            <div class="list card" ng-click="recordMeasurementButtonClick()">
-                <a id="recordMeasurementButton" class="item item-icon-left"> <i class="icon ion-plus positive"></i>
-                    Record Measurement </a>
-            </div>
-            <div class="list card" ng-click="addNewReminderButtonClick()">
-                <a id="addReminderButton" class="item item-icon-left"> <i class="icon ion-plus positive"></i> Add
-                    Reminder </a>
-            </div>
-            <div class="list card" ng-click="editSettingsButtonClick()">
-                <a class="item item-icon-left"> <!--Find better icon in blue--> <i
-                        class="icon ion-settings positive"></i> Analysis Settings </a>
+            <div class="center">
+                <md-button ng-click="compareButtonClick()"
+                           class="md-raised md-primary md-button md-ink-ripple"
+                           id="compareButton">
+                    <i class="icon ion-plus positive"></i>
+                    Compare Another Variable
+                </md-button>
+                <md-button ng-click="recordMeasurementButtonClick()"
+                           class="md-raised md-primary md-button md-ink-ripple"
+                           id="recordMeasurementButton">
+                    <i class="icon ion-edit positive"></i>
+                    Record Measurement
+                </md-button>
+                <md-button ng-click="addNewReminderButtonClick()"
+                           class="md-raised md-primary md-button md-ink-ripple"
+                           id="addReminderButton">
+                    <i class="icon ion-ios-bell positive"></i>
+                    Add Reminder
+                </md-button>
+                <md-button id="variableSettingsButton"
+                  class="md-raised md-primary md-button md-ink-ripple"
+                  ng-click="editSettingsButtonClick()">
+                    <!--Find better icon in blue-->
+                    <i class="icon ion-settings positive"></i>
+                    Analysis Settings
+                </md-button>
             </div>
         </div>
     </ion-content>
