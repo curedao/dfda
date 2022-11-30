@@ -171,5 +171,6 @@ socialLoginRoutes('google', 'passport-google-oauth2', 'googleplus');
 socialLoginRoutes('github');
 socialLoginRoutes('facebook');
 socialLoginRoutes('twitter');
+//socialLoginRoutes('withings');
 
 module.exports = router;

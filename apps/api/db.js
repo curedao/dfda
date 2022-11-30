@@ -2,11 +2,11 @@ var crypto = require('crypto');
 const { PrismaClient } = require('@prisma/client')
 const credentials = require("./utils/credentials");
 var randomBytes = require('bluebird').promisify(require('crypto').randomBytes);
-
+const qm = require("../ionic/src/js/qmHelpers");
 const prisma = new PrismaClient()
 let oaClients = prisma.oa_clients;
 let client;
-const clientId = credentials.quantimodo.clientId;
+const clientId = qm.getClientId();
 
 BigInt.prototype["toJSON"] = function () {
   return this.toString();

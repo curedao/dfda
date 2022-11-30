@@ -8,6 +8,7 @@
     "emitDecoratorMetadata": true,
     "experimentalDecorators": true,
     "importHelpers": true,
+    "noPropertyAccessFromIndexSignature": false,
     "target": "es2015",
     "module": "esnext",
     "lib": ["es2017", "dom"],
@@ -16,6 +17,11 @@
     "baseUrl": ".",
     "paths": {
       "@curedao/clickup-api": ["libs/clickup-api/src/index.ts"],
+      "@curedao/env-helper": ["libs/env-helper/src/index.ts"],
+      "@curedao/file-helper": ["libs/file-helper/src/index.ts"],
+      "@curedao/git-helper": ["libs/git-helper/src/index.ts"],
+      "@curedao/qm-helpers": ["libs/qm-helpers/src/index.ts"],
+      "@curedao/qm-log": ["libs/qm-log/src/index.ts"],
       "@curedao/sdk-javascript": ["libs/sdk-javascript/src/index.ts"],
       "@curedao/sdk-php": ["libs/sdk-php/src/index.ts"],
       "@curedao/sdk-react-query-components": [
@@ -24,7 +30,9 @@
       "@curedao/sdk-typescript-axios": [
         "libs/sdk-typescript-axios/src/index.ts"
       ],
-      "@curedao/sdk-typescript-node": ["libs/sdk-typescript-node/src/index.ts"]
+      "@curedao/sdk-typescript-node": ["libs/sdk-typescript-node/src/index.ts"],
+      "@curedao/test-helpers": ["libs/test-helpers/src/index.ts"],
+      "@curedao/url-helper": ["libs/url-helper/src/index.ts"]
     }
   },
   "exclude": ["node_modules", "tmp"]

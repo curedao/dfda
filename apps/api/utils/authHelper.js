@@ -94,7 +94,7 @@ async function createConnection(connectorResponse, connectorName){
       connector_id: connector.id,
       update_status: "WAITING",
       connectorName: connectorName,
-      client_id: credentials.quantimodo.clientId,
+      client_id: qm.getClientId(),
       update_requested_at: new Date(),
       credentials: connectorResponse,
       connect_status: "CONNECTED",
@@ -142,9 +142,35 @@ async function findUserByAccessToken(accessTokenString){
   dbUser.access_token = accessTokenRow
   return dbUser
 }
+function getAccessTokenFromRequest(req) {
+  const bearerHeader = req.headers['authorization'];
+  if (bearerHeader) {
+    const bearer = bearerHeader.split(' ');
+    const bearerToken = bearer[1];
+    return bearerToken;
+  } else {
+    // Forbidden
+    return null;
+  }
+}
+function getAccessToken(proxyReqOpts, srcReq){
+  let accessToken = getAccessTokenFromRequest(srcReq);
+  if(accessToken){return accessToken}
+  const user = srcReq.user;
+  if(user){
+    if(user.access_token && user.access_token.access_token){
+      return user.access_token.access_token;
+    }
+    if(user.accessToken){
+      return user.accessToken;
+    }
+  }
+  return null;
+}
 module.exports = {
   handleSocialLogin,
   loginViaEmail,
   findUserByEmailAndPassword,
   findUserByAccessToken,
+  getAccessToken,
 }
