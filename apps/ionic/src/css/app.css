@@ -26601,9 +26601,8 @@ linear-gradient(-45deg, rgb(0 46 255), rgb(60 0 255), rgb(35 213 64), rgb(255 0 
 }
 
 .rainbow-gradient-webflow {
-  background: linear-gradient(311deg, #00aaff, #00aaff, #00ffaa, #ff3971, #ff00aa);
+  background: linear-gradient(311deg, #00aaff, #008dd5, #007885, #b70739, #ff00aa);
   background-size: 300% 300%;
-
   -webkit-animation: RainbowGradientAnimation 26s ease infinite;
   -moz-animation: RainbowGradientAnimation 26s ease infinite;
   animation: RainbowGradientAnimation 26s ease infinite;
