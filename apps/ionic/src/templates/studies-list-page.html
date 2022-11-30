@@ -17,7 +17,6 @@
         <ion-refresher on-refresh="refreshList()"></ion-refresher>
         <div ng-show="searching">
             <md-progress-linear md-mode="indeterminate"></md-progress-linear>
-            <h1 style="text-align: center; padding: 20px;">Analyzing data...</h1>
             <div style="max-width: 600px; display:block; margin:auto;"
                  ng-include="'templates/loaders/blue-robot-loader.html'">
             </div>

@@ -1,9 +1,6 @@
 <div ng-show="state.loading || !state.variableObject" class="item-text-wrap card-item" style="border-style:hidden; padding: 20px;"><br>
-    <div>
-        <div><h1 style="text-align: center;">Analyzing data...</h1></div>
-        <div style="max-width: 600px; display:block; margin:auto;"
-             ng-include="'templates/loaders/blue-robot-loader.html'"></div>
-    </div>
+    <div style="max-width: 600px; display:block; margin:auto;"
+         ng-include="'templates/loaders/blue-robot-loader.html'"></div>
     <div ng-show="loadingCharts" ng-include="'templates/spinner.html'"></div>
 </div>
 <div ng-if="state.variableObject">
