@@ -14,7 +14,7 @@
 @font-face {
   font-family: "Ionicons";
   src: url("https://static.quantimo.do/lib/ionic/fonts/ionicons.eot?v=2.0.1");
-  src: url("https://static.quantimo.do/lib/ionic/fonts/ionicons.eot?v=2.0.1#iefix") format("embedded-opentype"), url("https://static.quantimo.do/lib/ionic/fonts/ionicons.ttf?v=2.0.1") format("truetype"), url("https://static.quantimo.do/lib/ionic/fonts/ionicons.woff?v=2.0.1") format("woff"), url("https://static.quantimo.do/lib/ionic/fonts/ionicons.woff") format("woff"), url("https://static.quantimo.do/lib/ionic/fonts/ionicons.svg?v=2.0.1#Ionicons") format("svg");
+  src: url("https://static.quantimo.do/lib/ionic/fonts/ionicons.eot?v=2.0.1#iefix") format("embedded-opentype"), url("../fonts/ionicons.ttf?v=2.0.1") format("truetype"), url("../fonts/ionicons.woff?v=2.0.1") format("woff"), url("https://static.quantimo.do/lib/ionic/fonts/ionicons.woff") format("woff"), url("https://static.quantimo.do/lib/ionic/fonts/ionicons.svg?v=2.0.1#Ionicons") format("svg");
   font-weight: normal;
   font-style: normal; }
 
@@ -3295,7 +3295,8 @@ table {
 *:after {
   -webkit-box-sizing: border-box;
   -moz-box-sizing: border-box;
-  box-sizing: border-box; }
+  box-sizing: border-box;
+  }
 
 html {
   overflow: hidden;
@@ -3551,6 +3552,7 @@ ion-infinite-scroll {
   /* background-color: #d71212; */
   /*background: radial-gradient(ellipse at center, rgba(127, 0, 173, 0.6) 0%, rgba(0, 0, 0, 0.8) 60%, #000000 90%), url(../img/backgrounds/stars.jpg);*/
   overflow: hidden;
+  opacity: 1;
   }
 
 .view-container {
@@ -5288,7 +5290,10 @@ ion-tabs.tabs-striped.tabs-color-active-dark .tab-item.tab-item-active, ion-tabs
 .menu-content {
   -webkit-transform: none;
   transform: none;
-  box-shadow: -1px 0px 2px rgba(0, 0, 0, 0.2), 1px 0px 2px rgba(0, 0, 0, 0.2); }
+  box-shadow: -1px 0px 2px rgba(0, 0, 0, 0.2), 1px 0px 2px rgba(0, 0, 0, 0.2);
+  opacity: 1;
+  background-color: #000c48;
+  }
 
 .menu-open .menu-content .pane,
 .menu-open .menu-content .scroll-content {
@@ -5322,7 +5327,9 @@ ion-tabs.tabs-striped.tabs-color-active-dark .tab-item.tab-item-active, ion-tabs
 
 .menu-animated {
   -webkit-transition: -webkit-transform 200ms ease;
-  transition: transform 200ms ease; }
+  transition: transform 200ms ease;
+  opacity: 1;
+  }
 
 /**
  * Modals
@@ -6667,7 +6674,7 @@ button.item.item-button-right {
   padding-top: 1px;
   padding-bottom: 1px;
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
-  background-color: rgba(255, 255, 255, .8);
+  background-color: rgba(255, 255, 255, .9);
   backdrop-filter: blur(5px);
   box-shadow: 0 1px 3px rgb(0 0 0 / 30%);
   }
@@ -10715,7 +10722,9 @@ md-card {
   display: flex;
   flex-direction: column;
   margin: 8px;
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3); }
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
+  padding: 10px;
+  }
   md-card md-card-header {
     padding: 10px;
     display: flex;
@@ -25173,8 +25182,9 @@ md-fab-progress {
     background-position: -2800px 0; } }
 
 .highcharts-container {
-  width: 100% !important;
-  height: 100% !important; }
+  /* width: 100% !important; */
+  height: 100% !important;
+}
 
 .placeholder-chart {
   height: 240px;
@@ -25405,7 +25415,8 @@ ion-side-menu-content.menu-disabled {
   -webkit-filter: brightness(110%) saturate(200%); }
 
 .primary-outcome-variable-history > img {
-  opacity: 0.5; }
+  opacity: 0.8;
+  }
 
 .active-primary-outcome-variable-rating-button {
   opacity: 1.0 !important;
@@ -26006,7 +26017,8 @@ img.intro-primary-outcome-variable-rating-buttons {
   padding: 6px 10px 5px 16px; }
 
 body {
-  background-color: black; }
+  /* background-color: black; */
+  }
 
 #fc_frame, #fc_frame.fc-widget-normal {
   left: 15px !important;
@@ -26041,8 +26053,8 @@ body {
   box-sizing: border-box; }
 
 body {
-  position: relative;
-  background: hsl(243deg 41% 51%);
+  /* position: relative; */
+  /* background: hsl(243deg 41% 51%); */
 }
 
 body::before {
