@@ -9,15 +9,14 @@
                         Individual Notifications Disabled
                     </a>
                 </div>-->
-        <div ng-show="state.showButtons"
-             class="list card"
-             ng-click="addNewReminderButtonClick()">
-            <a id="addReminderButton"
+        <md-button ng-show="state.showButtons"
+             class="rainbow-gradient-animation"
+             ng-click="addNewReminderButtonClick()"
+            id="addReminderButton"
                class="item item-icon-left">
                 <i class="icon ion-plus positive"></i>
                 {{stateParams.addButtonText}}
-            </a>
-        </div>
+        </md-button>
         <div class="card"
              ng-if="state.showTreatmentInfoCard && !(state.trackingReminders && state.trackingReminders.length)">
             <div class="item item-avatar">

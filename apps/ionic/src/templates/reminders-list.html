@@ -53,13 +53,15 @@
                 <div ng-if="trackingReminder.addMeasurement"
                      ng-include="'templates/items/favorite-item.html'"></div>
             </div>
-            <div id="addReminderButton"
-                 class="item item-icon-left"
-                 ng-click="addNewReminderButtonClick()">
+            <div ng-include="'templates/buttons/clear-filters-button.html'"></div>
+        </div>
+        <div class="center">
+            <md-button id="addReminderButton"
+                       class="rainbow-gradient-animation"
+                       ng-click="addNewReminderButtonClick()">
                 <i class="icon ion-plus positive"></i>
                 {{stateParams.addButtonText}}
-            </div>
-            <div ng-include="'templates/buttons/clear-filters-button.html'"></div>
+            </md-button>
         </div>
     </ion-content>
     <nav id="floatingActionButton"

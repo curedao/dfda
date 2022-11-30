@@ -2,9 +2,7 @@
     <!--Using view-title tag above seems to cause ionic errors-->
     <ion-nav-title>Edit Reminder</ion-nav-title>
     <ion-content scroll="true" overflow-scroll="true" ng-class="{ isBrowserView : platform.isWeb == true }">
-        <md-toolbar class="md-theme-light" id="reminder-header">
-            <h2 class="md-toolbar-tools"><span style="color: white;">{{state.trackingReminder.variableName}}</span></h2>
-        </md-toolbar>
+
         <!--        <label class="item item-input item-select" ng-if="state.showVariableCategorySelector">
                     <div class="input-label" style="white-space:normal; width: 60%">Select Category</div>
                     <select id="variableCategorySelector" ng-model="state.trackingReminder.variableCategoryName"
@@ -12,7 +10,10 @@
                             ng-change="variableCategorySelectorChange(state.trackingReminder.variableCategoryName)">
                     </select>
                 </label>-->
-        <div style="padding: 10px;">
+        <md-card>
+            <md-toolbar class="md-theme-light" id="reminder-header">
+                <h2 class="md-toolbar-tools"><span style="color: white;">{{state.trackingReminder.variableName}}</span></h2>
+            </md-toolbar>
             <div ng-if="!state.variableCategoryObject || state.showMoreOptions">
                 <div class="md-subhead" layout-margin>What type of variable is this?</div>
                 <div layout="row" layout-margin>
@@ -87,6 +88,7 @@
                                min-date="minDate"
                                format="h:mm a"
                                ng-model="state.firstReminderStartTimeMoment"
+                               style="cursor: pointer;"
                                class="md-input datetime-input">
                     </md-input-container>
                     <span ng-click="showAdditionalReminderTime()">
@@ -231,6 +233,6 @@
             <section layout="row" layout-align="center center" ng-if="!state.showMoreOptions" layout-wrap>
                 <md-button id="moreOptions" ng-click="showMoreOptions()" class="md-raised">More options...</md-button>
             </section>
-        </div>
+        </md-card>
     </ion-content>
 </ion-view>
