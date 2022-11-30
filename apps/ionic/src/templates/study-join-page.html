@@ -1,16 +1,18 @@
 <ion-view hide-nav-bar="hideNavigationMenu">
     <ion-nav-title>Join Study</ion-nav-title>
-        <div style="position: relative; top: 50%; transform: translateY(-50%);">
-            <div ng-if="!state.study || !state.study.joined">
-                <div style="box-shadow: 2px 2px 5px #434343; margin: 0 auto; border-radius: 50%; width: 130px; height: 130px; background-color: {{state.color.circleColor}};">
+        <div class="center"
+          style="position: relative; top: 50%; transform: translateY(-50%);">
+            <div>
+                <div class="glass"
+                  style="box-shadow: 2px 2px 5px #434343; margin: 0 auto; border-radius: 50%; width: 130px; height: 130px;">
                     <img style="position: relative; top: 50%; transform: translateY(-50%); width:{{state.image.width}}px; height:{{state.image.height}}px;"
                          ng-src="{{state.image.url}}">
                 </div>
-                <br>
-                <p style="font-size: 22px; line-height: 1.3;">{{state.title}}</p>
-                <span ng-bind-html="state.bodyText" style="font-size: 16px; line-height: 1.5;"></span>
-                <br><br>
-                <div ng-if="!state.joining">
+                <md-card class="glass">
+                    <p style="font-size: 22px; line-height: 1.3;">{{state.title}}</p>
+                    <span ng-bind-html="state.bodyText" style="font-size: 16px; line-height: 1.5;"></span>
+                </md-card>
+                <div ng-if="!state.joining && !state.study.joined">
                     <md-button id="joinStudyButton" ng-click="joinStudy()"
                                 class="md-primary">
                         JOIN STUDY
@@ -33,7 +35,6 @@
                     <i class="ion-search"></i>
                     SEE CURRENT RESULTS
                 </md-button>
-
             </div>
         </div>
 </ion-view>
