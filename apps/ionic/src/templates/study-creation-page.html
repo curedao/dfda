@@ -43,26 +43,40 @@
                 </div>
             </div>
             <br>
-            <div id="createButtonsSection" ng-if="state.effectVariable && state.causeVariable && !state.study">
-                <p style="font-size: 24px;"> What type do you want to create? </p><br>
+            <div id="createButtonsSection"
+                 ng-if="state.effectVariable && state.causeVariable && !state.study">
+                <p style="font-size: 24px;"> What type do you want to create? </p>
+                <br>
                 <p>{{state.typesDescription}}</p>
-                <button id="createIndividualStudyButton" class="button"
-                        style="background-color: {{state.color.backgroundColor}}; border: none; outline: none; color: white; text-align: center"
+                <md-button id="createIndividualStudyButton"
+                           class="md-raised md-primary"
                         ng-click="createStudy('individual')">
-                    <span><i class="ion-person"></i> &nbsp; INDIVIDUAL STUDY &nbsp;</span>
-                </button>
-                <br>
-                <button id="createStudyButton" class="button"
-                        style="background-color: {{state.color.backgroundColor}}; border: none; outline: none; color: white; text-align: center"
+                    <i class="ion-person"></i>
+                    INDIVIDUAL STUDY
+                    <i class="ion-help-circled"></i>
+                    <md-tooltip md-direction="top">
+                        Based on YOUR OWN DATA
+                    </md-tooltip>
+                </md-button>
+                <md-button id="createStudyButton"
+                           class="md-raised md-primary"
                         ng-click="createStudy('cohort')">
-                    <span><i class="ion-android-people"></i> &nbsp; GROUP STUDY &nbsp;</span>
-                </button>
-                <br>
-                <button id="createPopulationStudyButton" class="button"
-                        style="background-color: {{state.color.backgroundColor}}; border: none; outline: none; color: white; text-align: center"
-                        ng-click="createStudy('population')">
-                    <span><i class="ion-android-globe"></i> &nbsp; GLOBAL STUDY &nbsp;</span>
-                </button>
+                    <i class="ion-android-people"></i>
+                    GROUP STUDY &nbsp;
+                    <i class="ion-help-circled"></i>
+                    <md-tooltip md-direction="top">
+                        Based on aggregated data from specific people YOU INVITE to participate
+                    </md-tooltip>
+                </md-button>
+                <md-button id="createPopulationStudyButton"
+                           class="md-raised md-primary"
+                           ng-click="createStudy('population')">
+                        <md-tooltip md-direction="top">
+                            Based on aggregated data from EVERYONE in the world!
+                        </md-tooltip>
+                    <i class="ion-android-globe"></i> &nbsp; GLOBAL STUDY &nbsp;
+                    <i class="ion-help-circled"></i>
+                </md-button>
             </div>
 <!--            <div ng-if="state.study" ng-init="card = state.study.studyCard"
                  ng-include="'templates/cards/blue-card.html'"></div>-->
