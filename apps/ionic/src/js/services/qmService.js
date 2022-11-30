@@ -3606,7 +3606,13 @@ angular.module('starter').factory('qmService', ["$http", "$q", "$rootScope", "$i
             qmService.auth.deleteAllAccessTokens(reason);
             return fetch('/logout', {
                 method: 'POST',
-            })
+                credentials: 'same-origin'
+            }).then(function(response){
+                qmLog.info("Logged out of server");
+                qmService.goToState(qmStates.login);
+            }).catch(function(error){
+                qmLog.error(error);
+            });
         };
         qmService.updateUserSettingsDeferred = function(params){
             if($rootScope.physicianUser || qm.storage.getItem(qm.items.physicianUser)){

@@ -87,6 +87,7 @@ angular.module('starter').controller('ImportCtrl', ["$scope", "$ionicLoading", "
             $scope.refreshConnectors();
         };
         $scope.showActionSheetForConnector = function(connector){
+            //debugger
             connector.showMessage = true;
             var connectorButtons = JSON.parse(JSON.stringify(connector.buttons));
             connectorButtons.push({

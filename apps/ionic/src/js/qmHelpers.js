@@ -889,13 +889,10 @@ var qm = {
             successHandler(url);
         },
         getQuantiModoUrl: function(path){
-            if(path.indexOf("http") === 0){
-                return path;
-            }
-            if(typeof path === "undefined"){
-                path = "";
-            }
-            return qm.api.getApiOrigin() + "/" + path;
+            if(path.indexOf("http") === 0){return path;}
+            if(typeof path === "undefined"){path = "";}
+            if(path.indexOf("/") !== 0){path = "/" + path;}
+            return qm.api.getApiOrigin() + path;
         },
         getLocalStorageNameForRequest: function(type, route){
             return 'last_' + type + '_' + route.replace('/', '_') + '_request_at';
@@ -2994,13 +2991,7 @@ var qm = {
                     qmLog.error("Could not get connectors from API...");
                 }
             }
-            qm.api.configureClient(arguments.callee.name, params);
-            var apiInstance = new qm.Quantimodo.ConnectorsApi();
-            function callback(error, data, response){
-                qm.api.generalResponseHandler(error, data, response, successHandler, errorHandler, params, 'getConnectorsFromApi');
-            }
-            params = qm.api.addGlobalParams(params);
-            apiInstance.getConnectors(params, callback);
+            qm.api.get('/api/v3/connectors/list', [], params, successHandler, errorHandler);
         },
         getConnectorsFromLocalStorage: function(){
             var connectors = qm.storage.getItem(qm.items.connectors);
