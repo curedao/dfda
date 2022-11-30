@@ -20,14 +20,15 @@
             </md-card>
             <div ng-include="'templates/buttons/vote-buttons.html'"></div>
             <div ng-include="'templates/buttons/study-sharing-buttons.html'"></div>
-            <md-card
+            <div
+              class="center"
               ng-hide="state.study.studyCharts && user && (state.study.userId === user.id || state.study.statistics.userId === user.id)">
-                <button id="joinStudyButton"
-                        class="button button-outline button-block icon-left ion-ios-people"
+                <md-button id="joinStudyButton"
+                        class="md-primary md-raised"
                         ng-click="goToJoinStudy(state.study)">
                     Join this Study
-                </button>
-            </md-card>
+                </md-button>
+            </div>
         </div>
         <div ng-show="loadingCharts || !state.study">
             <div style="max-width: 600px; display:block; margin:auto;"

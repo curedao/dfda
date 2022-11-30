@@ -1,6 +1,5 @@
 <ion-view hide-nav-bar="hideNavigationMenu">
     <ion-nav-title>Join Study</ion-nav-title>
-    <div style="background-color: {{state.color.backgroundColor}}; text-align: center; color: white; padding: 15px; height: 100%">
         <div style="position: relative; top: 50%; transform: translateY(-50%);">
             <div ng-if="!state.study || !state.study.joined">
                 <div style="box-shadow: 2px 2px 5px #434343; margin: 0 auto; border-radius: 50%; width: 130px; height: 130px; background-color: {{state.color.circleColor}};">
@@ -12,16 +11,13 @@
                 <span ng-bind-html="state.bodyText" style="font-size: 16px; line-height: 1.5;"></span>
                 <br><br>
                 <div ng-if="!state.joining">
-                    <div class="button-bar">
-                        <button id="joinStudyButton" ng-click="joinStudy()" class="button"
-                                style="background-color: {{state.color.backgroundColor}}; border: none; outline: none; color: white; font-size: 24px; text-align: center">
-                            JOIN STUDY
-                        </button>
-                    </div>
-                    <button ng-click="showMoreInfo()" ng-if="state.moreInfo && !state.study.joined"
-                            class="button button-small button-clear button-light">
+                    <md-button id="joinStudyButton" ng-click="joinStudy()"
+                                class="md-primary">
+                        JOIN STUDY
+                    </md-button>
+                    <md-button ng-click="showMoreInfo()" ng-if="state.moreInfo && !state.study.joined">
                         MORE INFO
-                    </button>
+                    </md-button>
                 </div>
             </div>
             <div ng-if="(state.study.joined || state.joining) && state.study.causeVariable.trackingInstructionsCard">
@@ -29,10 +25,15 @@
                      ng-repeat="card in [state.study.causeVariable.trackingInstructionsCard, state.study.effectVariable.trackingInstructionsCard] track by $index">
                 </div>
             </div>
-            <button id="goToStudyButton" class="button button-small button-clear button-light" ng-if="state.study"
-                    ng-click="goToStudyPageViaStudy(state.study)">
-                SEE CURRENT RESULTS
-            </button>
+            <div class="center">
+                <md-button id="goToStudyButton"
+                           ng-if="state.study"
+                           class="center md-primary md-raised"
+                           ng-click="goToStudyPageViaStudy(state.study)">
+                    <i class="ion-search"></i>
+                    SEE CURRENT RESULTS
+                </md-button>
+
+            </div>
         </div>
-    </div>
 </ion-view>
