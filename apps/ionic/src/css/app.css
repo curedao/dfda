@@ -26600,7 +26600,15 @@ linear-gradient(-45deg, rgb(0 46 255), rgb(60 0 255), rgb(35 213 64), rgb(255 0 
   }
 }
 
-.rainbow-gradient-webflow {
+.rainbow-gradient-menu {
+  background: linear-gradient(311deg, #ff0000, #6000d5, #0050b3, #b70739, #ff00aa);
+  background-size: 201% 124%;
+  -webkit-animation: RainbowGradientAnimation 26s ease infinite;
+  -moz-animation: RainbowGradientAnimation 26s ease infinite;
+  animation: RainbowGradientAnimation 26s ease infinite;
+}
+
+.rainbow-gradient-background {
   background: linear-gradient(311deg, #00aaff, #008dd5, #007885, #b70739, #ff00aa);
   background-size: 300% 300%;
   -webkit-animation: RainbowGradientAnimation 26s ease infinite;
@@ -26764,4 +26772,12 @@ linear-gradient(-45deg, rgb(0 46 255), rgb(60 0 255), rgb(35 213 64), rgb(255 0 
   100% {
     background: #629aa9;
   }
+}
+
+.variable-selector-circle {
+  box-shadow: 2px 2px 5px #434343;
+  margin: 0 auto;
+  border-radius: 50%;
+  width: 130px;
+  height: 130px;
 }

@@ -1,16 +1,20 @@
 angular.module('starter').controller('StudyCreationCtrl', ["$scope", "$state", "qmService", "clipboard", "$mdDialog", "$stateParams", "$rootScope",
     function($scope, $state, qmService, clipboard, $mdDialog, $stateParams, $rootScope){
-        $scope.state = {
-            title: 'Create a Study',
-            color: qmService.colors.blue,
-            image: {url: "img/robots/quantimodo-robot-waving.svg", height: "85", width: "85"},
-            bodyText: "One moment please...",
-            study: null,
-            causeVariable: null,
-            effectVariable: null,
-            typesDescription: ""
-        };
         $scope.$on('$ionicView.beforeEnter', function(){
+            $scope.state = {
+                title: 'Create a Study',
+                color: qmService.colors.blue,
+                image: {url: "img/robots/quantimodo-robot-waving.svg", height: "85", width: "85"},
+                bodyText: "After selecting a predictor and outcome variable, " +
+                          "you'll be given a shareable url that you can use to " +
+                          "recruit participants. You'll also get a link to the full " +
+                          "study which will update in real time as " +
+                          "more participants anonymously share their data.",
+                study: null,
+                causeVariable: null,
+                effectVariable: null,
+                typesDescription: ""
+            };
             if(!qm.getUser()){
                 qmService.login.sendToLoginIfNecessaryAndComeBack("no user in study creation state beforeEnter");
             }
@@ -20,10 +24,10 @@ angular.module('starter').controller('StudyCreationCtrl', ["$scope", "$state", "
             if($stateParams.effectVariable){
                 $scope.state.effectVariable = $stateParams.effectVariable;
             }
-            qm.apiHelper.getPropertyDescription('StudyCreationBody', 'type', function(description){
-                $scope.state.title = "What kind of study do you want to create?";
-                $scope.state.bodyText = description;
-            });
+            // qm.apiHelper.getPropertyDescription('StudyCreationBody', 'type', function(description){
+            //     $scope.state.title = "What kind of study do you want to create?";
+            //     $scope.state.bodyText = description.textContent;
+            // });
         });
         $scope.$on('$ionicView.afterEnter', function(){
             qmLog.debug('StudyCreationCtrl afterEnter in state ' + $state.current.name);
@@ -43,7 +47,7 @@ angular.module('starter').controller('StudyCreationCtrl', ["$scope", "$state", "
             $scope.state.effectVariable = variable;
             //qm.urlHelper.addUrlParamsToCurrentUrl('effectVariableName', variable.name);  // Doesn't work
             qmLog.debug('Selected outcome ' + variable.name);
-            showTypesExplanation();
+            //showTypesExplanation();
         }
         function setPredictorVariable(variable){
             $scope.state.causeVariable = variable;
@@ -52,11 +56,10 @@ angular.module('starter').controller('StudyCreationCtrl', ["$scope", "$state", "
             showTypesExplanation();
         }
         function showTypesExplanation(){
-            $scope.state.study = null;
             if($scope.state.causeVariable && $scope.state.effectVariable){
                 qm.apiHelper.getPropertyDescription('StudyCreationBody', 'type', function(description){
                     $scope.state.title = "What kind of study do you want to create?";
-                    $scope.state.bodyText = description;
+                    $scope.state.bodyText = description.bodyText;
                 });
             }
         }
@@ -85,9 +88,13 @@ angular.module('starter').controller('StudyCreationCtrl', ["$scope", "$state", "
             });
         };
         $scope.createStudy = function(type){
+            $scope.state.creatingStudy = true;
             let causeVariableName = getCauseVariableName();
             let effectVariableName = getEffectVariableName();
-            qmLog.info('Clicked createStudy for ' + causeVariableName + ' and ' + effectVariableName);
+            let name = 'Clicked createStudy for ' + causeVariableName + ' and ' + effectVariableName;
+            $scope.state.title = 'Creating '+ type + ' study!';
+            $scope.state.bodyText = 'One moment please...';
+            qmLog.info(name);
             qmService.showInfoToast("Creating study (this could take a minute)", 45);
             //qmService.showBasicLoader(60);
             var body = new Quantimodo.StudyCreationBody(causeVariableName, effectVariableName, type);

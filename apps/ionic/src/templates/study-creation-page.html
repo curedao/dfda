@@ -1,21 +1,22 @@
-<ion-view ng-controller="StudyCreationCtrl as ctrl" hide-nav-bar="hideNavigationMenu">
+<ion-view ng-controller="StudyCreationCtrl as ctrl"
+          hide-nav-bar="hideNavigationMenu">
     <ion-nav-title>Create Study</ion-nav-title>
     <div style="text-align: center; color: white; padding: 20px; height: 100%">
-        <div style=" position: relative; top: 50%; transform: translateY(-50%);">
-            <div ng-if="!state.study && (!state.effectVariable || !state.causeVariable)">
-                <p style="font-size: 30px; line-height: 1;"> Create a Study </p>
-                <p>After selecting a predictor and outcome variable, you'll be given a shareable url that you can use to
-                    recruit participants. You'll also get a link to the full study which will update in real time as
-                    more
-                    participants anonymously share their data.</p>
+        <div style="position: relative; top: 50%; transform: translateY(-50%);">
+            <div>
+                <p ng-if="state.title" style="font-size: 30px; line-height: 1;">
+                    {{state.title}}
+                </p>
+                <p ng-if="state.bodyText">{{state.bodyText}}</p>
             </div>
             <div class="row">
                 <div class="col col-50">
                     <div id="select-predictor-button"
                          ng-click="selectPredictorVariable($event)"
-                         style="box-shadow: 2px 2px 5px #434343; margin: 0 auto; border-radius: 50%; width: 130px; height: 130px; background-color: {{state.color.circleColor}};">
+                         class="variable-selector-circle glass">
                         <div style="cursor: pointer; position: relative; top: 50%; transform: translateY(-50%);"
-                             ng-if="!state.causeVariable">Select<br>Predictor<br>Variable
+                             ng-if="!state.causeVariable">
+                            Select<br>Predictor<br>Variable
                         </div>
                         <img ng-if="state.causeVariable"
                              style="width: 100%; padding: 20px;"
@@ -23,34 +24,42 @@
                     </div>
                 </div>
                 <div class="col col-50">
-                    <div id="select-outcome-button" ng-click="selectOutcomeVariable($event)"
-                         style=" box-shadow: 2px 2px 5px #434343; margin: 0 auto; border-radius: 50%; width: 130px;
-                         height: 130px; background-color: {{state.color.circleColor}};">
+                    <div id="select-outcome-button"
+                         ng-click="selectOutcomeVariable($event)"
+                         class="variable-selector-circle glass">
                         <div style="cursor: pointer; position: relative; top: 50%; transform: translateY(-50%);"
-                             ng-if="!state.effectVariable">Select<br>Outcome<br>Variable
+                             ng-if="!state.effectVariable">
+                            Select<br>Outcome<br>Variable
                         </div>
-                        <img ng-if="state.effectVariable" style="width: 100%; padding: 20px;"
+                        <img ng-if="state.effectVariable"
+                             style="width: 100%; padding: 20px;"
                              ng-src="{{state.effectVariable.pngUrl}}">
                     </div>
                 </div>
             </div>
             <div class="row">
                 <div class="col col-50">
-                    <div id="causeVariableName" ng-if="state.causeVariable">{{state.causeVariable.name}}</div>
+                    <div id="causeVariableName"
+                         ng-if="state.causeVariable">
+                        {{state.causeVariable.name}}
+                    </div>
                 </div>
                 <div class="col col-50">
-                    <div id="effectVariableName" ng-if="state.effectVariable">{{state.effectVariable.name}}</div>
+                    <div id="effectVariableName"
+                         ng-if="state.effectVariable">
+                        {{state.effectVariable.name}}
+                    </div>
                 </div>
             </div>
             <br>
             <div id="createButtonsSection"
-                 ng-if="state.effectVariable && state.causeVariable && !state.study">
+                 ng-if="state.effectVariable && state.causeVariable && !state.study && !state.creatingStudy">
                 <p style="font-size: 24px;"> What type do you want to create? </p>
                 <br>
                 <p>{{state.typesDescription}}</p>
                 <md-button id="createIndividualStudyButton"
                            class="md-raised md-primary"
-                        ng-click="createStudy('individual')">
+                           ng-click="createStudy('individual')">
                     <i class="ion-person"></i>
                     INDIVIDUAL STUDY
                     <i class="ion-help-circled"></i>
@@ -60,7 +69,7 @@
                 </md-button>
                 <md-button id="createStudyButton"
                            class="md-raised md-primary"
-                        ng-click="createStudy('cohort')">
+                           ng-click="createStudy('cohort')">
                     <i class="ion-android-people"></i>
                     GROUP STUDY &nbsp;
                     <i class="ion-help-circled"></i>
@@ -71,9 +80,9 @@
                 <md-button id="createPopulationStudyButton"
                            class="md-raised md-primary"
                            ng-click="createStudy('population')">
-                        <md-tooltip md-direction="top">
-                            Based on aggregated data from EVERYONE in the world!
-                        </md-tooltip>
+                    <md-tooltip md-direction="top">
+                        Based on aggregated data from EVERYONE in the world!
+                    </md-tooltip>
                     <i class="ion-android-globe"></i> &nbsp; GLOBAL STUDY &nbsp;
                     <i class="ion-help-circled"></i>
                 </md-button>
@@ -81,7 +90,8 @@
 <!--            <div ng-if="state.study" ng-init="card = state.study.studyCard"
                  ng-include="'templates/cards/blue-card.html'"></div>-->
             <div ng-if="state.study" class="list">
-                <p style="font-size: 30px; line-height: 1;"><i class="ion-person-add"></i> &nbsp; Recruit Participants
+                <p style="font-size: 30px; line-height: 1;">
+                    <i class="ion-person-add"></i> &nbsp; Recruit Participants
                 </p>
                 <div ng-include="'templates/fragments/study-sharing-fragment.html'"></div>
                 <br>
@@ -92,13 +102,17 @@
                 </div>
                 <br>
                 <div class="button-bar">
-                    <button id="joinStudyButton" class="button" ng-click="goToJoinStudy(state.study)"
+                    <button id="joinStudyButton"
+                            class="button"
+                            ng-click="goToJoinStudy(state.study)"
                             style="background-color: {{state.color.backgroundColor}}; border: none; outline: none; color: white; font-size: 24px; text-align: center">
                         JOIN STUDY
                     </button>
                 </div>
-                <button id="goToStudyButton" ng-click="goToStudyPageViaStudy(state.study)"
-                        class="button button-small button-clear button-light"> SEE CURRENT RESULTS
+                <button id="goToStudyButton"
+                        ng-click="goToStudyPageViaStudy(state.study)"
+                        class="button button-small button-clear button-light">
+                    SEE CURRENT RESULTS
                 </button>
             </div>
         </div>

@@ -1,16 +1,17 @@
 {
-    "gulptasks.pattern": "gulpfile.js",
-    "gulptasks.filters": [
-      "!**/node_modules/**",
-      "!**/bower_components/**",
-      "!**/lib/**",
-      "!**/tests/**"
-    ],
-    "gulptasks.args": [],
-    "gulptasks.output.show": "Task Starts",
-    "gulptasks.notifications.executed": true,
-    "gulptasks.notifications.terminated": true,
-    "gulptasks.notifications.restarted": true,
-    "fiveServer.navigate": true,
-    "editor.acceptSuggestionOnEnter": "on"
-  }
+  "gulptasks.pattern": "gulpfile.js",
+  "gulptasks.filters": [
+    "!**/node_modules/**",
+    "!**/bower_components/**",
+    "!**/lib/**",
+    "!**/tests/**"
+  ],
+  "gulptasks.args": [],
+  "gulptasks.output.show": "Task Starts",
+  "gulptasks.notifications.executed": true,
+  "gulptasks.notifications.terminated": true,
+  "gulptasks.notifications.restarted": true,
+  "fiveServer.navigate": true,
+  "editor.acceptSuggestionOnEnter": "on",
+  "eslint.validate": ["json"]
+}
