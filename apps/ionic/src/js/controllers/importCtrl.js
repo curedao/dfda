@@ -175,7 +175,7 @@ angular.module('starter').controller('ImportCtrl', ["$scope", "$ionicLoading", "
             c.updateStatus = "CONNECTING"; // Need to make error message hidden
             if(qm.arrayHelper.inArray(c.mobileConnectMethod, ['oauth', 'facebook', 'google'])){
                 qmLog.info("connectConnector is inArray('oauth', 'facebook', 'google'): " + JSON.stringify(c), null, c);
-                qmService.connectors.oAuthConnect(c, ev, {});
+                qm.connectorHelper.webConnectViaRedirect(c, ev, {});
                 button.text = "Connecting...";
                 return;
             }
@@ -283,7 +283,8 @@ angular.module('starter').controller('ImportCtrl', ["$scope", "$ionicLoading", "
             //debugger
             if(b.text.toLowerCase().indexOf('disconnect') !== -1){
                 disconnectConnector(c, b);
-            }else if(b.text.toLowerCase().indexOf('connect') !== -1){
+            }else if(b.text.toLowerCase().indexOf('connect') !== -1
+                     || b.text.toLowerCase().indexOf('import') !== -1){
                 connectConnector(c, b, ev);
             }else if(b.text.toLowerCase().indexOf('settings') !== -1){
                 amazonSettings(c, b, ev);
