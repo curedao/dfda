@@ -41,6 +41,7 @@ describe('Variables', function(){
         let d = new Date()
         let variableName = `Unique Test Variable ${d.getTime()}`
         cy.get('#variableSearchBox').type(variableName, {force: true})
+        cy.checkForBrokenImages()
         cy.get('#new-variable-button', {timeout: 30000}).click({force: true})
         cy.get('.primary-outcome-variable-history > img:nth-of-type(3)').click({force: true})
         cy.get('#saveButton').click({force: true})
@@ -68,7 +69,7 @@ describe('Variables', function(){
         let variableName = 'Overall Mood'
         searchForMoodFromMagnifyingGlassIcon(variableName)
         cy.clickActionSheetButtonContaining('Create Study')
-        cy.get('#effectVariableName').should('contain', variableName)
+        cy.get('#effectVariableName', {timeout: 10000}).should('contain', variableName)
         searchForMoodFromMagnifyingGlassIcon(variableName)
     })
     it('Records measurement from the variable action sheet', function(){

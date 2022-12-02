@@ -290,12 +290,21 @@ Cypress.Commands.add('checkForBrokenImages', function () {
             cy.log("No $element at index: " + index);
             return;
         }
+        var src_1 = $el[0].getAttribute('src');
+            var message = "The image with src \n  " + src_1 +
+                          " \n  is broken! \n outerHTML is: \n  " +
+                          $el[0].outerHTML
+            //cy.debug("Checking image at index: " + index +" with src "+src_1, $el);
+        if(src_1 && src_1.indexOf('maxcdn.icons8.com') !== -1) {
+            cy.url().then(function (url) {
+                cy.log(message+ "  \n URL: " + url);
+                throw message;
+            });
+        }
         // @ts-ignore
         if (!$el[0].naturalWidth) {
-            var src_1 = $el[0].getAttribute('src');
             cy.url().then(function (url) {
-                var message = "The image with src \n  " + src_1 + " \n  is broken! \n outerHTML is: \n  " + $el[0].outerHTML + "  \n URL: " + url;
-                cy.log(message);
+                cy.log(message+ "  \n URL: " + url);
                 throw message;
             });
         }
@@ -337,7 +346,7 @@ Cypress.Commands.add('searchAndClickTopResult', function (variableName, topResul
     cy.log("=== searchAndClickTopResult for " + variableName + " ===");
     cy.wait(1000);
     cy.get('#variableSearchBox').type(variableName, { force: true, timeout: 5000 });
-    var firstResultSelector = '#variable-search-result';
+    var firstResultSelector = '#variable-search-result-0 > div > div > span';
     cy.log('Wait for search results to load');
     cy.wait(1000); // Wait in case we only have common variables locally
     // Sometimes we just get local variables so we can't cy.wait('@get-variables')

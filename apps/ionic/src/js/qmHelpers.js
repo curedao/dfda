@@ -198,9 +198,9 @@ var qm = {
             }
             var qmApiClient = qm.Quantimodo.ApiClient.instance;
             var quantimodo_oauth2 = qmApiClient.authentications.quantimodo_oauth2;
-            qmApiClient.basePath = qm.api.getApiOrigin() + '/api';
+            qmApiClient.basePath = qm.api.getExpressUrl('/api');
             quantimodo_oauth2.accessToken = qm.auth.getAccessTokenFromUrlUserOrStorage();
-            var message = "API Request to " + qm.api.getApiOrigin() + " for " + functionName;
+            var message = "API Request to " + qmApiClient.basePath + " for " + functionName;
             if(params.reason){
                 message += " because " + params.reason;
             }
@@ -586,7 +586,10 @@ var qm = {
             local: 'http://localhost:80',
             remoteLocal: 'https://utopia.quantimo.do',
         },
-        getApiOrigin: function(){
+        getExpressOrigin: function(){
+            return qm.urlHelper.getExpressOrigin();
+        },
+        getQMApiOrigin: function(){
             if(qm.appMode.isBackEnd() && process.env.API_ORIGIN){
                 return process.env.API_ORIGIN;
             }
@@ -594,7 +597,9 @@ var qm = {
             if(apiOrigin && apiOrigin !== qm.storage.getItem(qm.items.apiOrigin)){
                 qm.storage.setItem(qm.items.apiOrigin, apiOrigin);
             }
-            return window.location.origin;
+            if(typeof window !== "undefined" && !apiOrigin){
+                return window.location.origin;
+            }
             if(!apiOrigin && qm.appMode.isDebug() && qm.platform.isMobile() && (!qm.getUser() || qm.getUser().id === 230)){
                 apiOrigin = qm.api.apiOrigins.remoteLocal;
             }
@@ -738,7 +743,7 @@ var qm = {
         getAppSettingsUrl: function(clientId, callback){
             function generateUrl(clientId, clientSecret){
                 // Can't use QM SDK in service worker
-                var settingsUrl = qm.api.getApiOrigin() + '/api/v1/appSettings?clientId=' + clientId;
+                var settingsUrl = qm.api.getExpressOrigin() + '/api/v1/appSettings?clientId=' + clientId;
                 if(clientSecret){
                     settingsUrl += "&clientSecret=" + clientSecret;
                 }
@@ -875,7 +880,7 @@ var qm = {
             }
             var url = path;
             if(url.indexOf("http") !== 0){
-                url = addGlobalQueryParameters(qm.api.getApiOrigin() + "/api/" + path);
+                url = addGlobalQueryParameters(qm.api.getExpressUrl("/api/"+ path));
             }
             if(params){
                 url = qm.urlHelper.addUrlQueryParamsToUrlString(params, url);
@@ -892,11 +897,11 @@ var qm = {
             if(path.indexOf("http") === 0){return path;}
             if(typeof path === "undefined"){path = "";}
             if(path.indexOf("/") !== 0){path = "/" + path;}
-            return qm.api.getApiOrigin() + path;
+            return qm.api.getExpressOrigin() + path;
         },
         getExpressUrl: function(path){
-            if(path.indexOf("http") === 0){return path;}
             if(typeof path === "undefined"){path = "";}
+            if(path.indexOf("http") === 0){return path;}
             return qm.urlHelper.prefixOriginIfNecessary(path);
         },
         getLocalStorageNameForRequest: function(type, route){
@@ -2103,7 +2108,7 @@ var qm = {
             if(appSettings && appSettings.redirectUri){
                 return appSettings.redirectUri;
             }
-            return qm.api.getApiOrigin() + '/callback/';
+            return qm.api.getExpressOrigin() + '/callback/';
         },
         getAccessTokenFromUrlAndSetLocalStorageFlags: function(){
             if(qm.auth.accessTokenFromUrl){
@@ -6034,10 +6039,11 @@ var qm = {
                 return menuItem;
             }
             qmLog.info("changed state to " + menuItem.stateName);
-            if(!qm.staticData.states){
+            var states = qm.qmStaticData.states
+            if(!states){
                 qmLog.exception("Please load qm.staticData.states");
             }
-            var newState = qm.staticData.states.find(function(state){
+            var newState = states.find(function(state){
                 return state.name === menuItem.stateName;
             });
             menuItem = qm.objectHelper.copyPropertiesFromOneObjectToAnother(newState, menuItem, true);
@@ -6076,9 +6082,10 @@ var qm = {
                     }
                 }
                 if(menuItem.href){
-                    for(var i = 0; i < qm.staticData.states.length; i++){
-                        if(menuItem.href.indexOf(qm.staticData.states[i].url) !== -1){
-                            menuItem.url = qm.staticData.states[i].url;
+                    var states = qm.qmStaticData.states
+                    for(var i = 0; i < states.length; i++){
+                        if(menuItem.href.indexOf(states[i].url) !== -1){
+                            menuItem.url = states[i].url;
                         }
                     }
                 }
@@ -6131,9 +6138,10 @@ var qm = {
             return menuItem;
         },
         getUrlFromStateName: function(stateName){
-            for(var i = 0; i < qm.staticData.states.length; i++){
-                if(qm.staticData.states[i].name === stateName){
-                    return qm.staticData.states[i].url;
+            var states = qm.qmStaticData.states
+            for(var i = 0; i < states.length; i++){
+                if(states[i].name === stateName){
+                    return states[i].url;
                 }
             }
             qmLog.error("Could not find state with name: " + stateName);
@@ -11735,7 +11743,7 @@ var qm = {
                     }, errorHandler, params, 'getUsersFromApi');
                 });
             } catch(e) {
-                throw "Could not get users from "+ qm.api.getApiOrigin()+ " because "+e.message
+                throw "Could not get users from " + qm.api.getExpressUrl() + " because " + e.message
             }
         },
         updateUserSettings: function(params, successHandler, errorHandler){

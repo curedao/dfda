@@ -225,7 +225,7 @@ let findUserByAccessToken = async function (accessTokenString){
     return null
   }
   const dbUser = await db.findUserById(accessTokenRow.user_id);
-  dbUser.accessToken = accessTokenString;
+  dbUser.accessToken = accessTokenRow.access_token;
   dbUser.access_token = accessTokenRow
   return dbUser
 };

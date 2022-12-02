@@ -92,7 +92,7 @@ describe('Studies', function () {
       // Changing domains started crashing cypress randomly with NEW URL chrome-error://chromewebdata/
       // https://github.com/cypress-io/cypress/issues/1506
     //cy.wait(10000)
-    //cy.checkForBrokenImages()
+    cy.checkForBrokenImages()
     // cy.get('.button-bar > button[id="joinStudyButton"].button').click({ force: true })
     // cy.wait(15000)
     // cy.get('#signUpButton').click({ force: true })

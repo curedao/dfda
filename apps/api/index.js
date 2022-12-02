@@ -7,7 +7,7 @@ const path = require('path');
 const envPath = path.resolve('../../.env');
 const envHelper = require("../ionic/ts/env-helper")
 envHelper.loadEnvFromDopplerOrDotEnv(envPath);
-const { initialize } = require('@oas-tools/core');
+//const { initialize } = require('@oas-tools/core');
 const proxy = require('express-http-proxy');
 const http = require("http");
 const {numberFormat} = require("underscore.string");

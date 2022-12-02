@@ -79,8 +79,8 @@ angular.module('starter').controller('ConfigurationCtrl', function($state, $scop
     });
     function setPopOutUrl(){
         var query = '?clientId=' + getClientId() + '&apiOrigin=' +
-            encodeURIComponent(qm.api.getApiOrigin()) +
-            '&quantimodoAccessToken=' + qm.getUser().accessToken;
+                    encodeURIComponent(qm.api.getExpressOrigin()) +
+                    '&quantimodoAccessToken=' + qm.getUser().accessToken;
         var url = 'https://builder.quantimo.do/#/app/configuration' + query;
         // Why do we need this if we can just preview in the builder?
         //if(!qm.windowHelper.isIframe()){url = 'https://web.quantimo.do/index.html' + query;}
@@ -242,8 +242,8 @@ angular.module('starter').controller('ConfigurationCtrl', function($state, $scop
         var body = {file: file};
         qmService.showBasicLoader();
         file.upload = Upload.upload({
-            url: qm.api.getApiOrigin() + '/api/v2/upload?clientId=' + $rootScope.appSettings.clientId +
-                '&filename=' + fileName + "&accessToken=" + $rootScope.user.accessToken + "&encrypt=" + encrypt,
+            url: qm.api.getExpressOrigin() + '/api/v2/upload?clientId=' + $rootScope.appSettings.clientId +
+                 '&filename=' + fileName + "&accessToken=" + $rootScope.user.accessToken + "&encrypt=" + encrypt,
             data: body
         });
         var displayName = fileName.replace('app_images_', '');
@@ -301,8 +301,8 @@ angular.module('starter').controller('ConfigurationCtrl', function($state, $scop
             body.encrypt = true;
         }
         file.upload = Upload.upload({
-            url: qm.api.getApiOrigin() + '/api/v2/upload?clientId=' + $rootScope.appSettings.clientId +
-                '&filename=' + fileName + '&accessToken=' + $rootScope.user.accessToken, data: body
+            url: qm.api.getExpressOrigin() + '/api/v2/upload?clientId=' + $rootScope.appSettings.clientId +
+                 '&filename=' + fileName + '&accessToken=' + $rootScope.user.accessToken, data: body
         });
         file.upload.then(function(response){
             console.debug("File upload response: ", response);

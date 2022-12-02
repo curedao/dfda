@@ -44,9 +44,24 @@ router.get('/api/v1/user', checkAuthenticated, async (req, res) => {
     res.status(401).json(unauthorizedResponse);
     return;
   }
+  let tokenObj = req.user.access_token;
   let user = stringHelper.camelCaseKeys(req.user)
+  if(tokenObj){
+    user.accessToken = tokenObj.access_token;
+    user.accessTokenExpiresAt = tokenObj.expires;
+  }
   res.status(200).json(user)
 })
+// router.get('/api/v3/connectors/list', function(req, res) {
+//   let opts = {
+//     method: "GET",
+//     rejectUnauthorized: process.env['PROXY_REJECT_UNAUTHORIZED'] || false,
+//     headers: {},
+//     //body: parameters && parameters.body
+//   };
+//   opts.headers['Accept'] = 'application/json';
+//   return fetch(urlHelper.API_ORIGIN + '/api/v3/connectors/list', opts)
+// })
 
 router.use('/api', proxy(urlHelper.API_ORIGIN, {
   proxyReqOptDecorator: function(proxyReqOpts, srcReq) {
@@ -64,6 +79,14 @@ router.use('/api', proxy(urlHelper.API_ORIGIN, {
     req.url = '/api' + req.url;
     console.log('proxyReqPathResolver', req.url)
     return req.url;
+  },
+  userResDecorator: function(proxyRes, proxyResData, userReq, userRes) {
+    if(qm.appMode.isDebug()){
+      var data = JSON.parse(proxyResData.toString('utf8'));
+      return JSON.stringify(data);
+    }
+    //data.newProperty = 'exciting data';
+    return proxyResData;
   }
 }));
 

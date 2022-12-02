@@ -135,8 +135,8 @@ angular.module('starter').controller('ImportCtrl', ["$scope", "$ionicLoading", "
                 qmService.showBasicLoader();
                 var body = {file: file, "connectorName": connector.name};
                 file.upload = Upload.upload({
-                    url: qm.api.getApiOrigin() + '/api/v2/spreadsheetUpload?clientId=' +
-                        $rootScope.appSettings.clientId + "&access_token=" + $rootScope.user.accessToken, data: body
+                    url: qm.api.getExpressOrigin() + '/api/v2/spreadsheetUpload?clientId=' +
+                         $rootScope.appSettings.clientId + "&access_token=" + $rootScope.user.accessToken, data: body
                 });
                 file.upload.then(function(response){
                     button.text = "Import Scheduled";

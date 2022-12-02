@@ -79,6 +79,9 @@ var qmLog = {
         }
     },
     getLogLevelName: function(){
+        if(typeof process !== "undefined" && process && process.env && process.env['APP_LOG_LEVEL']){
+            return process.env['APP_LOG_LEVEL'].toLowerCase()
+        }
         if(qm.urlHelper.getParam('debug') || qm.urlHelper.getParam('debugMode')){
             qmLog.setLogLevelName("debug");
         }
@@ -161,6 +164,9 @@ var qmLog = {
         qmLog.arrayValues(variables, propertiesToLog);
     },
     isDebugMode: function(){
+        if(typeof process !== "undefined" && process && process.env && process.env['APP_DEBUG']){
+            return !!process.env['APP_DEBUG'];
+        }
         return qmLog.getLogLevelName() === "debug";
     },
     getDebugMode: function(){
@@ -590,7 +596,7 @@ var qmLog = {
         if(qmLog.isDebugMode()){
             qmLog.globalMetaData.local_storage = qm.storage.getLocalStorageList();
         } // Too slow to do for every error
-        qmLog.globalMetaData.api = {log: qm.api.requestLog, ApiOrigin: qm.api.getApiOrigin()};
+        qmLog.globalMetaData.api = {log: qm.api.requestLog, ApiOrigin: qm.api.getExpressUrl()};
         var as = qm.getAppSettings();
         if(as){
             qmLog.globalMetaData.api.client_id = qm.api.getClientId();

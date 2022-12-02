@@ -9,7 +9,7 @@ var expect = chai.expect
 // being able to interpret them (such as displaying a diff).
 process.on('unhandledRejection', function(err) {
     if(typeof err !== "string"){
-        qmLog.error("Error is not as string but is: ", null, {err})
+        //qmLog.error("Error is not as string but is: ", null, {err})
         throw err
     }
     if(err.indexOf("unhandledRejection: Uncaught FetchError: invalid json response body") !== -1){
@@ -19,7 +19,8 @@ process.on('unhandledRejection', function(err) {
     }
 })
 const envHelper = require("../../ts/env-helper");
-envHelper.loadEnvFromDopplerOrDotEnv(".env")
+const libsPath = path.resolve("../../libs")
+envHelper.loadEnvFromDopplerOrDotEnv(null)
 var qmGit = require("../../ts/qm.git")
 var qmShell = require("../../ts/qm.shell")
 var fileHelper = global.fileHelper = require("../../ts/qm.file-helper")
@@ -429,9 +430,9 @@ describe("Measurement", function () {
                     })
                 })
             }, function (err){
-                qmLog.error(err)
+                //qmLog.error(err)
                 done(err)
-                throw new Error(err)
+                throw err
             }).catch(function(err){
                 qmLog.error(err)
                 done(err)
@@ -566,9 +567,9 @@ describe("Measurement", function () {
 describe("API", function (){
     it.skip("Makes sure api url is app.quantimo.do", function (done) {
         if(qm.appMode.isStaging()){
-            expect(qm.api.getApiOrigin()).to.eq("https://staging.quantimo.do")
+            expect(qm.api.getQMApiOrigin()).to.eq("https://staging.quantimo.do")
         } else {
-            expect(qm.api.getApiOrigin()).to.eq("https://app.quantimo.do")
+            expect(qm.api.getQMApiOrigin()).to.eq("https://app.quantimo.do")
         }
         done()
     })
@@ -762,7 +763,7 @@ describe("Ghost Inspector", function () {
         var url = th.getApiOrigin()
         var stagingUrl = "https://staging.quantimo.do"
         expect(url).to.contain(stagingUrl)
-        expect(qm.api.getApiOrigin()).to.contain(stagingUrl)
+        expect(qm.api.getQMApiOrigin()).to.contain(stagingUrl)
         if (previouslySetApiOrigin) {
             process.env.API_ORIGIN = previouslySetApiOrigin
         }
@@ -1195,7 +1196,7 @@ describe("Users", function () {
             register: true
         }
         let origin = 'https://curedao-n66b6ronka-uc.a.run.app';
-        origin = 'http://cd-api.test:800'
+        origin = qm.api.getExpressOrigin()
         let url = origin + '/api/v6/users';
         console.log('url', url);
         fetch(url, {
@@ -1225,8 +1226,8 @@ describe("Users", function () {
           })
           .catch(error => {
               // enter your logic for when there is an error (ex. error toast)
-              console.log(error)
-              throw Error(error);
+              console.error("Error:", error)
+              throw error;
           })
     })
 })

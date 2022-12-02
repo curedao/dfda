@@ -5763,8 +5763,8 @@ angular.module('starter').factory('qmService', ["$http", "$q", "$rootScope", "$i
                 userVote: 1
             });
             var subjectLine = "Help us discover the effect of " + causeVariableName + " on " + effectVariableName;
-            var studyLinkStatic = qm.api.getApiOrigin() + "/api/v2/study?causeVariableName=" +
-                encodeURIComponent(causeVariableName) + '&effectVariableName=' + encodeURIComponent(effectVariableName);
+            var studyLinkStatic = qm.api.getExpressOrigin() + "/api/v2/study?causeVariableName=" +
+                                  encodeURIComponent(causeVariableName) + '&effectVariableName=' + encodeURIComponent(effectVariableName);
             var bodyText = "Please join my study at " + studyLinkStatic + " .  Have a great day!";
             return {
                 studyLinkFacebook: "https://www.facebook.com/sharer/sharer.php?u=" + encodeURIComponent(studyLinkStatic),
@@ -5777,7 +5777,7 @@ angular.module('starter').factory('qmService', ["$http", "$q", "$rootScope", "$i
             if(study && study.studyLinks){
                 return study.studyLinks.studyLinkStatic;
             }
-            return qm.api.getApiOrigin() + '/api/v2/study?causeVariableName=' + encodeURIComponent(causeVariableName) + '&effectVariableName=' + encodeURIComponent(effectVariableName);
+            return qm.api.getExpressOrigin() + '/api/v2/study?causeVariableName=' + encodeURIComponent(causeVariableName) + '&effectVariableName=' + encodeURIComponent(effectVariableName);
         };
         qmService.getWikipediaArticle = function(title){
             var deferred = $q.defer();
