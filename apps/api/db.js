@@ -47,7 +47,7 @@ async function generateRandomToken() {
   return t;
 }
 
-async function createAccessToken(user, req){
+async function createAccessTokenForUser(user, req){
   let unixTimestamp = Math.round(+new Date()/1000);
   unixTimestamp += (30*86400);
   var date = qm.timeHelper.iso(unixTimestamp)
@@ -117,7 +117,7 @@ async function createUser(data) {
 
 module.exports =  {
   prisma,
-  createAccessToken,
+  createAccessToken: createAccessTokenForUser,
   findUserByEmail,
   findUserById,
   createUser

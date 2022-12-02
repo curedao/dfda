@@ -16,6 +16,7 @@ var crypto = require('crypto');
 var audit = require('express-requests-logger')
 const Str = require('@supercharge/strings')
 const urlHelper = require("./utils/urlHelper");
+const authHelper = require("./utils/authHelper");
 const passport = require('passport')
 global.Q = require('q');
 app.use(require('cookie-parser')());
@@ -42,6 +43,8 @@ showLogs = (req, res, next) => {
     next()
 }
 app.use(showLogs)
+app.use(authHelper.addAccessTokenToSession)
+
 // CORS (Cross-Origin Resource Sharing) headers to support Cross-site HTTP requests
 app.use(function(req, res, next) {
     // Don't allow cross-origin to prevent usage of client id and secret

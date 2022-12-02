@@ -26,7 +26,7 @@ checkAuthenticated = async (req, res, next) => {
   let authorized = req.isAuthenticated();
   let user = req.user
   if(!user){
-    let accessToken = authHelper.getAccessToken(null, req);
+    let accessToken = authHelper.getAccessTokenFromRequest(req);
     if(accessToken){
       user = await authHelper.findUserByAccessToken(accessToken);
       if(user){req.session.user = req.user = user;}
@@ -53,7 +53,7 @@ router.use('/api', proxy(urlHelper.API_ORIGIN, {
     // you can update headers
     // proxyReqOpts.headers['X-Client-ID'] = process.env.QUANTIMODO_CLIENT_ID;
     // proxyReqOpts.headers['X-Client-Secret'] = process.env.QUANTIMODO_CLIENT_SECRET;
-    const accessToken = authHelper.getAccessToken(proxyReqOpts, srcReq);
+    const accessToken = authHelper.getAccessTokenFromRequest(srcReq);
     if(accessToken){proxyReqOpts.headers['authorization'] = `Bearer ${accessToken}`;}
     proxyReqOpts.rejectUnauthorized = process.env['PROXY_REJECT_UNAUTHORIZED'] || false
     proxyReqOpts.headers['X-Client-ID'] = qm.getClientId();
