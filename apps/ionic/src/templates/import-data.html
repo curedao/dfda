@@ -3,6 +3,9 @@
     <ion-content scroll="true"
                  overflow-scroll="true"
                  ng-class="{ isBrowserView : platform.isWeb == true }">
+        <md-progress-linear md-mode="indeterminate"
+                            ng-show="!state.connectors && !state.connector">
+        </md-progress-linear>
         <ion-refresher on-refresh="refreshConnectors()"></ion-refresher>
         <div id="importHelpCard"
              ng-show="showImportHelpCard && !state.connector"
@@ -14,9 +17,6 @@
              style="border-radius: 15px;">
             <div class="item">
                 <div class="row" style="text-align: center; margin: auto;">
-                    <md-progress-linear md-mode="indeterminate"
-                                        ng-show="state.loading">
-                    </md-progress-linear>
                     <p style=" text-align: center; line-height: normal; font-size: 18px;">
                         &nbsp &nbsp Loading services...
                     </p>

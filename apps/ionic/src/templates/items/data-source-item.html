@@ -15,6 +15,11 @@
                 id="{{connector.name}}-name"
                 style="white-space: normal; line-height: normal;">
                 {{connector.displayName}}
+                <i ng-if="connector.errorMessage"
+                   style="font-size: 20px;"
+                   class="icon assertive ion-android-warning">
+<!--                    <md-tooltip md-direction="left">{{connector.errorMessage}}</md-tooltip>-->
+                </i>
             </div>
             <div id="{{connector.name}}-action-sheet-button"
                  ng-click="showActionSheetForConnector(connector, $event)"
@@ -22,10 +27,6 @@
                 <i style="font-size: 20px;"
                    class="icon positive ion-more"></i>
             </div>
-            <md-button ng-if="connector.errorMessage"
-                    class="button icon ion-android-warning">
-                <md-tooltip md-direction="left">{{connector.errorMessage}}</md-tooltip>
-            </md-button>
         </div>
         <div class="col col-90 md-subhead data-source-message"
              ng-if="connector.showMessage"
@@ -37,13 +38,13 @@
              id="{{connector.name}}-message">
             {{connector.shortDescription}}
         </div>
+        <div ng-if="connector.showMessage && connector.errorMessage"
+             class="item item-avatar">
+            <img src="img/rating/face_rating_button_256_sad.png" alt="">
+            <h2>IMPORT ISSUE</h2>
+            <p ng-bind-html="connector.errorMessage"></p>
+        </div>
     </div>
-</div>
-<div ng-if="connector.errorMessage" class="item item-avatar">
-    <img src="img/rating/face_rating_button_256_sad.png" alt="">
-    <h2>IMPORT ISSUE</h2>
-    <p ng-bind-html="connector.errorMessage"></p>
-
 </div>
 <div class="buttons"
      style="text-align: center;"

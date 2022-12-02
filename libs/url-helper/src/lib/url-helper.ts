@@ -1,7 +1,7 @@
 const {numberFormat} = require("underscore.string");
 import * as envHelper from "@curedao/env-helper";
-var port = envHelper.getEnvOrException("EXPRESS_PORT");
-let fallbackServerUrl = `http://localhost:${port}`;
+const port = envHelper.getEnvOrException("EXPRESS_PORT");
+const fallbackServerUrl = `http://localhost:${port}`;
 const values = {
   serverPort: port,
   serverOrigin: process.env[envHelper.envNames.EXPRESS_ORIGIN] || fallbackServerUrl,
