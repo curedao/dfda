@@ -299,6 +299,10 @@ angular.module('starter').factory('qmService', ["$http", "$q", "$rootScope", "$i
                     qmService.completelyResetAppState(reason);
                     saveDeviceTokenToSyncWhenWeLogInAgain();
                     //qmService.goToState(qm.staticData.stateNames.intro);
+                    $timeout(function(){ // Wait for above functions to complete
+                        //document.location.href = 'index.html#/app/intro?logout=true';  // Try this if below doesn't work
+                        document.location.href = 'index.html?logout=true';
+                    }, 2000);
                     if(qm.platform.isMobile() || qm.platform.isChromeExtension()){
                         qmLog.info("Restarting app to enable opening login window again");
                         $timeout(function(){ // Wait for above functions to complete
@@ -654,7 +658,7 @@ angular.module('starter').factory('qmService', ["$http", "$q", "$rootScope", "$i
                                 }
                             }
                             qmLog.authDebug("qmApiMobileConnect login: Setting final_callback_url to " + final_callback_url);
-                            var url = qm.api.getQuantiModoUrl('api/v1/connectors/' + connector.name + '/connect?client_id=' +
+                            var url = qm.api.getExpressUrl('api/v1/connectors/' + connector.name + '/connect?client_id=' +
                                 qm.api.getClientId() + '&final_callback_url=' + encodeURIComponent(final_callback_url))
                                 //+ '&client_secret=' + qm.api.getClientSecret());
                             if(options){
@@ -706,7 +710,7 @@ angular.module('starter').factory('qmService', ["$http", "$q", "$rootScope", "$i
                     return deferred.promise;
                 },
                 getConnectUrl: function(connector, params){
-                    var url = qm.api.getQuantiModoUrl('api/v1/connectors/' + connector.name + '/connect');
+                    var url = qm.api.getExpressUrl('/auth/' + connector.name);
                     params.final_callback_url = window.location.href;
                     if(qm.platform.isChromeExtension()){params.final_callback_url = chrome.identity.getRedirectURL();}
                     params.clientId = qm.api.getClientId();
@@ -3604,15 +3608,7 @@ angular.module('starter').factory('qmService', ["$http", "$q", "$rootScope", "$i
             $ionicHistory.clearHistory();
             $ionicHistory.clearCache();
             qmService.auth.deleteAllAccessTokens(reason);
-            return fetch('/logout', {
-                method: 'POST',
-                credentials: 'same-origin'
-            }).then(function(response){
-                qmLog.info("Logged out of server");
-                qmService.goToState(qmStates.login);
-            }).catch(function(error){
-                qmLog.error(error);
-            });
+            qm.api.post('/auth/logout');
         };
         qmService.updateUserSettingsDeferred = function(params){
             if($rootScope.physicianUser || qm.storage.getItem(qm.items.physicianUser)){

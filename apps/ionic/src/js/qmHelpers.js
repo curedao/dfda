@@ -716,15 +716,18 @@ var qm = {
         },
         logRequestUrl: function(url, method){
             var logUrl = url;
+            qmLog.info("Making "+method+" request to " + url);
             if(qm.appMode.isDevelopment()){
                 var token =  qm.auth.getAccessTokenFromUrlUserOrStorage();
                 if(token){
                     logUrl = qm.urlHelper.addUrlQueryParamsToUrlString({access_token: token}, url)
                 }
+                logUrl = logUrl.replace(qm.urlHelper.getExpressOrigin(), "https://local.quantimo.do")
+                qmLog.info("DEBUG URL with token: " + logUrl);
             }
-            qmLog.info("Making "+method+" request to " + logUrl);
         },
         getViaXhrOrFetch: function(url, successHandler, errorHandler){
+            url = qm.urlHelper.prefixOriginIfNecessary(url);
             qm.api.logRequestUrl(url, "GET")
             if(typeof XMLHttpRequest !== "undefined"){
                 qm.api.getViaXhr(url, successHandler, errorHandler);
@@ -757,6 +760,7 @@ var qm = {
             }
         },
         getViaFetch: function(url, successHandler, errorHandler){
+            url = qm.urlHelper.prefixOriginIfNecessary(url);
             qmLog.pushDebug("Making get request to " + url);
             fetch(url, {
                 method: 'get',
@@ -881,6 +885,7 @@ var qm = {
             if(url.indexOf("api/https") !== -1){
                 qmLog.errorAndExceptionTestingOrDevelopment("url is "+url);
             }
+            url = qm.urlHelper.prefixOriginIfNecessary(url);
             successHandler(url);
         },
         getQuantiModoUrl: function(path){
@@ -888,6 +893,11 @@ var qm = {
             if(typeof path === "undefined"){path = "";}
             if(path.indexOf("/") !== 0){path = "/" + path;}
             return qm.api.getApiOrigin() + path;
+        },
+        getExpressUrl: function(path){
+            if(path.indexOf("http") === 0){return path;}
+            if(typeof path === "undefined"){path = "";}
+            return qm.urlHelper.prefixOriginIfNecessary(path);
         },
         getLocalStorageNameForRequest: function(type, route){
             return 'last_' + type + '_' + route.replace('/', '_') + '_request_at';
@@ -999,7 +1009,7 @@ var qm = {
             }
             delete params.force;
             qm.auth.getAccessTokenFromAnySource().then(function(accessToken){
-                var url = qm.api.getQuantiModoUrl(route);
+                var url = qm.urlHelper.prefixOriginIfNecessary(route);
                 url = qm.urlHelper.addUrlQueryParamsToUrlString(qm.api.addGlobalParams({}), url);
                 url = qm.urlHelper.addUrlQueryParamsToUrlString(params, url);
                 qm.api.getViaXhrOrFetch(url, successHandler, requestSpecificErrorHandler);
@@ -2138,21 +2148,21 @@ var qm = {
             if(qm.urlHelper.indexOfCurrentUrl('.quantimo.do/') === -1){
                 afterLogoutGoToUrl = qm.urlHelper.getCurrentUrl();
             }
-            afterLogoutGoToUrl = afterLogoutGoToUrl.replace('settings', 'intro');
-            if(qm.platform.isChromeExtension()){
-                afterLogoutGoToUrl = qm.api.getQuantiModoUrl("api/v1/window/close");
-            }
-            var logoutUrl = qm.api.getQuantiModoUrl("api/v2/auth/logout?afterLogoutGoToUrl=" + encodeURIComponent(afterLogoutGoToUrl));
-            qmLog.info("Sending to " + logoutUrl);
-            var request = {
-                method: 'GET',
-                url: logoutUrl,
-                responseType: 'json',
-                headers: {'Content-Type': "application/json"}
-            };
-            //$http(request);
-            // Get request doesn't seem to clear cookies
-            window.location.replace(logoutUrl);
+            // afterLogoutGoToUrl = afterLogoutGoToUrl.replace('settings', 'intro');
+            // if(qm.platform.isChromeExtension()){
+            //     afterLogoutGoToUrl = qm.api.getQuantiModoUrl("api/v1/window/close");
+            // }
+            // var logoutUrl = qm.api.getQuantiModoUrl("api/v2/auth/logout?afterLogoutGoToUrl=" + encodeURIComponent(afterLogoutGoToUrl));
+            // qmLog.info("Sending to " + logoutUrl);
+            // var request = {
+            //     method: 'GET',
+            //     url: logoutUrl,
+            //     responseType: 'json',
+            //     headers: {'Content-Type': "application/json"}
+            // };
+            // //$http(request);
+            // // Get request doesn't seem to clear cookies
+            // window.location.replace(logoutUrl);
         },
         weShouldSetAfterLoginStateOrUrl: function(afterLoginGoToStateOrUrl){
             if(qm.storage.getItem(qm.items.afterLoginGoToUrl)){
@@ -2972,6 +2982,31 @@ var qm = {
         }
     },
     connectorHelper: {
+        getConnectUrl: function(connectorName, params){
+            params = params || {}
+            if(typeof connectorName !== "string"){connectorName = connectorName.name;}
+            var url = qm.api.getExpressUrl('/auth/' + connectorName);
+            params.final_callback_url = qm.connectorHelper.getFinalCallbackUrl();
+            if(qm.platform.isChromeExtension()){params.final_callback_url = chrome.identity.getRedirectURL();}
+            params.clientId = qm.api.getClientId();
+            url = qm.urlHelper.addUrlQueryParamsToUrlString(params, url);
+            console.info('Going to ' + url);
+            return url;
+        },
+        webConnectViaRedirect: function(connectorName, ev, additionalParams){
+            if(typeof connectorName !== "string"){connectorName = connectorName.name;}
+            qm.loaders.psychedelicLoader.show();
+            var final_callback_url = qm.connectorHelper.getFinalCallbackUrl();
+            qm.auth.setAfterLoginGoToUrl(final_callback_url);
+            var url = qm.connectorHelper.getConnectUrl(connectorName, additionalParams);
+            window.location.href = url;
+        },
+        getFinalCallbackUrl: function(){
+            var final_callback_url = qm.urlHelper.addUrlQueryParamsToUrlString({
+                logout: false,
+            }, window.location.href)
+            return final_callback_url;
+        },
         getConnectorsFromApi: function(params, successCallback, errorHandler){
             qmLog.info("Getting connectors from API...");
             function successHandler(response){
@@ -4800,6 +4835,14 @@ var qm = {
         currentState: 'currentState'
     },
     loaders: {
+        psychedelicLoader: {
+            show: function(){
+                psychedelicLoader.start();
+            },
+            hide: function(){
+                psychedelicLoader.stop();
+            }
+        },
         robots: function(){
             var tm = new TimelineMax({repeat: -1, repeatDelay: 2})
                 //.to('#redBot',2,{x:500,ease:Power3.easeInOut},'+=2')
@@ -5785,7 +5828,7 @@ var qm = {
             }
             qm.measurements.postMeasurements(measurementSet).then(function(response){
                 if(response.success){
-                    qmLog.debug('qmService.postMeasurementsToApi success: ', response);
+                    qmLog.debug('postMeasurements success: ', response);
                     if(response && response.data && response.data.userVariables){
                         qm.variablesHelper.saveToLocalStorage(response.data.userVariables);
                     }
@@ -11378,6 +11421,21 @@ var qm = {
                 return false;
             }
             return window.location.href;
+        },
+        getExpressOrigin: function(){
+            if(qm.appMode.isBackEnd()){
+                return process.env.EXPRESS_ORIGIN
+            }
+            return window.location.origin;
+        },
+        prefixOriginIfNecessary: function(url){
+            if(url.indexOf('http') === -1){
+                if(url.indexOf('/') !== 0){
+                    url = '/' + url;
+                }
+                url = qm.urlHelper.getExpressOrigin() + url;
+            }
+            return url;
         },
         indexOfCurrentUrl: function(needle){
             var currentUrl = qm.urlHelper.getCurrentUrl();
