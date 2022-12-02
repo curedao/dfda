@@ -1,9 +1,8 @@
 <div style="text-align: center;">
     <md-button id="clear-filters-button"
-               ng-if="state.searchText != ''"
+               ng-if="state.searchText && state.searchText != ''"
                class="icon icon-left ion-close md-primary"
                ng-click="state.searchText=''">
         Clear Filters
     </md-button>
 </div>
-
