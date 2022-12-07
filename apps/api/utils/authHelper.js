@@ -102,6 +102,9 @@ async function storeConnectorCredentials(request, accessToken, refreshToken, pro
   };
   const connectorUserId = profile.id;
   let user = request.user;
+  if(!user){
+    throw Error("No user found in request");
+  }
   let userId = user.id || user.ID;
   for(let key in profile){
     let value = profile[key];
@@ -176,7 +179,7 @@ module.exports.loginViaEmail = function (request, done) {
 }
 async function findUserByEmailAndPassword(email, plainTextPassword){
   const dbUser = await db.findUserByEmail(email)
-  if(!user){
+  if(!dbUser){
     qmLog.error("User not found for email " + email);
     return null
   }
@@ -185,7 +188,7 @@ async function findUserByEmailAndPassword(email, plainTextPassword){
     qmLog.error("Wrong password for email " + email);
     return null
   }
-  return user
+  return dbUser
 }
 async function findAccessTokenRow(accessTokenString){
   return await db.prisma.oa_access_tokens.findFirst({

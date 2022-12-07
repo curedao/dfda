@@ -91,6 +91,13 @@ export function isSecretWord(propertyName: string) {
     lowerCaseProperty.indexOf("token") !== -1
 }
 
+export function replaceAll(str: string, find: string, replace: string){
+  function escapeRegExp(str: string){
+    return str.replace(/([.*+?^=!:${}()|\[\]\/\\])/g, "\\$1");
+  }
+  return str.replace(new RegExp(escapeRegExp(find), 'g'), replace);
+}
+
 export function obfuscateString(str: string) {
   const env = process.env
   for (const propertyName in env) {
@@ -98,7 +105,7 @@ export function obfuscateString(str: string) {
       const val = env[propertyName]
       if (val && isSecretWord(propertyName) && val.length > 6) {
         // @ts-ignore
-        str = qm.stringHelper.replaceAll(str, val, "["+propertyName+" hidden by obfuscateString]")
+        str = replaceAll(str, val, "["+propertyName+" hidden by obfuscateString]")
       }
     }
   }

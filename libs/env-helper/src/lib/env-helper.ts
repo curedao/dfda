@@ -29,6 +29,7 @@ export const envNames = {
   BUILD_IOS: "BUILD_IOS",
   BUILD_ANDROID: "BUILD_ANDROID",
   BUILD_CHROME: "BUILD_CHROME",
+  GITHUB_USERNAME: 'GITHUB_USERNAME'
 }
 
 export let paths = {
@@ -253,4 +254,8 @@ function loadDopplerSecrets() {
       process.env[key] = secrets[key]
     }
   })
+}
+
+export function getGithubUserName(): any {
+  return getEnvOrException(envNames.GITHUB_USERNAME)
 }

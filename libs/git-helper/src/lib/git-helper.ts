@@ -6,7 +6,7 @@ import * as envHelper from "@curedao/env-helper"
 import * as qmLog from "@curedao/qm-log"
 // tslint:disable-next-line:no-var-requires
 export function getOctoKit() {
-  return new Octokit({auth: envHelper.getGithubAccessToken()})
+  return new Octokit({auth: getGithubToken()})
 }
 export function getCurrentGitCommitSha() {
   const val =  envHelper.getenv([
@@ -211,4 +211,75 @@ export function getBuildLink() {
     return "https://travis-ci.org/" + process.env["TRAVIS_REPO_SLUG"] + "/builds/" + process.env["TRAVIS_BUILD_ID"]
   }
   throw Error("Could not determine build link!")
+}
+
+
+function getGithubToken() {
+  return envHelper.getGithubAccessToken()
+}
+
+export function getGithubUserName() {
+  return envHelper.getGithubUserName()
+}
+
+export async function listAllReposForUser(): Promise<unknown[]> {
+  const octokit = getOctoKit()
+// Define a function to get the list of repositories
+  // Define a function to get the list of repositories
+  const getRepos = async (page: number, perPage: number) => {
+    // Use the `octokit` client to get a list of the user's repositories, using the specified page and perPage values
+    let githubUserName: any = getGithubUserName();
+    qmLog.info("Getting repos for user: "+githubUserName+" page: "+page+" perPage: "+perPage)
+    const { data } = await octokit.repos.listForUser({
+                                                       username: githubUserName,
+                                                       page,
+                                                       per_page: perPage
+                                                     })
+
+    // Return the list of repositories
+    return data
+  }
+
+// Set the initial page and perPage values
+  let page = 1
+  const perPage = 100
+
+// Define a function to recursively fetch the repositories
+  const fetchRepos: () => Promise<any[]> = async () => {
+    const allRepos: any[] = []
+    // Get the list of repositories using the current page and perPage values
+    const repos = await getRepos(page, perPage)
+    if(repos.length === 0) {
+      return allRepos
+    } else {
+      allRepos.push(...repos)
+      // Increment the page value
+      page++
+      // Recursively call the function to get the next page of repositories
+      return allRepos.concat(await fetchRepos())
+    }
+  }
+  return await fetchRepos()
+}
+
+export async function getGithubPagesForUser(): Promise<any[]> {
+  const repos = await listAllReposForUser();
+  //console.log(repos)
+  const githubPages = repos.filter((repo: any) => {
+    return repo.has_pages
+  });
+  const urls = githubPages.map((repo: any) => {
+    const name = repo.name
+    return {name: repo.html_url}
+  })
+  return urls
+}
+
+export async function findReposContaining(str: string): Promise<any> {
+  const repos = await listAllReposForUser();
+  //console.log(repos)
+  const matches = repos.filter((repo: any) => {
+    return JSON.stringify(repo).includes(str)
+  });
+  return matches
 }

@@ -1,4 +1,3 @@
-const {numberFormat} = require("underscore.string");
 import * as envHelper from "@curedao/env-helper";
 const port = envHelper.getEnvOrException("EXPRESS_PORT");
 const fallbackServerUrl = `http://localhost:${port}`;
