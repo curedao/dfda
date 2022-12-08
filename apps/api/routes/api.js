@@ -81,12 +81,24 @@ router.use('/api', proxy(urlHelper.QM_API_ORIGIN, {
     return req.url;
   },
   userResDecorator: function(proxyRes, proxyResData, userReq, userRes) {
-    if(qm.appMode.isDebug()){
-      var data = JSON.parse(proxyResData.toString('utf8'));
+    try {
+      let str = proxyResData.toString();
+      let data = JSON.parse(str);
+      console.log('userResDecorator', data);
       return JSON.stringify(data);
+    } catch (e) {
+      console.error(e);
+      return proxyResData;
     }
-    //data.newProperty = 'exciting data';
-    return proxyResData;
+  },
+  proxyErrorHandler: function (err, res, next) {
+    qmLog.error('proxyErrorHandler', err);
+    switch (err && err.code) {
+      //case 'ECONNRESET':    { return res.status(405).send('504 became 405'); }
+      //case 'ECONNREFUSED':  { return res.status(200).send('gotcher back'); }
+      default:              { next(err); }
+    }
+    next(err);
   }
 }));
 

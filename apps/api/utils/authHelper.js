@@ -15,19 +15,20 @@ function addAccessTokenToUser(dbUser, request, done){
   });
 }
 function login(dbUser, request, accessToken, refreshToken, profile, connectorName, done){
+  request.session.user =  request.user = dbUser;
   return addAccessTokenToUser(dbUser, request, function(){
     storeConnectorCredentials(request, accessToken, refreshToken, profile, connectorName).then((connection) => {
-      console.log("connection", connection);
+      qmLog.debug("connection", connection);
     });
     return done(null, dbUser);
   });
 }
-function loginOrCreateUser(user, request, accessToken, refreshToken, profile, connectorName, done){
-  if(user){
-    return login(user, request, accessToken, refreshToken, profile, connectorName, done);
+function loginOrCreateUser(dbUser, request, accessToken, refreshToken, profile, connectorName, done){
+  if(dbUser){
+    return login(dbUser, request, accessToken, refreshToken, profile, connectorName, done);
   }
-  return db.createUser(profile).then((user) => {
-    return login(user, request, accessToken, refreshToken, profile, connectorName, done);
+  return db.createUser(profile).then((dbUser) => {
+    return login(dbUser, request, accessToken, refreshToken, profile, connectorName, done);
   });
 }
 function getEmailFromProfileResponse(profile){
@@ -53,7 +54,7 @@ async function findUserByConnectorUserId(connectorName, profile){
   }
   return null;
 }
-async function getUser(request){
+async function getDbUser(request){
   if(request.user){
     return request.user;
   }
@@ -61,27 +62,27 @@ async function getUser(request){
   if(!accessToken){
     return null;
   }
-  const user = await findUserByAccessToken(accessToken);
-  if(!user){
+  const dbUser = await findUserByAccessToken(accessToken);
+  if(!dbUser){
     throw Error("User not found for accessToken " + accessToken);
   }
-  return user;
+  return dbUser;
 }
 module.exports.handleConnection = async function (request, accessToken, refreshToken, profile, done, connectorName) {
-  let user = await getUser(request);
-  if(user){
-    request.user = user;
+  let dbUser = await getDbUser(request);
+  if(dbUser){
+    request.user = dbUser;
     const res = await storeConnectorCredentials(request, accessToken, refreshToken, profile, connectorName)
   } else {
-    user = await socialLogin(request, accessToken, refreshToken, profile, done, connectorName);
+    dbUser = await socialLogin(request, accessToken, refreshToken, profile, done, connectorName);
   }
-  return user;
+  return dbUser;
 }
 let socialLogin = async function (request, accessToken, refreshToken, profile, done, connectorName) {
-  debugger
-  const user = await findUserByConnectorUserId(connectorName, profile);
-  if(user){
-    return loginOrCreateUser(user, request, accessToken, refreshToken, profile, connectorName, done);
+  if(qm.appMode.isDebug()){debugger}
+  const dbUser = await findUserByConnectorUserId(connectorName, profile);
+  if(dbUser){
+    return loginOrCreateUser(dbUser, request, accessToken, refreshToken, profile, connectorName, done);
   }
   let email = getEmailFromProfileResponse(profile);
   if(!email){
@@ -89,8 +90,8 @@ let socialLogin = async function (request, accessToken, refreshToken, profile, d
     return;
     //throw Error("No email found in profile", profile);
   }
-  return db.findUserByEmail(email).then((user) => {
-    return loginOrCreateUser(user, request, accessToken, refreshToken, profile, connectorName, done);
+  return db.findUserByEmail(email).then((dbUser) => {
+    return loginOrCreateUser(dbUser, request, accessToken, refreshToken, profile, connectorName, done);
   });
 };
 module.exports.handleSocialLogin = socialLogin
@@ -108,12 +109,15 @@ async function storeConnectorCredentials(request, accessToken, refreshToken, pro
   let userId = user.id || user.ID;
   for(let key in profile){
     let value = profile[key];
+    if(typeof value !== "string"){
+      value = JSON.stringify(value);
+    }
     try {
       const meta = await db.prisma.wp_usermeta.create({
         data: {
           meta_key: connectorName + "_" + key,
           meta_value: value,
-          user_id: user.ID || user.id,
+          user_id: getUserId(user),
         }
       });
     } catch (e) {
@@ -134,12 +138,16 @@ async function storeConnectorCredentials(request, accessToken, refreshToken, pro
   //   });
   return connection;
 }
+
+function getUserId(dbUser){
+  return BigInt(dbUser.id || dbUser.ID);
+}
 async function createConnection(connectorResponse, connectorName, dbUser){
   const connector = dataSources[connectorName];
   let connection  = await db.prisma.connections.findFirst({
     where: {
       connector_id: connector.id,
-      user_id: dbUser.ID
+      user_id: getUserId(dbUser),
     }
   });
   if(connection){
@@ -235,17 +243,26 @@ let findUserByAccessToken = async function (accessTokenString){
 module.exports.findUserByAccessToken = findUserByAccessToken
 function getAccessTokenFromRequest(req) {
   //debugger
-  const bearerHeader = req.headers['authorization'];
-  if (bearerHeader && bearerHeader.startsWith('Bearer ')) {return bearerHeader.replace('Bearer ', '');}
-  let query = req.query;
-  if(query && query.access_token){return query.access_token;}
+  let fromSession, fromHeader, fromQuery, fromUser;
+  if(req.session && req.session.access_token){fromSession = req.session.access_token;}
   const user = req.user;
   if(user){
-    if(user.access_token && user.access_token.access_token){return user.access_token.access_token;}
-    if(user.accessToken){return user.accessToken;}
+    if(user.access_token && user.access_token.access_token){fromUser = user.access_token.access_token;}
+    if(user.accessToken){fromUser = user.accessToken;}
   }
-  if(req.session && req.session.access_token){return req.session.access_token;}
-  return null;
+  const bearerHeader = req.headers['authorization'];
+  if (bearerHeader && bearerHeader.startsWith('Bearer ')) {
+    fromHeader = bearerHeader.replace('Bearer ', '');
+  }
+  let query = req.query;
+  if(query && query.access_token){fromQuery = query.access_token;}
+  if(fromSession){
+    if(fromHeader && fromHeader !== fromSession){
+      qmLog.error("Access token from session does not match access token from header!  Using one from session.");
+    }
+    return fromSession;
+  }
+  return fromHeader || fromQuery || fromUser;
 }
 module.exports.getAccessTokenFromRequest = getAccessTokenFromRequest
 module.exports.addAccessTokenToSession = function (req, res, next){
