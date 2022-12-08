@@ -22,7 +22,7 @@ async function main() {
     }
   })
   if(!client){
-    throw Error("Client not found for client_id " + clientId);
+    throw Error("Client not found for client_id: " + clientId);
   }
 }
 

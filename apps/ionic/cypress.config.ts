@@ -4,7 +4,7 @@ envHelper.loadEnvFromDopplerOrDotEnv(null);
 //import * as qmLog from "./ts/qm.log;
 const {env} = process;
 let baseUrl = envHelper.getRequiredEnv("EXPRESS_ORIGIN");
-let apiOrigin = env.API_ORIGIN || "https://app.quantimo.do";
+let apiOrigin = env.QM_API_ORIGIN || "https://app.quantimo.do";
 let appOrigin = env.OAUTH_APP_ORIGIN || baseUrl;
 let builderOrigin = env.BUILDER_ORIGIN || appOrigin
 let cypressProjectId = env.CYPRESS_PROJECT_ID || null;
@@ -26,7 +26,7 @@ let cypressConfig: Cypress.ConfigOptions = {
     "experimentalSessionAndOrigin": false,
     "video": true,
     "env": {
-      "API_ORIGIN": apiOrigin,
+      "QM_API_ORIGIN": apiOrigin,
       "OAUTH_APP_ORIGIN": appOrigin,
       "BUILDER_ORIGIN": builderOrigin,
       "abort_strategy": true

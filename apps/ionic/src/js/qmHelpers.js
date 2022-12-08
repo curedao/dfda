@@ -442,7 +442,7 @@ var qm = {
             if(qm.platform.isBackEnd()){
                 var clientId = process.env.CONNECTOR_QUANTIMODO_CLIENT_ID;
                 if(clientId && clientId.trim() !== "") {
-                    return process.env.CONNECTOR_QUANTIMODO_CLIENT_ID;
+                    return clientId;
                 }
             }
             var appSettings = qm.getAppSettings();
@@ -590,8 +590,8 @@ var qm = {
             return qm.urlHelper.getExpressOrigin();
         },
         getQMApiOrigin: function(){
-            if(qm.appMode.isBackEnd() && process.env.API_ORIGIN){
-                return process.env.API_ORIGIN;
+            if(qm.appMode.isBackEnd() && process.env.QM_API_ORIGIN){
+                return process.env.QM_API_ORIGIN;
             }
             var apiOrigin = qm.urlHelper.getParam(qm.items.apiOrigin);
             if(apiOrigin && apiOrigin !== qm.storage.getItem(qm.items.apiOrigin)){
@@ -610,7 +610,7 @@ var qm = {
                 return qm.api.apiOrigins.local;
             }
             if(qm.appMode.isBackEnd()){
-                apiOrigin= qm.env.getEnv('API_ORIGIN')
+                apiOrigin= qm.env.getEnv('QM_API_ORIGIN')
                 if(apiOrigin){return apiOrigin;}
                 var stage = qm.env.getEnv('RELEASE_STAGE')
                 if(stage === "staging"){
@@ -670,7 +670,8 @@ var qm = {
                         if(errorHandler){errorHandler(err);}
                     }
                 }).catch(function(err){
-                    console.error("response: ", response)
+                    let string = response.toString();
+                    console.error("response: ", string)
                     qmLog.errorAndExceptionTestingOrDevelopment("Could not parse json from "+url+" because "+err, {
                         body: body,
                         response: response
@@ -3893,6 +3894,13 @@ var qm = {
                 return null;
             }
             return process.env[name]
+        },
+        getRequiredEnv: function(name){
+            var val = this.getEnv(name);
+            if(val === null || typeof val === "undefined"){
+                throw Error("You must set the environment variable " + name);
+            }
+            return val
         },
         isLocal: function(){
             return qm.env.getEnv('APP_ENV') === "local"
@@ -11432,7 +11440,7 @@ var qm = {
         },
         getExpressOrigin: function(){
             if(qm.appMode.isBackEnd()){
-                return process.env.EXPRESS_ORIGIN
+                return qm.env.getRequiredEnv('EXPRESS_ORIGIN')
             }
             return window.location.origin;
         },

@@ -62,13 +62,13 @@ cy.oauthAppIsHTTPS = function () {
 };
 cy.getApiOrigin = function () {
     cy.log("=== getApiOrigin ===");
-    var host = Cypress.env('API_ORIGIN');
+    var host = Cypress.env('QM_API_ORIGIN');
     var configInstructions = "cypress open";
     if (!host || host === 'undefined') {
-        throw 'Please set API_ORIGIN in the cypress/configs folder and provide the config like\n\t' + configInstructions;
+        throw 'Please set QM_API_ORIGIN in the cypress/configs folder and provide the config like\n\t' + configInstructions;
     }
     if (host.indexOf('quantimo.do') === -1) {
-        throw "API_ORIGIN must be a quantimo.do domain so cypress can clear cookies but is " + host + ".  API_ORIGIN is defined in the cypress/configs directory";
+        throw "QM_API_ORIGIN must be a quantimo.do domain so cypress can clear cookies but is " + host + ".  QM_API_ORIGIN is defined in the cypress/configs directory";
     }
     return host;
 };
@@ -398,7 +398,7 @@ beforeEach(function () {
         throw Error("baseUrl not set!");
     }
     cy.log("baseUrl is " + url);
-    cy.log("API_ORIGIN is " + cy.getApiOrigin());
+    cy.log("QM_API_ORIGIN is " + cy.getApiOrigin());
 });
 beforeEach(function () {
     cy.server();

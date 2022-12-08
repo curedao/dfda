@@ -60,10 +60,10 @@ router.get('/api/v1/user', checkAuthenticated, async (req, res) => {
 //     //body: parameters && parameters.body
 //   };
 //   opts.headers['Accept'] = 'application/json';
-//   return fetch(urlHelper.API_ORIGIN + '/api/v3/connectors/list', opts)
+//   return fetch(urlHelper.QM_API_ORIGIN + '/api/v3/connectors/list', opts)
 // })
 
-router.use('/api', proxy(urlHelper.API_ORIGIN, {
+router.use('/api', proxy(urlHelper.QM_API_ORIGIN, {
   proxyReqOptDecorator: function(proxyReqOpts, srcReq) {
     // you can update headers
     // proxyReqOpts.headers['X-Client-ID'] = process.env.QUANTIMODO_CLIENT_ID;

@@ -99,7 +99,7 @@ export const apiOrigins = {
 }
 
 export function getApiOrigin(): string {
-  const url = qmEnv.getenv("API_ORIGIN", null)
+  const url = qmEnv.getenv("QM_API_ORIGIN", null)
   if(url) {return url}
   const stage = qmEnv.getenv("RELEASE_STAGE", null)
   if(stage) {
@@ -112,13 +112,13 @@ export function getApiOrigin(): string {
                     qm.stringHelper.prettyJsonStringify(apiOrigins))
     }
   }
-  console.info("Using https://app.quantimo.do as apiOrigin because API_ORIGIN env not set and RELEASE_STAGE is ionic")
+  console.info("Using https://app.quantimo.do as apiOrigin because QM_API_ORIGIN env not set and RELEASE_STAGE is ionic")
   return "https://app.quantimo.do"
 }
 export function getReleaseStage() {
   const stage = qmEnv.getenv("RELEASE_STAGE", null)
   if(stage) {return stage}
-  const url = qmEnv.getenv("API_ORIGIN", null)
+  const url = qmEnv.getenv("QM_API_ORIGIN", null)
   if(!url) {
     throw Error("Please set RELEASE_STAGE env")
   }

@@ -121,8 +121,8 @@ var qmTests = {
     },
     getApiOrigin(){
         var params = qmTests.getTestParams()
-        if(params && params.API_ORIGIN){ return params.API_ORIGIN }
-        if(process.env.API_ORIGIN){ return process.env.API_ORIGIN }
+        if(params && params.QM_API_ORIGIN){ return params.QM_API_ORIGIN }
+        if(process.env.QM_API_ORIGIN){ return process.env.QM_API_ORIGIN }
         if(argv.apiOrigin){ return argv.apiOrigin }
         return 'api.quantimo.do'
     },
@@ -752,12 +752,12 @@ describe("Favorites", function () {
 })
 describe("Ghost Inspector", function () {
     it("runs tests on staging API", function (done) {
-        var previouslySetApiOrigin = process.env.API_ORIGIN || null
+        var previouslySetApiOrigin = process.env.QM_API_ORIGIN || null
         if(previouslySetApiOrigin){
             expect(previouslySetApiOrigin).to.eq(qmTests.getApiOrigin())
         }
-        delete process.env.API_ORIGIN
-        chai.assert.isUndefined(process.env.API_ORIGIN)
+        delete process.env.QM_API_ORIGIN
+        chai.assert.isUndefined(process.env.QM_API_ORIGIN)
         var originalReleaseStage = process.env.RELEASE_STAGE
         process.env.RELEASE_STAGE = "staging"
         var url = th.getApiOrigin()
@@ -765,7 +765,7 @@ describe("Ghost Inspector", function () {
         expect(url).to.contain(stagingUrl)
         expect(qm.api.getQMApiOrigin()).to.contain(stagingUrl)
         if (previouslySetApiOrigin) {
-            process.env.API_ORIGIN = previouslySetApiOrigin
+            process.env.QM_API_ORIGIN = previouslySetApiOrigin
         }
         process.env.RELEASE_STAGE = originalReleaseStage
         done()

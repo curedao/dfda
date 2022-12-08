@@ -4,7 +4,6 @@ import * as fileHelper from "./qm.file-helper"
 import * as qmLog from "./qm.log"
 
 export const envNames = {
-    API_ORIGIN: "API_ORIGIN",
     AWS_ACCESS_KEY_ID: "AWS_ACCESS_KEY_ID",
     AWS_SECRET_ACCESS_KEY: "AWS_SECRET_ACCESS_KEY",
     BUGSNAG_API_KEY: "BUGSNAG_API_KEY",
@@ -19,6 +18,7 @@ export const envNames = {
     GITHUB_ACCESS_TOKEN: "GITHUB_ACCESS_TOKEN",
     GITHUB_ACCESS_TOKEN_FOR_STATUS: "GITHUB_ACCESS_TOKEN_FOR_STATUS",
     LOGIN_SUCCESS_REDIRECT: "LOGIN_SUCCESS_REDIRECT",
+    QM_API_ORIGIN: "QM_API_ORIGIN",
     QM_AWS_ACCESS_KEY_ID: "QM_AWS_ACCESS_KEY_ID",
     QM_AWS_SECRET_ACCESS_KEY: "QM_AWS_SECRET_ACCESS_KEY",
 }
@@ -149,7 +149,7 @@ export function getQMClientSecret(): string | null {
 }
 
 export function getAppHostName() {
-    return getenv(envNames.API_ORIGIN)
+    return getenv(envNames.QM_API_ORIGIN)
 }
 
 export function getAccessToken(): string {
