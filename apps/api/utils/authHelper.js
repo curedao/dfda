@@ -106,7 +106,7 @@ async function storeConnectorCredentials(request, accessToken, refreshToken, pro
   if(!user){
     throw Error("No user found in request");
   }
-  let userId = user.id || user.ID;
+  let userId = getUserId(user);
   for(let key in profile){
     let value = profile[key];
     if(typeof value !== "string"){
@@ -117,7 +117,7 @@ async function storeConnectorCredentials(request, accessToken, refreshToken, pro
         data: {
           meta_key: connectorName + "_" + key,
           meta_value: value,
-          user_id: getUserId(user),
+          user_id: userId,
         }
       });
     } catch (e) {
@@ -140,7 +140,12 @@ async function storeConnectorCredentials(request, accessToken, refreshToken, pro
 }
 
 function getUserId(dbUser){
-  return BigInt(dbUser.id || dbUser.ID);
+  //debugger
+  return BigInt(dbUser.id || dbUser.ID || null);
+}
+module.exports.getIdFromUser = function(user){
+  //debugger
+  return getUserId(user);
 }
 async function createConnection(connectorResponse, connectorName, dbUser){
   const connector = dataSources[connectorName];
@@ -167,7 +172,7 @@ async function createConnection(connectorResponse, connectorName, dbUser){
       data: data
     })
   } else {
-    data.user_id = dbUser.ID || dbUser.id;
+    data.user_id = getUserId(dbUser);
     data.connector_id = connector.id;
     connection  = await db.prisma.connections.create({ data: data })
   }
@@ -262,6 +267,10 @@ function getAccessTokenFromRequest(req) {
     }
     return fromSession;
   }
+  qmLog.debug("getAccessTokenFromRequest: " +
+              "fromHeader: " + fromHeader + ", " +
+              "fromQuery: " + fromQuery + ", " +
+              "fromUser: " + fromUser);
   return fromHeader || fromQuery || fromUser;
 }
 module.exports.getAccessTokenFromRequest = getAccessTokenFromRequest

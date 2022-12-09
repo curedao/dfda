@@ -77,7 +77,7 @@ async function findUserById(id){
       ID: id,
     },
   })
-  user.id = user.ID.toString()
+  user.id = user.ID
   return user
 }
 async function findUserByEmail(email){
@@ -90,7 +90,7 @@ async function findUserByEmail(email){
     qmLog.error("User not found for email " + email);
     return null
   }
-  user.id = user.ID.toString()
+  user.id = user.ID
   return user
 }
 

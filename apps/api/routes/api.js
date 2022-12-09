@@ -50,6 +50,8 @@ router.get('/api/v1/user', checkAuthenticated, async (req, res) => {
     user.accessToken = tokenObj.access_token;
     user.accessTokenExpiresAt = tokenObj.expires;
   }
+  user.loginName = user.userLogin;
+  user.id = authHelper.getIdFromUser(req.user);
   res.status(200).json(user)
 })
 // router.get('/api/v3/connectors/list', function(req, res) {
@@ -69,7 +71,10 @@ router.use('/api', proxy(urlHelper.QM_API_ORIGIN, {
     // proxyReqOpts.headers['X-Client-ID'] = process.env.QUANTIMODO_CLIENT_ID;
     // proxyReqOpts.headers['X-Client-Secret'] = process.env.QUANTIMODO_CLIENT_SECRET;
     const accessToken = authHelper.getAccessTokenFromRequest(srcReq);
-    if(accessToken){proxyReqOpts.headers['authorization'] = `Bearer ${accessToken}`;}
+    if(accessToken){
+      console.info("Using access token from request: " + accessToken);
+      proxyReqOpts.headers['authorization'] = `Bearer ${accessToken}`;
+    }
     proxyReqOpts.rejectUnauthorized = process.env['PROXY_REJECT_UNAUTHORIZED'] || false
     proxyReqOpts.headers['X-Client-ID'] = qm.getClientId();
     proxyReqOpts.headers['Accept'] = 'application/json';
@@ -77,22 +82,38 @@ router.use('/api', proxy(urlHelper.QM_API_ORIGIN, {
   },
   proxyReqPathResolver: function (req) {
     req.url = '/api' + req.url;
-    console.log('proxyReqPathResolver', req.url)
+    qmLog.info('proxyReqPathResolver: '+ req.url)
     return req.url;
   },
   userResDecorator: function(proxyRes, proxyResData, userReq, userRes) {
     try {
       let str = proxyResData.toString();
       let data = JSON.parse(str);
-      console.log('userResDecorator', data);
+      qmLog.debug('userResDecorator', {
+        proxyRes: proxyRes,
+        proxyResData: proxyResData,
+        userReq: userReq,
+        userRes: userRes,
+      });
       return JSON.stringify(data);
     } catch (e) {
-      console.error(e);
+      qmLog.error(e.message, {
+        e: e,
+        proxyRes: proxyRes,
+        proxyResData: proxyResData,
+        userReq: userReq,
+        userRes: userRes,
+      });
       return proxyResData;
     }
   },
   proxyErrorHandler: function (err, res, next) {
-    qmLog.error('proxyErrorHandler', err);
+    if(err && err.code){
+      qmLog.error('proxyErrorHandler', {
+        err: err,
+        res: res
+      });
+    }
     switch (err && err.code) {
       //case 'ECONNRESET':    { return res.status(405).send('504 became 405'); }
       //case 'ECONNREFUSED':  { return res.status(200).send('gotcher back'); }

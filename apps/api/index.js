@@ -32,13 +32,13 @@ app.use(passport.session());
 
 showLogs = (req, res, next) => {
     if(!qm.fileHelper.isStaticAsset(req.url)){
-        console.log("\n==============================")
-        console.log("req", req.url)
-        console.log(`req.session.passport --> `,req.session.passport)
-        console.log(`req.user -> `,req.user)
-        console.log(`req.session.id -> ${req.session.id}`)
-        console.log(`req.session.cookie --> `,req.session.cookie)
-        console.log("===========================================\n")
+        qmLog.debug("\n==============================")
+        qmLog.info("req", req.url)
+        qmLog.debug(`req.session.passport --> `,req.session.passport)
+        qmLog.debug(`req.user -> `,req.user)
+        qmLog.debug(`req.session.id -> ${req.session.id}`)
+        qmLog.debug(`req.session.cookie --> `,req.session.cookie)
+        qmLog.debug("===========================================\n")
     }
     next()
 }

@@ -193,20 +193,13 @@ var qm = {
         },
         configureClient: function(functionName, params){
             params = params || {};
-            if(!qm.Quantimodo){
-                qm.Quantimodo = Quantimodo
-            }
+            if(!qm.Quantimodo){qm.Quantimodo = Quantimodo}
             var qmApiClient = qm.Quantimodo.ApiClient.instance;
             var quantimodo_oauth2 = qmApiClient.authentications.quantimodo_oauth2;
             qmApiClient.basePath = qm.api.getExpressUrl('/api');
             quantimodo_oauth2.accessToken = qm.auth.getAccessTokenFromUrlUserOrStorage();
             var message = "API Request to " + qmApiClient.basePath + " for " + functionName;
-            if(params.reason){
-                message += " because " + params.reason;
-            }
-            if(qmLog.isDebugMode()){
-                message += ' with token: ' + qm.auth.getAccessTokenFromUrlUserOrStorage();
-            }
+            if(params.reason){message += " because " + params.reason;}
             delete params.reason;
             qmLog.info(message, params);
             qm.api.requestLog.push({
@@ -729,7 +722,7 @@ var qm = {
                     logUrl = qm.urlHelper.addUrlQueryParamsToUrlString({access_token: token}, url)
                 }
                 logUrl = logUrl.replace(qm.urlHelper.getExpressOrigin(), "https://local.quantimo.do")
-                qmLog.info("DEBUG URL with token: " + logUrl);
+                qmLog.info("DEBUG URL with token:\n\t" + logUrl);
             }
         },
         getViaXhrOrFetch: function(url, successHandler, errorHandler){
@@ -1930,7 +1923,6 @@ var qm = {
         getAccessTokenFromUrlUserOrStorage: function(){
             var accessToken = qm.auth.getAndSaveAccessTokenFromCurrentUrl();
             if(accessToken){
-                qmLog.authDebug("getAndSaveAccessTokenFromCurrentUrl returned " + accessToken);
                 return accessToken;
             }
             var u = qm.userHelper.getUserSync();
@@ -1942,9 +1934,8 @@ var qm = {
                 }
                 if(accessToken){
                     if(!qm.auth.accessTokenIsValid(accessToken)){
-                        qmLog.error("qm.userHelper.getUserFromLocalStorage().accessToken is invalid: " + accessToken);
+                        qmLog.error("accessToken is invalid: " + accessToken);
                     }else{
-                        qmLog.authDebug("getUserFromLocalStorage().accessToken returned " + accessToken);
                         return accessToken;
                     }
                 }
@@ -5272,6 +5263,11 @@ var qm = {
             });
         }
     },
+    math: {
+        getRandomIntBetween: function(min, max){
+            return Math.floor(Math.random() * (max - min + 1)) + min;
+        }
+    },
     measurements: {
         validateMeasurement: function(m){
             var message;
@@ -5435,9 +5431,11 @@ var qm = {
             return deferred.promise;
         },
         filterAndSort: function(measurements, params){
+            params = params || {};
             if(!Array.isArray(measurements)){measurements = qm.measurements.flattenMeasurements(measurements);}
             qmLog.lei(measurements.length && typeof measurements[0] === "string")
             var processed = qm.measurements.processMeasurements(measurements);
+            if(!params.sort){params.sort = '-startAt';}
             var filtered = qm.arrayHelper.filterByRequestParams(processed, params);
             return filtered;
         },
@@ -5715,7 +5713,7 @@ var qm = {
                 var data = (response) ? response.data : null;
                 var byVariableName = data.measurements;
                 qm.measurements.addToCache(byVariableName)
-                if(data && data.userVariables){
+                if(data.userVariables){
                     var vars = data.userVariables;
                     vars = qm.arrayHelper.convertObjectToArray(vars);
                     vars.forEach(function(uv){
@@ -11665,25 +11663,12 @@ var qm = {
             }
             return true;
         },
-        getUserViaSdk: function(userSuccessHandler, errorHandler, params){
-            qm.api.configureClient(arguments.callee.name);
-            var apiInstance = new qm.Quantimodo.UserApi();
-            //params.includeAuthorizedClients = true;  // To big for $rootScope!
-            //qm.api.executeWithRateLimit(function () {apiInstance.getUser(params, userSdkCallback);});  // Seems to have a delay before first call
-            params = qm.api.addGlobalParams(params);
-            apiInstance.getUser(params, function(error, user, response){
-                qm.api.generalResponseHandler(error, user, response, function(){
-                    if(user){
-                        userSuccessHandler(user);
-                    }
-                }, errorHandler, params, 'getUserFromApi');
-            });
-        },
         getUserFromApi: function(){
             var deferred = Q.defer();
             qmLog.authDebug("Getting user from API...");
             // Sdk doesn't return timezone
             qm.api.getViaXhrOrFetch('/api/v1/user', function(user){
+                user.id = parseInt(user.id);
                 if(user && typeof user.displayName !== "undefined"){
                     qmLog.info("Got user " + user.id + " from API: " + user.loginName)
                     qm.userHelper.setUser(user);
@@ -11900,14 +11885,14 @@ var qm = {
         getFromLocalStorage: function(params){
             var deferred = Q.defer();
             // Not sure what all this was for
-            //if(!params){params = {};}
-            // var cached = qm.userVariables.getCached();
-            // var variables = qm.arrayHelper.filterByRequestParams(cached, params);
-            // if(variables && variables.length){
-            //     if(!params.sort){variables = qm.variablesHelper.defaultVariableSort(variables);}
-            //     deferred.resolve(variables);
-            //     return deferred.promise;
-            // }
+            if(!params){params = {};}
+            var cached = qm.userVariables.getCached();
+            var variables = qm.arrayHelper.filterByRequestParams(cached, params);
+            if(variables && variables.length){
+                if(!params.sort){variables = qm.variablesHelper.defaultVariableSort(variables);}
+                deferred.resolve(variables);
+                return deferred.promise;
+            }
             qm.localForage.getElementsWithRequestParams(qm.items.userVariables, params, function(variables){
                 variables = variables || []
                 if(!params.sort){variables = qm.variablesHelper.defaultVariableSort(variables, params);}
@@ -12248,6 +12233,8 @@ var qm = {
             var userVariables = [];
             var commonVariables = [];
             var user = qm.getUser();
+            var userId = null;
+            if(user){userId = user.id;}
             for(var i = 0; i < variables.length; i++){
                 var uv = variables[i];
                 if(!uv){
@@ -12259,6 +12246,10 @@ var qm = {
                 }else if(!uv.userId){ // Don't save other peoples user variables when looking at studies
                     commonVariables.push(uv);
                     qm.commonVariablesHelper.cached[uv.name] = uv;
+                } else {
+
+                    qmLog.info("Not saving variable with userId " + uv.userId +
+                                    " to local storage because logged in user id is " + userId);
                 }
             }
             if(userVariables.length){
@@ -13011,6 +13002,16 @@ if(typeof window !== "undefined"){
 }
 if(qm.platform.isChromeExtension()){
     qm.chrome.initialize();
+}
+if(qm.appMode.isBackEnd()){
+    require('../data/appSettings.js')
+    require('../data/commonVariables.js')
+    require('../data/connectors.js')
+    require('../data/dialogAgent.js')
+    require('../data/qmStates.js')
+    require('../data/units.js')
+    require('../data/variableCategories.js')
+    require('../data/stateNames.js')
 }
 // START localStorage polyfill.  For some, Chrome on Android localStorage is null so this replaces with transient global memory storage
 (function () {

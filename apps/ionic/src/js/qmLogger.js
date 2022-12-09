@@ -49,7 +49,19 @@ var qmLog = {
     },
     getCombinedMetaData: function(name, message, errorSpecificMetaData, stackTrace){
         var combinedMetaData = qmLog.getGlobalMetaData();
-        combinedMetaData = JSON.parse(JSON.stringify(combinedMetaData));
+        function getCircularReplacer() {
+            const seen = new WeakSet();
+            return (key, value) => {
+                if (typeof value === 'object' && value !== null) {
+                    if (seen.has(value)) {
+                        return;
+                    }
+                    seen.add(value);
+                }
+                return value;
+            }
+        }
+        combinedMetaData = JSON.parse(JSON.stringify(combinedMetaData, getCircularReplacer()));
         combinedMetaData.errorSpecificMetaData = errorSpecificMetaData;
         combinedMetaData.stackTrace = stackTrace;
         combinedMetaData.message = message;
