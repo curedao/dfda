@@ -1,12 +1,18 @@
 <md-list class="md-dense" flex>
-    <md-list-item ng-repeat="collaborator in appSettings.collaborators" class="noright">
-        <img alt="{{ collaborator.displayName }}" ng-src="{{ collaborator.avatarImage }}" class="md-avatar"/>
+    <md-list-item ng-repeat="collaborator in appSettings.collaborators"
+                  class="noright">
+        <img alt="{{ collaborator.displayName }}"
+             ng-src="{{ collaborator.avatarImage }}"
+             class="md-avatar"/>
         <div class="md-list-item-text">
             <h3>{{ collaborator.displayName }}</h3>
             <p>{{ collaborator.userEmail }}</p>
         </div>
-        <md-button ng-if="!collaborator.stripeActive" class="md-secondary md-icon-button" style="font-size: 30px;"
-                   ng-click="upgradeUser(collaborator)" aria-label="delete">
+        <md-button ng-if="!collaborator.stripeActive"
+                   class="md-secondary md-icon-button"
+                   style="font-size: 30px;"
+                   ng-click="upgradeUser(collaborator)"
+                   aria-label="delete">
             <md-icon class="ion-arrow-up-a">
                 <md-tooltip md-direction="down">Upgrade Collaborator</md-tooltip>
             </md-icon>

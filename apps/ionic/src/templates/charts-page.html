@@ -3,22 +3,138 @@
     <ion-content scroll="{ isBrowserView : platform.isWeb == false }"
                  ng-class="{ isBrowserView : platform.isWeb == true }">
         <ion-refresher on-refresh="refreshCharts()"></ion-refresher>
+        <md-progress-linear md-mode="indeterminate"
+                            ng-show="!state.variableObject.charts">
+        </md-progress-linear>
         <div ng-cloak>
-            <div class="card" ng-show="!state.variableObject.charts" style="border-radius: 15px;">
-                <div class="item">
+            <div ng-show="!state.variableObject.charts">
+                <div>
                     <div class="row" style="text-align: center; margin: auto;">
                         <ion-spinner></ion-spinner>
-                        <p style=" text-align: center; line-height: normal; font-size: 18px; margin: auto;">&nbsp &nbsp Fetching
-                            measurements...</p>
+                        <p class="pulsating-glowing-text"
+                          style="text-align: center; line-height: normal; font-size: 18px; margin: auto;">
+                            &nbsp &nbsp Fetching measurements...
+                        </p>
                     </div>
-                    <div class="row" style="text-align: center;">
-                        <svg style="margin: auto;" width="200px"  height="200px"  xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" preserveAspectRatio="xMidYMid" class="lds-pacman" style="background: none;"><g ng-attr-style="display:{{config.showBean}}" style="display:block"><circle cx="80.8182" cy="50" r="4" ng-attr-fill="{{config.c2}}" fill="#f47e60"><animate attributeName="cx" calcMode="linear" values="95;35" keyTimes="0;1" dur="1" begin="-0.67s" repeatCount="indefinite"></animate><animate attributeName="fill-opacity" calcMode="linear" values="0;1;1" keyTimes="0;0.2;1" dur="1" begin="-0.67s" repeatCount="indefinite"></animate></circle><circle cx="41.2182" cy="50" r="4" ng-attr-fill="{{config.c2}}" fill="#f47e60"><animate attributeName="cx" calcMode="linear" values="95;35" keyTimes="0;1" dur="1" begin="-0.33s" repeatCount="indefinite"></animate><animate attributeName="fill-opacity" calcMode="linear" values="0;1;1" keyTimes="0;0.2;1" dur="1" begin="-0.33s" repeatCount="indefinite"></animate></circle><circle cx="61.0182" cy="50" r="4" ng-attr-fill="{{config.c2}}" fill="#f47e60"><animate attributeName="cx" calcMode="linear" values="95;35" keyTimes="0;1" dur="1" begin="0s" repeatCount="indefinite"></animate><animate attributeName="fill-opacity" calcMode="linear" values="0;1;1" keyTimes="0;0.2;1" dur="1" begin="0s" repeatCount="indefinite"></animate></circle></g><g ng-attr-transform="translate({{config.showBeanOffset}} 0)" transform="translate(-15 0)"><path d="M50 50L20 50A30 30 0 0 0 80 50Z" ng-attr-fill="{{config.c1}}" fill="#e15b64" transform="rotate(39.0272 50 50)"><animateTransform attributeName="transform" type="rotate" calcMode="linear" values="0 50 50;45 50 50;0 50 50" keyTimes="0;0.5;1" dur="1s" begin="0s" repeatCount="indefinite"></animateTransform></path><path d="M50 50L20 50A30 30 0 0 1 80 50Z" ng-attr-fill="{{config.c1}}" fill="#e15b64" transform="rotate(-39.0272 50 50)"><animateTransform attributeName="transform" type="rotate" calcMode="linear" values="0 50 50;-45 50 50;0 50 50" keyTimes="0;0.5;1" dur="1s" begin="0s" repeatCount="indefinite"></animateTransform></path></g></svg>
+                    <div class="center pulsating-glowing-text">
+                        <svg
+                          style="margin: auto; background: none;"
+                          width="200px"
+                          height="200px"
+                          xmlns="http://www.w3.org/2000/svg"
+                          viewBox="0 0 100 100"
+                          preserveAspectRatio="xMidYMid"
+                          class="lds-pacman pulsating-glowing-text"
+                        >
+                            <g ng-attr-style="display:{{config.showBean}}" style="display:block">
+                                <circle cx="80.8182" cy="50" r="4" ng-attr-fill="{{config.c2}}" fill="#f47e60">
+                                    <animate
+                                      attributeName="cx"
+                                      calcMode="linear"
+                                      values="95;35"
+                                      keyTimes="0;1"
+                                      dur="1"
+                                      begin="-0.67s"
+                                      repeatCount="indefinite"
+                                    ></animate>
+                                    <animate
+                                      attributeName="fill-opacity"
+                                      calcMode="linear"
+                                      values="0;1;1"
+                                      keyTimes="0;0.2;1"
+                                      dur="1"
+                                      begin="-0.67s"
+                                      repeatCount="indefinite"
+                                    ></animate>
+                                </circle>
+                                <circle cx="41.2182" cy="50" r="4" ng-attr-fill="{{config.c2}}" fill="#f47e60">
+                                    <animate
+                                      attributeName="cx"
+                                      calcMode="linear"
+                                      values="95;35"
+                                      keyTimes="0;1"
+                                      dur="1"
+                                      begin="-0.33s"
+                                      repeatCount="indefinite"
+                                    ></animate>
+                                    <animate
+                                      attributeName="fill-opacity"
+                                      calcMode="linear"
+                                      values="0;1;1"
+                                      keyTimes="0;0.2;1"
+                                      dur="1"
+                                      begin="-0.33s"
+                                      repeatCount="indefinite"
+                                    ></animate>
+                                </circle>
+                                <circle cx="61.0182" cy="50" r="4" ng-attr-fill="{{config.c2}}" fill="#f47e60">
+                                    <animate
+                                      attributeName="cx"
+                                      calcMode="linear"
+                                      values="95;35"
+                                      keyTimes="0;1"
+                                      dur="1"
+                                      begin="0s"
+                                      repeatCount="indefinite"
+                                    ></animate>
+                                    <animate
+                                      attributeName="fill-opacity"
+                                      calcMode="linear"
+                                      values="0;1;1"
+                                      keyTimes="0;0.2;1"
+                                      dur="1"
+                                      begin="0s"
+                                      repeatCount="indefinite"
+                                    ></animate>
+                                </circle>
+                            </g>
+                            <g ng-attr-transform="translate({{config.showBeanOffset}} 0)" transform="translate(-15 0)">
+                                <path
+                                  d="M50 50L20 50A30 30 0 0 0 80 50Z"
+                                  ng-attr-fill="{{config.c1}}"
+                                  fill="#e15b64"
+                                  transform="rotate(39.0272 50 50)"
+                                >
+                                    <animateTransform
+                                      attributeName="transform"
+                                      type="rotate"
+                                      calcMode="linear"
+                                      values="0 50 50;45 50 50;0 50 50"
+                                      keyTimes="0;0.5;1"
+                                      dur="1s"
+                                      begin="0s"
+                                      repeatCount="indefinite"
+                                    ></animateTransform>
+                                </path>
+                                <path
+                                  d="M50 50L20 50A30 30 0 0 1 80 50Z"
+                                  ng-attr-fill="{{config.c1}}"
+                                  fill="#e15b64"
+                                  transform="rotate(-39.0272 50 50)"
+                                >
+                                    <animateTransform
+                                      attributeName="transform"
+                                      type="rotate"
+                                      calcMode="linear"
+                                      values="0 50 50;-45 50 50;0 50 50"
+                                      keyTimes="0;0.5;1"
+                                      dur="1s"
+                                      begin="0s"
+                                      repeatCount="indefinite"
+                                    ></animateTransform>
+                                </path>
+                            </g>
+                        </svg>
                     </div>
                 </div>
             </div>
-            <div ng-if="state.variableObject.charts" ng-include="'templates/fragments/charts-fragment.html'"></div>
-            <div ng-if="state.variableObject" ng-include="'templates/fragments/variable-sharing-fragment.html'"></div>
-            <div class="card list" id="statisticsCard" ng-if="state.variableObject.numberOfRawMeasurements">
+            <div ng-if="state.variableObject.charts"
+                 ng-include="'templates/fragments/charts-fragment.html'"></div>
+            <div ng-if="state.variableObject"
+                 ng-include="'templates/fragments/variable-sharing-fragment.html'"></div>
+            <div class="card list"
+                 id="statisticsCard"
+                 ng-if="state.variableObject.numberOfRawMeasurements">
                 <label class="item item-content" ng-if="state.variableObject.numberOfRawMeasurements">
                     <span class="input-label left-text"># of measurements</span>
                     <span class="input-label right-text">{{state.variableObject.numberOfRawMeasurements}}</span>

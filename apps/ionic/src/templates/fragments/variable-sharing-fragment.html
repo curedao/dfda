@@ -1,15 +1,18 @@
 <div ng-show="state.variableObject.userId && user && state.variableObject.userId === user.id">
-    <div class="card">
+    <div class="card" ng-if="state.variableObject">
         <ion-toggle ng-model="state.variableObject.shareUserMeasurements"
                     ng-change="toggleVariableShare(variableObject)">
-            <i ng-if="state.variableObject.shareUserMeasurements === false" class="icon ion-locked">
+            <i ng-if="!state.variableObject.shareUserMeasurements"
+               class="icon ion-locked">
                 &nbsp Variable is Private
             </i>
-            <i ng-if="state.variableObject.shareUserMeasurements === true" class="icon ion-unlocked">
+            <i ng-if="state.variableObject.shareUserMeasurements"
+               class="icon ion-unlocked">
                 &nbsp Variable is Public
             </i>
         </ion-toggle>
-        <label ng-click="copyToClipboard(variableObject.chartsLinkStatic)" class="item item-content"
+        <label ng-click="copyToClipboard(variableObject.chartsLinkStatic)"
+               class="item item-content"
                ng-if="platform.isWeb && variableObject.shareUserMeasurements === true && variableObject.chartsLinkStatic">
             <i class="icon ion-clipboard"> &nbsp {{copyLinkText}}</i>
         </label>
@@ -17,21 +20,24 @@
     <p style="text-align: center">Share your discoveries!</p>
     <div style="text-align: center;">
         <div class="sharingButtons" style="cursor: pointer">
-            <div ng-click="shareCharts(variableObject, variableObject.chartsLinkFacebook, $event)" class="show-inline">
+            <div ng-click="shareCharts(variableObject, variableObject.chartsLinkFacebook, $event)"
+                 class="show-inline pulsating-glowing-text">
                 <div class="tooltip" title="Share Study to Facebook">
                     <i style="font-size: 32px;" class="ion-social-facebook"></i>
                 </div>
             </div>
             &nbsp;
             &nbsp;
-            <div ng-click="shareCharts(variableObject, variableObject.chartsLinkTwitter, $event);" class="show-inline">
+            <div ng-click="shareCharts(variableObject, variableObject.chartsLinkTwitter, $event);"
+                 class="show-inline pulsating-glowing-text">
                 <div class="tooltip" title="Share Study to Twitter">
                     <i style="font-size: 32px;" class="ion-social-twitter"></i>
                 </div>
             </div>
             &nbsp;
             &nbsp;
-            <div ng-click="shareCharts(variableObject, variableObject.chartsLinkEmail, $event);" class="show-inline">
+            <div ng-click="shareCharts(variableObject, variableObject.chartsLinkEmail, $event);"
+                 class="show-inline pulsating-glowing-text">
                 <div class="tooltip" title="Share Study to Twitter">
                     <i style="font-size: 32px;" class="ion-email"></i>
                 </div>

@@ -1,8 +1,12 @@
 <md-content layout-padding>
     <md-list class="md-dense" flex>
-        <md-list-item ng-repeat="clientUser in state.users" class="noright">
-            <a href="{{clientUser.userUrl}}" target="_blank">
-                <img alt="{{ clientUser.displayName }}" ng-src="{{ clientUser.avatarImage }}" class="md-avatar"/>
+        <md-list-item ng-repeat="clientUser in state.users"
+                      class="noright">
+            <a href="{{clientUser.userUrl}}"
+               target="_blank">
+                <img alt="{{ clientUser.displayName }}"
+                     ng-src="{{ clientUser.avatarImage }}"
+                     class="md-avatar"/>
             </a>
             <div class="md-list-item-text">
                 <h3>{{ clientUser.displayName }} </h3>
@@ -10,8 +14,11 @@
                     User ID {{ clientUser.id }} {{ clientUser.userEmail }} (last active {{clientUser.lastActive}})
                 </md-tooltip>
             </div>
-            <md-button ng-if="!clientUser.stripeActive" class="md-secondary md-icon-button" style="font-size: 30px;"
-                       ng-click="upgradeUser(clientUser)" aria-label="delete">
+            <md-button ng-if="!clientUser.stripeActive"
+                       class="md-secondary md-icon-button"
+                       style="font-size: 30px;"
+                       ng-click="upgradeUser(clientUser)"
+                       aria-label="delete">
                 <md-icon class="ion-arrow-up-a">
                     <md-tooltip md-direction="down">Upgrade User</md-tooltip>
                 </md-icon>
