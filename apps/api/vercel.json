@@ -1,5 +1,6 @@
 {
   "version": 2,
+  "buildCommand": "npm install && npm start",
   "builds": [
     {
       // Specify file to convert to a serverless function
