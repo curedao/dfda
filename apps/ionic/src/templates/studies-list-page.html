@@ -24,10 +24,14 @@
         <div ng-include="'templates/fragments/studies-list-fragment.html'"></div>
         <div class="list card" ng-show="state.noCorrelations">
             <div class="item" style="padding-bottom:0px;">
-                <p style=" text-align: center; line-height: normal; font-size: 25px;">Not enough data!</p>
+                <p style=" text-align: center; line-height: normal; font-size: 25px;">
+                    Not enough data!
+                </p>
                 <div class="row">
                     <div class="col" style="padding-top: 0px;">
-                        <i style="text-align: center; font-size: 60px;" class="icon positive ion-sad-outline"></i>
+                        <i style="text-align: center; font-size: 60px;"
+                           class="icon positive ion-sad-outline">
+                        </i>
                     </div>
                     <div class="col col-75">
                         <h2 style="white-space: normal; text-align: center; line-height: normal; ">
@@ -37,7 +41,8 @@
                 </div>
                 <div class="row">
                     <div class="button-bar">
-                        <button class="button button-clear button-balanced" style="font-size: 14px;"
+                        <button class="button button-clear button-balanced"
+                                style="font-size: 14px;"
                                 ng-click="goToState('app.reminderSearch')">
                             <i class="ion-plus-round">
                                 &nbsp; Add a reminder &nbsp;

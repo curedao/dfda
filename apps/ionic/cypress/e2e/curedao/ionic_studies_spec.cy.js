@@ -5,8 +5,8 @@
  * @param {string} cause
  */
 function checkStudyPage (effect, cause) {
-  cy.get('i.ion-social-facebook', {timeout: 90000}).should('exist')
-  cy.get('.voteButtons', {timeout: 90000}).should('exist')
+  cy.get('#facebook-study-share-button', {timeout: 90000}).should('exist')
+  cy.get('#vote-buttons-container', {timeout: 90000}).should('exist')
   cy.get('.study-title', {timeout: 90000}).should('contain', effect)
   cy.get('.study-title', {timeout: 90000}).should('contain', cause)
   // Randomly fails cy.checkForBrokenImages()
@@ -24,7 +24,8 @@ describe('Studies', function () {
   }
   it('Logs out so the next test works', function () {
     cy.log("Can't visit different hosts in the same test")
-    cy.logoutViaApiLogoutUrl()
+    //cy.logoutViaApiLogoutUrl()
+    cy.logoutViaAppLogoutUrl()
   })
   it('Tries to joins a study and is sent to login', function () {
     cy.visitIonicAndSetApiOrigin(
@@ -79,7 +80,7 @@ describe('Studies', function () {
         .click({ force: true })
     cy.log(
         'Study page displays.  TODO: Reduce timeout and make sure that we populate with initial correlation before fetching full study')
-    cy.get('#studyHeaderHtml', { timeout: 60000 })
+    cy.get('#correlationBody > div.ng-binding > div:nth-child(1)', { timeout: 60000 })
         .should('contain', 'Overall Mood')
       cy.logOutViaSettingsPage(false)
   })
@@ -111,15 +112,15 @@ describe('Studies', function () {
         cy.get('#join-cause-1486-effect-1306-population-study', { timeout: 15000 })
             .click({ force: true })
         cy.wait(5000) // Leftover redirect from previous test
-        cy.get('#app-container > ion-side-menu-content > ion-nav-view > ion-view:nth-child(3) > div > div > div > p', { timeout: 60000 })
+        cy.get('#study-join-title', { timeout: 60000 })
             .should('contain', 'Body Weight')
 
         cy.loginWithAccessTokenIfNecessary('/#/app/predictors/Energy', true)
         cy.wait(5000) // Leftover redirect from previous test
-        cy.debug()
+        //cy.debug()
         cy.get('#join-cause-1444-effect-1306-population-study', { timeout: 15000 })
             .click({ force: true })
-        cy.get('#app-container > ion-side-menu-content > ion-nav-view > ion-view:nth-child(3) > div > div > div > p', { timeout: 60000 })
+        cy.get('#study-join-title', { timeout: 60000 })
             .should('contain', 'Sickness')
     })
 })

@@ -10474,11 +10474,8 @@ var qm = {
                 successHandler(cachedData);
                 return;
             }
-            qm.api.configureClient(cacheKey, params)
-            function callback(error, data, response){
-                qm.api.generalResponseHandler(error, data, response, successHandler, errorHandler, params, cacheKey);
-            }
-            qm.studyHelper.getStudiesApiInstance({}, arguments.callee.name).getStudies(params, callback);
+            qm.api.get('/api/v3/studies', [], params,
+              successHandler, errorHandler);
         },
         goToJoinStudy: function(study){
             qm.urlHelper.goToUrl(qm.studyHelper.getStudyJoinUrl(study));
@@ -11443,10 +11440,9 @@ var qm = {
             return window.location.origin;
         },
         prefixOriginIfNecessary: function(url){
+            //debugger
             if(url.indexOf('http') === -1){
-                if(url.indexOf('/') !== 0){
-                    url = '/' + url;
-                }
+                if(url.indexOf('/') !== 0){url = '/' + url;}
                 url = qm.urlHelper.getExpressOrigin() + url;
             }
             return url;

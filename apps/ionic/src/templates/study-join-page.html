@@ -9,7 +9,7 @@
                          ng-src="{{state.image.url}}">
                 </div>
                 <md-card class="glass">
-                    <p style="font-size: 22px; line-height: 1.3;">{{state.title}}</p>
+                    <p id="study-join-title" style="font-size: 22px; line-height: 1.3;">{{state.title}}</p>
                     <span ng-bind-html="state.bodyText" style="font-size: 16px; line-height: 1.5;"></span>
                 </md-card>
                 <div ng-if="!state.joining && !state.study.joined">

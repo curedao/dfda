@@ -1,7 +1,10 @@
-<div ng-show="state.studiesResponse && state.studiesResponse.summary" style="padding: 10px;">
-    <div id="studiesResponse-title-container" class="item item-avatar"
+<div ng-show="state.studiesResponse && state.studiesResponse.summary"
+     style="padding: 10px;">
+    <div id="studiesResponse-title-container"
+         class="item item-avatar"
          style="background: #F48120; border-radius: 15px 15px 0 0; border-width: 0;">
-        <i id="studiesResponse-ionIcon" class="icon {{state.studiesResponse.ionIcon}}"
+        <i id="studiesResponse-ionIcon"
+           class="icon {{state.studiesResponse.ionIcon}}"
            style="position: absolute;
 							top: 15px;
 							left: 15px;
@@ -58,7 +61,9 @@
                  ng-click="goToStudyPageViaStudy(study)"></div>
 <!--            <div ng-include="'templates/buttons/vote-buttons.html'"></div>-->
 <!--            <div ng-include="'templates/buttons/study-sharing-buttons.html'"></div>-->
-            <div ng-include="'templates/buttons/join-study-button.html'"></div>
+            <div id="join-study-container-{{study.id}}"
+              ng-include="'templates/buttons/join-study-button.html'">
+            </div>
         </div>
     </div>
 </ion-list>

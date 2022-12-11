@@ -1,29 +1,36 @@
 <div ng-init="study = study || state.study"
      class="padding">
   <md-card-actions layout="row" layout-align="center">
-    <md-button class="md-icon-button md-fab" aria-label="Favorite"
+    <md-button id="facebook-study-share-button"
+      class="md-icon-button md-fab" aria-label="Favorite"
                ng-click="shareStudy(study, 'studyLinkFacebook', $event)">
     <div class="tooltip" title="Share Study to Facebook">
       <md-icon style="font-size: 24px;" class="ion-social-facebook"></md-icon>
     </div>
   </md-button>
-  <md-button ng-click="shareStudy(study, 'studyLinkTwitter', $event);"
+  <md-button
+    id="twitter-study-share-button"
+    ng-click="shareStudy(study, 'studyLinkTwitter', $event);"
        class="md-icon-button md-fab">
     <div class="tooltip" title="Share Study to Twitter">
       <md-icon style="font-size: 24px;" class="ion-social-twitter"></md-icon>
     </div>
   </md-button>
-  <md-button ng-click="shareStudy(study, 'studyLinkEmail', $event);"
+  <md-button
+    id="email-study-share-button"
+    ng-click="shareStudy(study, 'studyLinkEmail', $event);"
        class="md-icon-button md-fab">
     <div class="tooltip" title="Share Study by Email">
       <md-icon style="font-size: 24px;" class="ion-email"></md-icon>
     </div>
   </md-button>
-  <md-button ng-click="copyToClipboard(study.studyLinks.studyLinkStatic)"
+  <md-button
+    id="copy-study-link-button"
+    ng-click="copyToClipboard(study.studyLinks.studyLinkStatic)"
        class="md-icon-button md-fab">
     <md-icon class="ion-link"></md-icon>
-    <div class="tooltip" title="Copy Shareable Link to Clipboard">
-
+    <div class="tooltip"
+         title="Copy Shareable Link to Clipboard">
     </div>
   </md-button>
   </md-card-actions>
