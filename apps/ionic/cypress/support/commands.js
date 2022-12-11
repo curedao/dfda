@@ -95,6 +95,19 @@ Cypress.Commands.add('logoutViaApiLogoutUrl', function () {
         });
     });
 });
+Cypress.Commands.add('logoutViaAppLogoutUrl', function () {
+    cy.log("=== logoutViaAppLogoutUrl ===");
+    cy.visit("/auth/logout")
+    //   .then(function () {
+    //     cy.wait(2000);
+    //     cy.visit("/auth/login")
+    //     //   .then(function () {
+    //     //     cy.get('input[name="email"]')
+    //     //       .type(testUserName)
+    //     //       .clear();
+    //     // });
+    // });
+});
 /**
  * @return {string}
  */

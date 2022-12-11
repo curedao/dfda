@@ -22,6 +22,7 @@ declare namespace Cypress {
         iframeLoaded($iframe: any): Chainable<Element>
         loginWithAccessTokenIfNecessary(path: string, waitForAvatar?: boolean): Chainable<Element>
         logoutViaApiLogoutUrl(): Chainable<Element>
+        logoutViaAppLogoutUrl(): Chainable<Element>
         logOutViaSettingsPage(useMenuButton: boolean): Chainable<Element>
         searchAndClickTopResult(variableName: string, topResultShouldContainSearchTerm?: boolean): Chainable<Element>
         setTimeZone(): Chainable<Element>

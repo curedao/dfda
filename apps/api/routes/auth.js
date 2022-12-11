@@ -77,11 +77,12 @@ var router = express.Router();
  * username and password.  When the user submits the form, a request will be
  * sent to the `POST /login/password` route.
  */
-router.get('/login', function(req, res, next) {
+let handleGetLogin = function(req, res, next) {
   //res.render('login');
-  res.redirect("/#/app/login")
-});
-
+  return res.redirect("/#/app/login")
+};
+router.get('/login', handleGetLogin);
+router.get('/auth/login', handleGetLogin);
 /* POST /login/password
  *
  * This route authenticates the user by verifying a username and password.
@@ -115,6 +116,28 @@ router.post('/auth/logout', function(req, res, next) {
     //res.redirect('/');
   });
 });
+let getLogoutHandler = function(req, res, next) {
+  req.logout(function(err) {
+    if (err) { return next(err); }
+    req.user = null;
+    return res.redirect('/');
+  });
+  req.user = null;
+  return res.redirect('/');
+};
+
+/* GET /auth/logout
+ *
+ * This route logs the user out.
+ */
+router.get('/auth/logout', getLogoutHandler);
+
+/* GET /auth/logout
+ *
+ * This route logs the user out.
+ */
+
+router.get('/logout', getLogoutHandler);
 
 /* POST /signup
  *

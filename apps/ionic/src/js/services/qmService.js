@@ -3608,7 +3608,7 @@ angular.module('starter').factory('qmService', ["$http", "$q", "$rootScope", "$i
             $ionicHistory.clearHistory();
             $ionicHistory.clearCache();
             qmService.auth.deleteAllAccessTokens(reason);
-            qm.api.post('/auth/logout');
+            fetch('/auth/logout', {method: 'POST'});
         };
         qmService.updateUserSettingsDeferred = function(params){
             if($rootScope.physicianUser || qm.storage.getItem(qm.items.physicianUser)){
