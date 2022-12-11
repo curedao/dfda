@@ -9,9 +9,9 @@ describe('Onboarding', function () {
     cy.visitIonicAndSetApiOrigin('/#/app/intro?logout=1')
     cy.disableSpeechAndSkipIntro()
     cy.get('#signUpButton').click({force: true})
-    cy.enterNewUserCredentials(true)
+    cy.enterNewUserCredentials(false)
     //cy.debug()
-    //cy.url().should('contain', "onboarding", {timeout: 45000})
+    cy.url().should('include', "login", {timeout: 45000})
   })
   it('Enables weather tracking from onboarding', function () {
     cy.loginWithAccessTokenIfNecessary('/#/app/onboarding', false)

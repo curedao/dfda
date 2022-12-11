@@ -20,7 +20,7 @@ describe('Import Data', function () {
     goToImportPageFromInbox()
     cy.get('#import-data-tigerview-button').click()
   })
-  it.only('Connects Withings', function () {
+  it('Connects Withings', function () {
     goToImportPageFromInbox()
     cy.get("#withings-item", { timeout: 30000 })
     if (Cypress.$('#disconnect-withings-button').length > 0) {
