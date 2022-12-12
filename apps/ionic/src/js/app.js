@@ -141,6 +141,8 @@ angular.module('starter',
             $compileProvider.aHrefSanitizationWhitelist(/^\s*(https?|file|ftp|mailto|chrome-extension|ms-appx-web|ms-appx):/);
             $ionicConfigProvider.tabs.position("bottom"); //Places them at the bottom for all OS
             $ionicConfigProvider.navBar.alignTitle('center');
+            $ionicConfigProvider.views.transition('none'); // Disable transitions so we don't see leftover view when
+            // view background is transparent.  Also seems more responsive without transitions
             if(ionic.Platform.isIPad() || ionic.Platform.isIOS()){
                 $ionicConfigProvider.views.swipeBackEnabled(false);  // Prevents back swipe white screen on iOS when caching is disabled https://github.com/driftyco/ionic/issues/3216
             }
