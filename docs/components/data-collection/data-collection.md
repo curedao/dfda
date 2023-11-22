@@ -1,4 +1,4 @@
-# 📲 Data Collection 
+# Data Collection
 
 ![](data-collection.png)
 
@@ -31,4 +31,3 @@ The data sources would include:
 * Auditory Records: Voice recognition may be used to quantify emotion through conscious verbal expression, spectral analysis of the magnitudes of different frequencies of speech would probably be a better means of quantifying unconscious human affect and thus providing more accurate data for the machine learning process. CommonSense is a cloud-based platform for sensor data.
 * Visual Affect Data via Web-Cameras: By tracking hundreds of points on the subjects’ faces, InSight can accurately capture emotional states.
 * Prescription Records: Microsoft HealthVault can automatically collect lab results, prescription history, and visit records from a growing list of labs, pharmacies, hospitals, and clinics.
-

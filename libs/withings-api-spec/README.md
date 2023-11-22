@@ -1,0 +1,2 @@
+# withings-api-spec
+

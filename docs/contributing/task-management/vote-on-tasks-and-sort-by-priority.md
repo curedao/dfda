@@ -1,14 +1,17 @@
 ---
 title: vote-on-tasks-and-sort-by-priority
-description: How to vote on and sort issues by priority
 published: false
 date: 2022-08-31T13:12:02.349Z
-tags: [tasks, voting, democracy]
+tags:
+  - tasks
+  - voting
+  - democracy
 editor: markdown
 dateCreated: 2022-07-27T21:36:54.016Z
+description: How to vote on and sort issues by priority
 ---
 
-# ❗ How to Vote on and Sort Issues By Priority
+# How to Vote on and Sort Issues By Priority
 
 A big problem in projects is too many tasks and not enough time or resources to complete them.
 

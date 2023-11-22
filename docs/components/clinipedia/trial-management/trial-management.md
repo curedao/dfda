@@ -1,3 +1,3 @@
-# 💉 OpenCures Trial Management Plugin
+# OpenCures Trial Management Plugin
 
 ![](app-experiments.png)

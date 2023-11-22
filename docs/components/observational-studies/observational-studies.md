@@ -1,11 +1,11 @@
-# 📑 Observational Studies Plugin
+# Observational Studies Plugin
 
-- [Overview](#overview)
-- [Impact](#impact)
-- [Study Index](#study-index)
-- [Overall Mood Mega Study](#overall-mood-mega-study)
-- [Models](../../../apps/dfda-1/app/Studies)
-- [Front-End Views](../../../apps/dfda-1/app/Studies)
+* [Overview](observational-studies.md#overview)
+* [Impact](observational-studies.md#impact)
+* [Study Index](observational-studies.md#study-index)
+* [Overall Mood Mega Study](observational-studies.md#overall-mood-mega-study)
+* [Models](../../../apps/dfda-1/app/Studies/)
+* [Front-End Views](../../../apps/dfda-1/app/Studies/)
 
 ## Overview
 
@@ -13,10 +13,10 @@ Observational studies are a type of study in which researchers observe the behav
 
 ## Impact
 
--   Clinicians and those suffering from chronic conditions will have access to the personalized effectiveness rates of treatments and the percent likelihood of root causes.
--  Researchers will be able to use the data to identify the factors that most influence any given aspect of health.
-- Anyone wanting to optimize any quantifiable aspect of their life is able to search and see a list of the products that are most effective at helping the average user achieve a particular health and wellness goal. For instance, if one wishes to improve one’s sleep efficiency, go to our site and search for “sleep efficiency”, where one is able to select from the list of products that most affect sleep efficiency.
--  The Personal FDA will be able to use the data to identify the factors that most influence any given aspect of health.
+* Clinicians and those suffering from chronic conditions will have access to the personalized effectiveness rates of treatments and the percent likelihood of root causes.
+* Researchers will be able to use the data to identify the factors that most influence any given aspect of health.
+* Anyone wanting to optimize any quantifiable aspect of their life is able to search and see a list of the products that are most effective at helping the average user achieve a particular health and wellness goal. For instance, if one wishes to improve one’s sleep efficiency, go to our site and search for “sleep efficiency”, where one is able to select from the list of products that most affect sleep efficiency.
+* The Personal FDA will be able to use the data to identify the factors that most influence any given aspect of health.
 
 ## Study Index
 
@@ -28,4 +28,4 @@ Observational studies are a type of study in which researchers observe the behav
 
 ## Tests
 
-[PHPUnit on Staging Environment](../../../apps/dfda-1/tests/StagingUnitTests/C/Studies)
+[PHPUnit on Staging Environment](../../../apps/dfda-1/tests/StagingUnitTests/C/Studies/)

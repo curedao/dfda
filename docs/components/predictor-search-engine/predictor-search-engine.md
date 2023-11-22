@@ -1,4 +1,4 @@
-# 🔎 Predictor Search Engine Plugin
+# Predictor Search Engine Plugin
 
 Aggregated user data is used to determine the factors that most influence any given aspect of health, powering the QM Search Engine.
 

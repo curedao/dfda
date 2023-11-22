@@ -1,11 +1,13 @@
 ---
 title: Decision Support Notifications
-description: Get notifications telling you the most important thing (MIT) you can do at any given time to optimize your health and happiness.
+description: >-
+  Get notifications telling you the most important thing (MIT) you can do at any
+  given time to optimize your health and happiness.
 cover: notifications-screenshot-slide.png
 coverY: 203.93538913362704
 ---
 
-# 🤖 Decision Support Notifications
+# Decision Support Notifications
 
 ![notifications-screenshot-slide.png](notifications-screenshot-slide.png)
 

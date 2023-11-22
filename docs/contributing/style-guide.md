@@ -1,17 +1,18 @@
 ---
 title: style-guide
-description: How to contribute to the documentation.
 published: true
 date: 2022-08-29T16:26:37.033Z
-tags: [contributing, style guide]
+tags:
+  - contributing
+  - style guide
 editor: markdown
 dateCreated: 2022-07-27T21:35:30.352Z
+description: How to contribute to the documentation.
 ---
 
-# ✍ Writing Style Guide
+# Writing Style Guide
 
 Please use [Grammarly](https://grammarly.com) and/or [Language Tool](https://languagetool.org)if editing on Githbook to avoid any grammatical errors.
-
 
 ## General principles
 
@@ -78,6 +79,5 @@ To ensure that all content is verifiable, anyone may question an uncited claim b
 tag, or by using a more comprehensive clause:
 
 `[citation needed|reason=<i>Your explanation here</i>|date=January 2022]`
-
 
 > **Example:** 65% of people believe elves are real.\[citation\_needed]

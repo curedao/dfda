@@ -1,14 +1,15 @@
 ---
 title: create-a-task
-description: How to create a task
 published: false
 date: 2022-08-31T08:51:46.609Z
-tags: [tasks]
+tags:
+  - tasks
 editor: markdown
 dateCreated: 2022-07-27T21:36:24.019Z
+description: How to create a task
 ---
 
-# ➕ How to Create a Task
+# How to Create a Task
 
 1. Click the [Issues](https://github.com/decentralized-fda/decentralized-fda/issues?q=is%3Aissue+is%3Aopen+sort%3Aupdated-desc) tab
 2. Search to see if the task already exists
