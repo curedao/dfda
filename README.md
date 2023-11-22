@@ -59,7 +59,7 @@ The core characteristics that define the dFDA are:
 * **Modularity** - a set of modular libraries and tools that can be reused in any project
 * **Protocols** - an abstract framework of core primitive components rather than a specific implementation
 * **Interoperability** - a directory of existing open-source projects that can be used to fulfill the requirements of each primitive or component
-* **Collective Intelligence** - a collaborative effort, so please feel free to [contribute or edit anything](docs/contributing.md)!
+* **Collective Intelligence** - a collaborative effort, so please feel free to [contribute or edit anything](docs/contributing/contributing.md)!
 
 ![dfda-stack-diagram-white-background.svg](docs/images/dfda-stack-diagram-white-background.svg)
 
@@ -222,7 +222,7 @@ Code or documentation improvements are eternally appreciated!
 
 It's our goal to avoid any duplication of effort. So please include existing projects that would be interested in fulfilling any part of this global framework.
 
-[**👉 Click Here to Contribute**](docs/contributing.md)
+[**👉 Click Here to Contribute**](docs/contributing/contributing.md)
 
 ## 🛟 Support
 

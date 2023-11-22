@@ -2,31 +2,30 @@
 stoplight-id: sz5hf6lkwwyg5
 ---
 
-# CureDAO Monorepo
+# Why a monorepo?
 
-The goal of this monorepo is to achieve maximum interoperability and minimum duplication of effort between the various projects in the digital health ecosystem.  
+The goal of this monorepo is to achieve maximum interoperability and minimum duplication of effort between the various projects in the digital health ecosystem.
 
-## Why a monorepo?
+**A monorepo is not a monolith**.
 
-**A monorepo is not a monolith**.  
+In fact, a well-designed monorepo helps to avoid the creation of monolithic applications by providing maximum visibility and reusability between:
 
-In fact, a well-designed monorepo helps to avoid the creation of monolithic applications by providing maximum visibility and reusability between: 
-- UI components
-- Analytical tools and models
-- API documentation/libraries
-- Data transformation pipelines
+* UI components
+* Analytical tools and models
+* API documentation/libraries
+* Data transformation pipelines
 
-This allows us to easily share code and data between projects.  
+This allows us to easily share code and data between projects.
 
 **But won't this be a massive dependency to use in other projects?**
 
-Hell, no. Libraries and components can automatically be published to NPM and consumed by other projects.  So if you only need one library, you don't need to install the entire monorepo.  And if you need to make a change to a library, you can do so in the monorepo and publish the new version to NPM.
+Hell, no. Libraries and components can automatically be published to NPM and consumed by other projects. So if you only need one library, you don't need to install the entire monorepo. And if you need to make a change to a library, you can do so in the monorepo and publish the new version to NPM.
 
 ### More Info on Monorepos
 
-- [Monorepo in Git](https://www.atlassian.com/git/tutorials/monorepos)
-- [Monorepo != monolith](https://blog.nrwl.io/misconceptions-about-monorepos-monorepo-monolith-df1250d4b03c)
-- [Nrwl Nx Resources](https://nx.dev/latest/angular/getting-started/resources)
+* [Monorepo in Git](https://www.atlassian.com/git/tutorials/monorepos)
+* [Monorepo != monolith](https://blog.nrwl.io/misconceptions-about-monorepos-monorepo-monolith-df1250d4b03c)
+* [Nrwl Nx Resources](https://nx.dev/latest/angular/getting-started/resources)
 
 Here's the base structure of our monorepo:
 
@@ -41,8 +40,7 @@ Here's the base structure of our monorepo:
     - {{toolName}}  <-- A tool that is not a user-facing application but is used by developers
 ```
 
-## [How to add a new API](./add-an-api.md)
-
+## [How to add a new API](add-an-api.md)
 
 ## NX Monorepo Helpers
 
@@ -58,18 +56,18 @@ These capabilities include generating applications, libraries, etc as well as th
 
 Below are our core plugins:
 
--   [React](https://reactjs.org)
-    -   `npm install --save-dev @nrwl/react`
--   Web (no framework frontends)
-    -   `npm install --save-dev @nrwl/web`
--   [Angular](https://angular.io)
-    -   `npm install --save-dev @nrwl/angular`
--   [Nest](https://nestjs.com)
-    -   `npm install --save-dev @nrwl/nest`
--   [Express](https://expressjs.com)
-    -   `npm install --save-dev @nrwl/express`
--   [Node](https://nodejs.org)
-    -   `npm install --save-dev @nrwl/node`
+* [React](https://reactjs.org)
+  * `npm install --save-dev @nrwl/react`
+* Web (no framework frontends)
+  * `npm install --save-dev @nrwl/web`
+* [Angular](https://angular.io)
+  * `npm install --save-dev @nrwl/angular`
+* [Nest](https://nestjs.com)
+  * `npm install --save-dev @nrwl/nest`
+* [Express](https://expressjs.com)
+  * `npm install --save-dev @nrwl/express`
+* [Node](https://nodejs.org)
+  * `npm install --save-dev @nrwl/node`
 
 There are also many [community plugins](https://nx.dev/community) you could add.
 
