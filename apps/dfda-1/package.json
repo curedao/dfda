@@ -46,7 +46,7 @@
     "browser-sync": "^2.27.11",
     "browser-sync-webpack-plugin": "^2.3.0",
     "core-js": "^3.6.5",
-    "cypress": "^12.5.1",
+    "cypress": "^13.7.0",
     "cypress-codegen": "^1.4.1",
     "cypress-cucumber-preprocessor": "4.2.0",
     "cypress-fail-fast": "^7.0.0",
