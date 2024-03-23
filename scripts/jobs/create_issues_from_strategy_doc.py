@@ -28,13 +28,11 @@ def create_github_issue(title, body, token, repo):
         "title": title,
         "body": body
     }
-    response = requests.post(url, headers=headers, data=json.dumps(data))
+    response = post_github_issue(url, headers, data)
     if response.status_code == 201:
         print(f"Issue '{title}' created successfully.")
     elif response.status_code == 429:
-        print("Rate limit exceeded. Waiting 60 seconds before retrying...")
-        time.sleep(60)
-        create_github_issue(title, body, token, repo)
+        handle_rate_limit(response, title, body, token, repo)
     elif response.status_code == 401:
         raise Exception("Authentication failed. Check your GitHub token.")
     else:
