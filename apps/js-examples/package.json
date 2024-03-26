@@ -1,0 +1,24 @@
+{
+  "name": "js-examples",
+  "version": "1.0.0",
+  "description": "",
+  "main": "getOrCreateUserExample.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@prisma/client": "^5.11.0",
+    "localstorage": "^1.0.1",
+    "xmlhttprequest": "^1.8.0"
+  },
+  "devDependencies": {
+    "@types/chai": "^4.3.12",
+    "@types/mocha": "^10.0.6",
+    "@types/node": "^20.11.29",
+    "node-fetch": "^3.3.2",
+    "prisma": "^5.11.0",
+    "ts-node": "^10.9.2"
+  }
+}
