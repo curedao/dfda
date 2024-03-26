@@ -1330,6 +1330,31 @@ paths:
         - bearerAuth: []
         - curedao_oauth2:
             - basic
+    post:
+        tags:
+            - user
+        summary: Create or update user info
+        description: 'Post user info.  If no userId is specified, posts info for currently authenticated user'
+        operationId: postUser
+        parameters:
+            - $ref: '#/components/parameters/clientIdParam'
+        requestBody:
+          description: User info to update
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+          required: true
+        responses:
+          '201':
+            description: Successful operation
+          '401':
+            description: Not found
+        security:
+            - bearerAuth: []
+            - curedao_oauth2:
+                - basic
+        x-codegen-request-body-name: body
   /v3/users:
     get:
       tags:

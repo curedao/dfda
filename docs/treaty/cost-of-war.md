@@ -1,5 +1,11 @@
 # The Annual Cost of War
 
+## Direct Military Spending
+
+![military-spending-scenarios-chart.png](military-spending-scenarios-chart.png)
+
+Global military spending nearly doubled from $1.1 trillion in 2000 to $1.9 trillion in 2020 (in 2020 inflation-adjusted dollars). This is an average increase of $3.9% or $42 billion a year.
+
 ## Direct Annual Costs of War:
 
 1. **Military Expenditure: $1,981 billion.** This reflects the total global spending on armed forces, including salaries, operations, maintenance, and procurement of weapons and equipment.

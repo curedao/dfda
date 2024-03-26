@@ -40,5 +40,5 @@
       }
     }
   },
-  "defaultProject": "curedao-api-gateway"
+  "defaultProject": "api-gateway"
 }

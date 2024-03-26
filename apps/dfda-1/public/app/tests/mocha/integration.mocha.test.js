@@ -873,7 +873,7 @@ describe("Login", function () {
         // TODO: Figure out how to preserve cookie session between requests in tests
         this.timeout(5000)
         let request = { body: { email: "testuser@mikesinn.com", password: "testing123" } };
-        const loginUrl = qm.urlHelper.prefixExpressOriginIfNecessary('/auth/login')
+        const loginUrl = qm.urlHelper.prefixQMAPIOriginIfNecessary('/auth/login')
         var response = await fetch(loginUrl, {
             method: 'POST',
             headers: {
@@ -886,7 +886,7 @@ describe("Login", function () {
             //     qmLog.debug("user:", json)
             //     qm.assert.equals("testuser", json.user_login);
         })
-        let apiUrl = qm.urlHelper.prefixExpressOriginIfNecessary("/api/v1/user");
+        let apiUrl = qm.urlHelper.prefixQMAPIOriginIfNecessary("/api/v1/user");
         let cookie = response.headers.get('set-cookie');
         function parseCookies(response) {
             const raw = response.headers.raw()['set-cookie'];
@@ -1003,7 +1003,7 @@ describe("Variables", function () {
 describe("NFT", function () {
 	it('can can mint a digital twin nft', async function(done) {
 		var image = await digitalTwin.generateLifeForceNftImage();
-		
+
 		done()
 	})
 })

@@ -1,6 +1,6 @@
 [
   {
-    "statement": "I have been feeling very tired and fatigued today. I have been having trouble concentrating and I have been feeling very down.\nI took a cold shower for 5 minutes and I took a 20 minute nap. I also took magnesium 200mg, Omega3 one capsule 500mg.",
+    "statement": "I have been feeling very tired and fatigued today. I have been having trouble concentrating and I have been feeling very down.\nI took a cold shower for 5 minutes and I took a 20 minute nap. I also took magnesium 200mg, Omega3 one capsule 500mg",
     "localDateTime": "2021-01-01T20:00:00",
     "measurements": [
       {
@@ -8,7 +8,7 @@
         "endDateLocal": "2021-01-01",
         "endTimeLocal": null,
         "itemType": "measurement",
-        "originalText": "I have been feeling very tired and fatigued today.",
+        "originalText": "I have been feeling very tired and fatigued today",
         "startDateLocal": "2021-01-01",
         "startTimeLocal": null,
         "unitName": "1 to 5 Rating",
@@ -21,7 +21,7 @@
         "endDateLocal": "2021-01-01",
         "endTimeLocal": null,
         "itemType": "measurement",
-        "originalText": "I have been feeling very tired and fatigued today.",
+        "originalText": "I have been feeling very tired and fatigued today",
         "startDateLocal": "2021-01-01",
         "startTimeLocal": null,
         "unitName": "1 to 5 Rating",
@@ -34,7 +34,7 @@
         "endDateLocal": "2021-01-01",
         "endTimeLocal": null,
         "itemType": "measurement",
-        "originalText": "I have been having trouble concentrating.",
+        "originalText": "I have been having trouble concentrating",
         "startDateLocal": "2021-01-01",
         "startTimeLocal": null,
         "unitName": "1 to 5 Rating",
@@ -47,7 +47,7 @@
         "endDateLocal": "2021-01-01",
         "endTimeLocal": null,
         "itemType": "measurement",
-        "originalText": "I have been feeling very down.",
+        "originalText": "I have been feeling very down",
         "startDateLocal": "2021-01-01",
         "startTimeLocal": null,
         "unitName": "1 to 5 Rating",
@@ -60,7 +60,7 @@
         "endDateLocal": "2021-01-01",
         "endTimeLocal": null,
         "itemType": "measurement",
-        "originalText": "I took a cold shower for 5 minutes.",
+        "originalText": "I took a cold shower for 5 minutes",
         "startDateLocal": "2021-01-01",
         "startTimeLocal": null,
         "unitName": "Minutes",
@@ -73,7 +73,7 @@
         "endDateLocal": "2021-01-01",
         "endTimeLocal": null,
         "itemType": "measurement",
-        "originalText": "I took a 20 minute nap.",
+        "originalText": "I took a 20 minute nap",
         "startDateLocal": "2021-01-01",
         "startTimeLocal": null,
         "unitName": "Minutes",
@@ -86,7 +86,7 @@
         "endDateLocal": "2021-01-01",
         "endTimeLocal": null,
         "itemType": "measurement",
-        "originalText": "I also took magnesium 200mg.",
+        "originalText": "I also took magnesium 200mg",
         "startDateLocal": "2021-01-01",
         "startTimeLocal": null,
         "unitName": "Milligrams",
@@ -99,7 +99,7 @@
         "endDateLocal": "2021-01-01",
         "endTimeLocal": null,
         "itemType": "measurement",
-        "originalText": "I also took Omega3 one capsule 500mg.",
+        "originalText": "I also took Omega3 one capsule 500mg",
         "startDateLocal": "2021-01-01",
         "startTimeLocal": null,
         "unitName": "Milligrams",
@@ -110,15 +110,15 @@
     ]
   },
   {
-    "statement": "I ate a bowl of oatmeal for breakfast.",
+    "statement": "I ate a bowl of oatmeal for breakfast",
     "localDateTime": "2021-01-01T00:00:00",
     "measurements": [
       {
         "combinationOperation": "SUM",
-        "endDateLocal": "2021-01-01",
-        "endTimeLocal": "08:00:00",
+        "endDateLocal": null,
+        "endTimeLocal": null,
         "itemType": "measurement",
-        "originalText": "I ate a bowl of oatmeal for breakfast.",
+        "originalText": "I ate a bowl of oatmeal for breakfast",
         "startDateLocal": "2021-01-01",
         "startTimeLocal": "08:00:00",
         "unitName": "Serving",
@@ -129,7 +129,7 @@
     ]
   },
   {
-    "statement": "Took 500mg of Paracetamol at 10 AM.",
+    "statement": "Took 500mg of Paracetamol at 10 AM",
     "localDateTime": "2021-01-01T00:00:00",
     "measurements": [
       {
@@ -148,15 +148,15 @@
     ]
   },
   {
-    "statement": "Experienced a headache around midday, severity was 3 out of 5.",
+    "statement": "Experienced a headache around midday, severity was 3 out of 5",
     "localDateTime": "2021-01-01T00:00:00",
     "measurements": [
       {
         "combinationOperation": "MEAN",
-        "endDateLocal": "2021-01-01",
-        "endTimeLocal": "12:00:00",
+        "endDateLocal": null,
+        "endTimeLocal": null,
         "itemType": "measurement",
-        "originalText": "Experienced a headache around midday, severity was 3 out of 5.",
+        "originalText": "Experienced a headache around midday, severity was 3 out of 5",
         "startDateLocal": "2021-01-01",
         "startTimeLocal": "12:00:00",
         "unitName": "1 to 5 Rating",

@@ -1,0 +1,2892 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = "file:../your_db.sqlite"
+}
+
+model action_events {
+  id              Int       @id @default(autoincrement())
+  batch_id        String
+  user_id         Int
+  name            String
+  actionable_type String
+  actionable_id   Int
+  target_type     String
+  target_id       Int
+  model_type      String
+  model_id        Int?
+  fields          String
+  status          String    @default("running")
+  exception       String
+  created_at      DateTime?
+  updated_at      DateTime?
+  original        String?
+  changes         String?
+
+  @@index([user_id], map: "action_events_user_id_index")
+  @@index([batch_id, model_type, model_id], map: "action_events_batch_id_model_type_model_id_index")
+  @@index([actionable_type, actionable_id], map: "action_events_actionable_type_actionable_id_index")
+}
+
+model aggregate_correlations {
+  id                                                           Int                        @id @default(autoincrement())
+  forward_pearson_correlation_coefficient                      Float
+  onset_delay                                                  Int
+  duration_of_action                                           Int
+  number_of_pairs                                              Int
+  value_predicting_high_outcome                                Float
+  value_predicting_low_outcome                                 Float
+  optimal_pearson_product                                      Float
+  average_vote                                                 Float?                     @default(0.5)
+  number_of_users                                              Int
+  number_of_correlations                                       Int
+  statistical_significance                                     Float
+  cause_unit_id                                                Int?
+  cause_changes                                                Int
+  effect_changes                                               Int
+  aggregate_qm_score                                           Float
+  created_at                                                   DateTime                   @default(now())
+  updated_at                                                   DateTime                   @default(now())
+  status                                                       String
+  reverse_pearson_correlation_coefficient                      Float
+  predictive_pearson_correlation_coefficient                   Float
+  data_source_name                                             String?
+  predicts_high_effect_change                                  Int
+  predicts_low_effect_change                                   Int
+  p_value                                                      Float
+  t_value                                                      Float
+  critical_t_value                                             Float
+  confidence_interval                                          Float
+  deleted_at                                                   DateTime?
+  average_effect                                               Float
+  average_effect_following_high_cause                          Float
+  average_effect_following_low_cause                           Float
+  average_daily_low_cause                                      Float
+  average_daily_high_cause                                     Float
+  population_trait_pearson_correlation_coefficient             Float?
+  grouped_cause_value_closest_to_value_predicting_low_outcome  Float
+  grouped_cause_value_closest_to_value_predicting_high_outcome Float
+  client_id                                                    String?
+  published_at                                                 DateTime?
+  wp_post_id                                                   Int?
+  cause_variable_category_id                                   Int
+  effect_variable_category_id                                  Int
+  interesting_variable_category_pair                           Unsupported("tinyint(1)")
+  newest_data_at                                               DateTime?
+  analysis_requested_at                                        DateTime?
+  reason_for_analysis                                          String
+  analysis_started_at                                          DateTime?
+  analysis_ended_at                                            DateTime?
+  user_error_message                                           String?
+  internal_error_message                                       String?
+  cause_variable_id                                            Int
+  effect_variable_id                                           Int
+  cause_baseline_average_per_day                               Float
+  cause_baseline_average_per_duration_of_action                Float
+  cause_treatment_average_per_day                              Float
+  cause_treatment_average_per_duration_of_action               Float
+  effect_baseline_average                                      Float
+  effect_baseline_relative_standard_deviation                  Float
+  effect_baseline_standard_deviation                           Float
+  effect_follow_up_average                                     Float
+  effect_follow_up_percent_change_from_baseline                Float
+  z_score                                                      Float
+  charts                                                       String
+  number_of_variables_where_best_aggregate_correlation         Int
+  deletion_reason                                              String?
+  record_size_in_kb                                            Int?
+  is_public                                                    Unsupported("tinyint(1)")
+  slug                                                         String?                    @unique(map: "aggregate_correlations_slug_uindex")
+  boring                                                       Unsupported("tinyint(1)")?
+  outcome_is_a_goal                                            Unsupported("tinyint(1)")?
+  predictor_is_controllable                                    Unsupported("tinyint(1)")?
+  plausibly_causal                                             Unsupported("tinyint(1)")?
+  obvious                                                      Unsupported("tinyint(1)")?
+  number_of_up_votes                                           Int
+  number_of_down_votes                                         Int
+  strength_level                                               String
+  confidence_level                                             String
+  relationship                                                 String
+
+  @@unique([cause_variable_id, effect_variable_id], map: "cause_variable_id_effect_variable_id_uindex")
+  @@unique([cause_variable_id, effect_variable_id], map: "aggregate_correlations_pk")
+  @@index([effect_variable_id], map: "aggregate_correlations_effect_variable_id_index")
+  @@index([effect_variable_category_id], map: "aggregate_correlations_effect_variable_category_id_fk")
+  @@index([cause_variable_category_id], map: "aggregate_correlations_cause_variable_category_id_fk")
+  @@index([wp_post_id], map: "aggregate_correlations_wp_posts_ID_fk")
+  @@index([client_id], map: "aggregate_correlations_client_id_fk")
+  @@index([cause_unit_id], map: "aggregate_correlations_cause_unit_id_fk")
+}
+
+model applications {
+  id                                Int                        @id @default(autoincrement())
+  organization_id                   Int?
+  client_id                         String                     @unique(map: "applications_client_id_unique")
+  app_display_name                  String
+  app_description                   String?
+  long_description                  String?
+  user_id                           Int
+  icon_url                          String?
+  text_logo                         String?
+  splash_screen                     String?
+  homepage_url                      String?
+  app_type                          String?
+  app_design                        String?
+  created_at                        DateTime                   @default(now())
+  updated_at                        DateTime                   @default(now())
+  deleted_at                        DateTime?
+  enabled                           Int                        @default(1)
+  stripe_active                     Int                        @default(0)
+  stripe_id                         String?
+  stripe_subscription               String?
+  stripe_plan                       String?
+  last_four                         String?
+  trial_ends_at                     DateTime?
+  subscription_ends_at              DateTime?
+  company_name                      String?
+  country                           String?
+  address                           String?
+  state                             String?
+  city                              String?
+  zip                               String?
+  plan_id                           Int?
+  exceeding_call_count              Int                        @default(0)
+  exceeding_call_charge             Decimal?
+  study                             Int                        @default(0)
+  billing_enabled                   Int                        @default(1)
+  outcome_variable_id               Int?
+  predictor_variable_id             Int?
+  physician                         Int                        @default(0)
+  additional_settings               String?
+  app_status                        String?
+  build_enabled                     Unsupported("tinyint(1)")  @default(dbgenerated("'0'"))
+  wp_post_id                        Int?
+  number_of_collaborators_where_app Int?
+  is_public                         Unsupported("tinyint(1)")?
+  sort_order                        Int?
+  slug                              String?                    @unique(map: "applications_slug_uindex")
+
+  @@index([wp_post_id], map: "applications_wp_posts_ID_fk")
+  @@index([predictor_variable_id], map: "applications_predictor_variable_id_fk")
+  @@index([outcome_variable_id], map: "applications_outcome_variable_id_fk")
+  @@index([user_id], map: "applications_user_id_fk")
+}
+
+model button_clicks {
+  card_id      String
+  button_id    String
+  client_id    String
+  created_at   DateTime  @default(now())
+  deleted_at   DateTime?
+  id           Int       @id @default(autoincrement())
+  input_fields String?
+  intent_name  String?
+  parameters   String?
+  updated_at   DateTime  @default(now())
+  user_id      Int
+
+  @@index([user_id], map: "button_clicks_user_id_fk")
+  @@index([client_id], map: "button_clicks_client_id_fk")
+}
+
+model buttons {
+  accessibility_text     String?
+  action                 String?
+  additional_information String?
+  client_id              String
+  color                  String?
+  confirmation_text      String?
+  created_at             DateTime  @default(now())
+  deleted_at             DateTime?
+  function_name          String?
+  function_parameters    String?
+  html                   String?
+  element_id             String
+  image                  String?
+  input_fields           String?
+  ion_icon               String?
+  link                   String?
+  state_name             String?
+  state_params           String?
+  success_alert_body     String?
+  success_alert_title    String?
+  success_toast_text     String?
+  text                   String?
+  title                  String?
+  tooltip                String?
+  type                   String
+  updated_at             DateTime  @default(now())
+  user_id                Int
+  id                     Int       @id @unique(map: "buttons_id_uindex") @default(autoincrement())
+  slug                   String?   @unique(map: "buttons_slug_uindex")
+
+  @@index([user_id], map: "buttons_user_id_fk")
+  @@index([client_id], map: "buttons_client_id_fk")
+}
+
+model cache {
+  key        String @unique(map: "cache_key_unique")
+  value      String
+  expiration Int
+}
+
+model cards {
+  action_sheet_buttons String?
+  avatar               String?
+  avatar_circular      String?
+  background_color     String?
+  buttons              String?
+  client_id            String
+  content              String?
+  created_at           DateTime  @default(now())
+  deleted_at           DateTime?
+  header_title         String?
+  html                 String?
+  html_content         String?
+  element_id           String
+  image                String?
+  input_fields         String?
+  intent_name          String?
+  ion_icon             String?
+  link                 String?
+  parameters           String?
+  sharing_body         String?
+  sharing_buttons      String?
+  sharing_title        String?
+  sub_header           String?
+  sub_title            String?
+  title                String?
+  type                 String
+  updated_at           DateTime  @default(now())
+  user_id              Int
+  url                  String?
+  id                   Int       @id @default(autoincrement())
+  slug                 String?   @unique(map: "cards_slug_uindex")
+
+  @@index([user_id], map: "cards_user_id_fk")
+  @@index([client_id], map: "cards_client_id_fk")
+}
+
+/// The underlying table does not contain a valid unique identifier and can therefore currently not be handled by Prisma Client.
+model chat_history {
+  id      Int?
+  user_id String?
+  human   String?
+  ai      String?
+
+  @@ignore
+}
+
+model child_parents {
+  id             Int       @id @default(autoincrement())
+  child_user_id  Int
+  parent_user_id Int
+  scopes         String
+  created_at     DateTime  @default(now())
+  updated_at     DateTime  @default(now())
+  deleted_at     DateTime?
+
+  @@unique([child_user_id, parent_user_id], map: "child_user_id_parent_user_id_uindex")
+  @@index([parent_user_id], map: "child_parents_wp_users_ID_fk_2")
+}
+
+model cohort_studies {
+  id                            Int                        @id @default(autoincrement())
+  cohort_study_statistics_id    Int?
+  cause_variable_id             Int
+  effect_variable_id            Int
+  user_id                       Int
+  created_at                    DateTime                   @default(now())
+  deleted_at                    DateTime?
+  analysis_parameters           String?
+  user_study_text               String?
+  user_title                    String?
+  study_status                  String                     @default("publish")
+  comment_status                String                     @default("open")
+  study_password                String?
+  study_images                  String?
+  updated_at                    DateTime                   @default(now())
+  client_id                     String?
+  published_at                  DateTime?
+  wp_post_id                    Int?
+  cohort_correlation_id         Int?
+  newest_data_at                DateTime?
+  analysis_requested_at         DateTime?
+  reason_for_analysis           String?
+  analysis_ended_at             DateTime?
+  analysis_started_at           DateTime?
+  internal_error_message        String?
+  user_error_message            String?
+  status                        String?
+  analysis_settings_modified_at DateTime?
+  is_public                     Unsupported("tinyint(1)")?
+  sort_order                    Int?
+  slug                          String?                    @unique(map: "cohort_studies_slug_uindex")
+
+  @@unique([user_id, cause_variable_id, effect_variable_id], map: "user_cause_effect")
+  @@index([client_id], map: "cohort_studies_client_id_fk")
+  @@index([effect_variable_id], map: "cohort_studies_effect_variable_id")
+  @@index([cause_variable_id], map: "cause_variable_id")
+  @@index([effect_variable_id], map: "effect_variable_id")
+  @@index([cause_variable_id], map: "cohort_studies_cause_variable_id")
+}
+
+model cohort_study_statistics {
+  id                                                           Int                        @id @default(autoincrement())
+  cohort_study_id                                              Int?
+  forward_pearson_correlation_coefficient                      Float
+  onset_delay                                                  Int
+  duration_of_action                                           Int
+  number_of_pairs                                              Int
+  value_predicting_high_outcome                                Float
+  value_predicting_low_outcome                                 Float
+  optimal_pearson_product                                      Float
+  average_vote                                                 Float?                     @default(0.5)
+  number_of_participants                                       Int
+  statistical_significance                                     Float
+  cause_unit_id                                                Int?
+  cause_changes                                                Int
+  effect_changes                                               Int
+  Cohort_qm_score                                              Float
+  created_at                                                   DateTime                   @default(now())
+  updated_at                                                   DateTime                   @default(now())
+  status                                                       String
+  reverse_pearson_correlation_coefficient                      Float
+  predictive_pearson_correlation_coefficient                   Float
+  data_source_name                                             String?
+  predicts_high_effect_change                                  Int
+  predicts_low_effect_change                                   Int
+  p_value                                                      Float
+  t_value                                                      Float
+  critical_t_value                                             Float
+  confidence_interval                                          Float
+  deleted_at                                                   DateTime?
+  average_effect                                               Float
+  average_effect_following_high_cause                          Float
+  average_effect_following_low_cause                           Float
+  average_daily_low_cause                                      Float
+  average_daily_high_cause                                     Float
+  population_trait_pearson_correlation_coefficient             Float?
+  grouped_cause_value_closest_to_value_predicting_low_outcome  Float
+  grouped_cause_value_closest_to_value_predicting_high_outcome Float
+  client_id                                                    String?
+  published_at                                                 DateTime?
+  wp_post_id                                                   Int?
+  cause_variable_category_id                                   Int
+  effect_variable_category_id                                  Int
+  interesting_variable_category_pair                           Unsupported("tinyint(1)")
+  newest_data_at                                               DateTime?
+  analysis_requested_at                                        DateTime?
+  reason_for_analysis                                          String
+  analysis_started_at                                          DateTime?
+  analysis_ended_at                                            DateTime?
+  user_error_message                                           String?
+  internal_error_message                                       String?
+  cause_variable_id                                            Int
+  effect_variable_id                                           Int
+  cause_baseline_average_per_day                               Float
+  cause_baseline_average_per_duration_of_action                Float
+  cause_treatment_average_per_day                              Float
+  cause_treatment_average_per_duration_of_action               Float
+  effect_baseline_average                                      Float
+  effect_baseline_relative_standard_deviation                  Float
+  effect_baseline_standard_deviation                           Float
+  effect_follow_up_average                                     Float
+  effect_follow_up_percent_change_from_baseline                Float
+  z_score                                                      Float
+  charts                                                       String
+  number_of_variables_where_best_cohort_correlation            Int
+  deletion_reason                                              String?
+  record_size_in_kb                                            Int?
+  is_public                                                    Unsupported("tinyint(1)")?
+  slug                                                         String?                    @unique(map: "cohort_study_statistics_slug_uindex")
+  boring                                                       Unsupported("tinyint(1)")?
+  outcome_is_a_goal                                            Unsupported("tinyint(1)")?
+  predictor_is_controllable                                    Unsupported("tinyint(1)")?
+  plausibly_causal                                             Unsupported("tinyint(1)")?
+  obvious                                                      Unsupported("tinyint(1)")?
+  number_of_up_votes                                           Int
+  number_of_down_votes                                         Int
+  strength_level                                               String
+  confidence_level                                             String
+  relationship                                                 String
+
+  @@unique([cause_variable_id, effect_variable_id], map: "cs_cause_variable_id_effect_variable_id_uindex")
+  @@index([effect_variable_id], map: "cohort_study_statistics_effect_variable_id_index")
+  @@index([effect_variable_category_id], map: "cohort_study_statistics_effect_variable_category_id_fk")
+  @@index([cause_variable_category_id], map: "cohort_study_statistics_cause_variable_category_id_fk")
+  @@index([client_id], map: "cohort_study_statistics_client_id_fk")
+  @@index([cause_unit_id], map: "cohort_study_statistics_cause_unit_id_fk")
+}
+
+model collaborators {
+  id         Int       @id @default(autoincrement())
+  user_id    Int
+  app_id     Int
+  type       String    @default("collaborator")
+  created_at DateTime  @default(now())
+  updated_at DateTime  @default(now())
+  deleted_at DateTime?
+  client_id  String?
+
+  @@unique([user_id, client_id], map: "collaborators_user_client_index")
+  @@index([client_id], map: "collaborators_client_id_fk")
+  @@index([app_id], map: "collaborators_applications_id_fk")
+}
+
+model common_tags {
+  id                      Int       @id @default(autoincrement())
+  tagged_variable_id      Int
+  tag_variable_id         Int
+  number_of_data_points   Int?
+  standard_error          Float?
+  tag_variable_unit_id    Int?
+  tagged_variable_unit_id Int?
+  conversion_factor       Float
+  client_id               String?
+  created_at              DateTime  @default(now())
+  updated_at              DateTime  @default(now())
+  deleted_at              DateTime?
+
+  @@unique([tagged_variable_id, tag_variable_id], map: "UK_tag_tagged")
+  @@index([client_id], map: "common_tags_client_id_fk")
+  @@index([tagged_variable_unit_id], map: "common_tags_tagged_variable_unit_id_fk")
+  @@index([tag_variable_unit_id], map: "common_tags_tag_variable_unit_id_fk")
+  @@index([tag_variable_id], map: "common_tags_tag_variable_id_variables_id_fk")
+}
+
+model connections {
+  id                                Int                        @id @default(autoincrement())
+  client_id                         String?
+  user_id                           Int
+  connector_id                      Int
+  connect_status                    String
+  connect_error                     String?
+  update_requested_at               DateTime?
+  update_status                     String
+  update_error                      String?
+  last_successful_updated_at        DateTime?
+  created_at                        DateTime                   @default(now())
+  updated_at                        DateTime                   @default(now())
+  deleted_at                        DateTime?
+  total_measurements_in_last_update Int?
+  user_message                      String?
+  latest_measurement_at             DateTime?
+  import_started_at                 DateTime?
+  import_ended_at                   DateTime?
+  reason_for_import                 String?
+  user_error_message                String?
+  internal_error_message            String?
+  wp_post_id                        Int?
+  number_of_connector_imports       Int?
+  number_of_connector_requests      Int?
+  credentials                       String?
+  imported_data_from_at             DateTime?
+  imported_data_end_at              DateTime?
+  number_of_measurements            Int?
+  is_public                         Unsupported("tinyint(1)")?
+  slug                              String?                    @unique(map: "connections_slug_uindex")
+  meta                              String?
+  connector_user_id                 String?
+  connector_user_email              String?
+
+  @@unique([user_id, connector_id], map: "UX_userId_connectorId")
+  @@index([connector_user_id, connector_id], map: "connector_user_id_uindex")
+  @@index([wp_post_id], map: "connections_wp_posts_ID_fk")
+  @@index([update_status], map: "status")
+  @@index([connect_status], map: "IDX_status")
+  @@index([connector_id], map: "connections_connectors_id_fk")
+  @@index([client_id], map: "connections_client_id_fk")
+  @@index([update_requested_at, update_status], map: "status_update_requested")
+}
+
+model connector_imports {
+  id                           Int                        @id @default(autoincrement())
+  client_id                    String?
+  connection_id                Int?
+  connector_id                 Int
+  created_at                   DateTime                   @default(now())
+  deleted_at                   DateTime?
+  earliest_measurement_at      DateTime?
+  import_ended_at              DateTime?
+  import_started_at            DateTime?
+  internal_error_message       String?
+  latest_measurement_at        DateTime?
+  number_of_measurements       Int                        @default(0)
+  reason_for_import            String?
+  success                      Unsupported("tinyint(1)")? @default(dbgenerated("'1'"))
+  updated_at                   DateTime                   @default(now())
+  user_error_message           String?
+  user_id                      Int
+  additional_meta_data         String?
+  number_of_connector_requests Int?
+  imported_data_from_at        DateTime?
+  imported_data_end_at         DateTime?
+  credentials                  String?
+  connector_requests           DateTime?
+
+  @@unique([connector_id, user_id, created_at], map: "connector_imports_connector_id_user_id_created_at_uindex")
+  @@unique([connection_id, created_at], map: "connector_imports_connection_id_created_at_uindex")
+  @@index([client_id], map: "connector_imports_client_id_fk")
+  @@index([user_id, connector_id], map: "IDX_connector_imports_user_connector")
+}
+
+model connector_requests {
+  id                    Int       @id @default(autoincrement())
+  connector_id          Int
+  user_id               Int
+  connection_id         Int?
+  connector_import_id   Int
+  method                String
+  code                  Int
+  uri                   String
+  response_body         String?
+  request_body          String?
+  request_headers       String
+  created_at            DateTime  @default(now())
+  updated_at            DateTime  @default(now())
+  deleted_at            DateTime?
+  content_type          String?
+  imported_data_from_at DateTime?
+
+  @@index([connector_import_id], map: "connector_requests_connector_imports_id_fk")
+  @@index([connection_id], map: "connector_requests_connections_id_fk")
+  @@index([user_id], map: "connector_requests_wp_users_ID_fk")
+  @@index([connector_id], map: "connector_requests_connectors_id_fk")
+}
+
+model connectors {
+  id                           Int                        @id @default(autoincrement())
+  name                         String                     @unique(map: "connectors_name_unique")
+  display_name                 String
+  image                        String
+  get_it_url                   String?
+  short_description            String
+  long_description             String
+  enabled                      Unsupported("tinyint(1)")  @default(dbgenerated("'1'"))
+  oauth                        Unsupported("tinyint(1)")  @default(dbgenerated("'0'"))
+  qm_client                    Unsupported("tinyint(1)")? @default(dbgenerated("'0'"))
+  created_at                   DateTime                   @default(now())
+  updated_at                   DateTime                   @default(now())
+  client_id                    String?
+  deleted_at                   DateTime?
+  wp_post_id                   Int?
+  number_of_connections        Int?
+  number_of_connector_imports  Int?
+  number_of_connector_requests Int?
+  number_of_measurements       Int?
+  is_public                    Unsupported("tinyint(1)")?
+  sort_order                   Int?
+  slug                         String?                    @unique(map: "connectors_slug_uindex")
+  available_outside_us         Unsupported("tinyint(1)")  @default(dbgenerated("'1'"))
+
+  @@index([wp_post_id], map: "connectors_wp_posts_ID_fk")
+  @@index([client_id], map: "connectors_client_id_fk")
+}
+
+model correlation_causality_votes {
+  id                       Int                        @id @default(autoincrement())
+  cause_variable_id        Int
+  effect_variable_id       Int
+  correlation_id           Int?
+  aggregate_correlation_id Int?
+  user_id                  Int
+  vote                     Int
+  created_at               DateTime                   @default(now())
+  updated_at               DateTime                   @default(now())
+  deleted_at               DateTime?
+  client_id                String?
+  is_public                Unsupported("tinyint(1)")?
+
+  @@unique([user_id, cause_variable_id, effect_variable_id], map: "correlation_causality_votes_user_cause_effect_uindex")
+  @@index([client_id], map: "correlation_causality_votes_client_id_fk")
+  @@index([aggregate_correlation_id], map: "correlation_causality_votes_aggregate_correlations_id_fk")
+  @@index([correlation_id], map: "correlation_causality_votes_correlations_id_fk")
+  @@index([effect_variable_id], map: "correlation_causality_votes_effect_variables_id_fk")
+  @@index([cause_variable_id], map: "correlation_causality_votes_cause_variables_id_fk")
+}
+
+model correlation_usefulness_votes {
+  id                       Int                        @id @default(autoincrement())
+  cause_variable_id        Int
+  effect_variable_id       Int
+  correlation_id           Int?
+  aggregate_correlation_id Int?
+  user_id                  Int
+  vote                     Int
+  created_at               DateTime                   @default(now())
+  updated_at               DateTime                   @default(now())
+  deleted_at               DateTime?
+  client_id                String?
+  is_public                Unsupported("tinyint(1)")?
+
+  @@unique([user_id, cause_variable_id, effect_variable_id], map: "correlation_usefulness_votes_user_cause_effect_uindex")
+  @@index([client_id], map: "correlation_usefulness_votes_client_id_fk")
+  @@index([aggregate_correlation_id], map: "correlation_usefulness_votes_aggregate_correlations_id_fk")
+  @@index([correlation_id], map: "correlation_usefulness_votes_correlations_id_fk")
+  @@index([effect_variable_id], map: "correlation_usefulness_votes_effect_variables_id_fk")
+  @@index([cause_variable_id], map: "correlation_usefulness_votes_cause_variables_id_fk")
+}
+
+model correlations {
+  id                                                           Int                        @id @default(autoincrement())
+  user_id                                                      Int
+  cause_variable_id                                            Int
+  effect_variable_id                                           Int
+  qm_score                                                     Float?
+  forward_pearson_correlation_coefficient                      Float?
+  value_predicting_high_outcome                                Float?
+  value_predicting_low_outcome                                 Float?
+  predicts_high_effect_change                                  Int?
+  predicts_low_effect_change                                   Int
+  average_effect                                               Float
+  average_effect_following_high_cause                          Float
+  average_effect_following_low_cause                           Float
+  average_daily_low_cause                                      Float
+  average_daily_high_cause                                     Float
+  average_forward_pearson_correlation_over_onset_delays        Float?
+  average_reverse_pearson_correlation_over_onset_delays        Float?
+  cause_changes                                                Int
+  cause_filling_value                                          Float?
+  cause_number_of_processed_daily_measurements                 Int
+  cause_number_of_raw_measurements                             Int
+  cause_unit_id                                                Int?
+  confidence_interval                                          Float
+  critical_t_value                                             Float
+  created_at                                                   DateTime                   @default(now())
+  data_source_name                                             String?
+  deleted_at                                                   DateTime?
+  duration_of_action                                           Int
+  effect_changes                                               Int
+  effect_filling_value                                         Float?
+  effect_number_of_processed_daily_measurements                Int
+  effect_number_of_raw_measurements                            Int
+  forward_spearman_correlation_coefficient                     Float
+  number_of_days                                               Int
+  number_of_pairs                                              Int
+  onset_delay                                                  Int
+  onset_delay_with_strongest_pearson_correlation               Int?
+  optimal_pearson_product                                      Float?
+  p_value                                                      Float?
+  pearson_correlation_with_no_onset_delay                      Float?
+  predictive_pearson_correlation_coefficient                   Float?
+  reverse_pearson_correlation_coefficient                      Float?
+  statistical_significance                                     Float?
+  strongest_pearson_correlation_coefficient                    Float?
+  t_value                                                      Float?
+  updated_at                                                   DateTime                   @default(now())
+  grouped_cause_value_closest_to_value_predicting_low_outcome  Float
+  grouped_cause_value_closest_to_value_predicting_high_outcome Float
+  client_id                                                    String?
+  published_at                                                 DateTime?
+  wp_post_id                                                   Int?
+  status                                                       String?
+  cause_variable_category_id                                   Int
+  effect_variable_category_id                                  Int
+  interesting_variable_category_pair                           Unsupported("tinyint(1)")
+  newest_data_at                                               DateTime?
+  analysis_requested_at                                        DateTime?
+  reason_for_analysis                                          String
+  analysis_started_at                                          DateTime?
+  analysis_ended_at                                            DateTime?
+  user_error_message                                           String?
+  internal_error_message                                       String?
+  cause_user_variable_id                                       Int
+  effect_user_variable_id                                      Int
+  latest_measurement_start_at                                  DateTime?
+  earliest_measurement_start_at                                DateTime?
+  cause_baseline_average_per_day                               Float
+  cause_baseline_average_per_duration_of_action                Float
+  cause_treatment_average_per_day                              Float
+  cause_treatment_average_per_duration_of_action               Float
+  effect_baseline_average                                      Float?
+  effect_baseline_relative_standard_deviation                  Float
+  effect_baseline_standard_deviation                           Float?
+  effect_follow_up_average                                     Float
+  effect_follow_up_percent_change_from_baseline                Float
+  z_score                                                      Float?
+  experiment_start_at                                          DateTime?
+  experiment_end_at                                            DateTime?
+  aggregate_correlation_id                                     Int?
+  aggregated_at                                                DateTime?
+  usefulness_vote                                              Int?
+  causality_vote                                               Int?
+  deletion_reason                                              String?
+  record_size_in_kb                                            Int?
+  correlations_over_durations                                  String?
+  correlations_over_delays                                     String?
+  is_public                                                    Unsupported("tinyint(1)")?
+  sort_order                                                   Int?
+  slug                                                         String?                    @unique(map: "correlations_slug_uindex")
+  boring                                                       Unsupported("tinyint(1)")?
+  outcome_is_goal                                              Unsupported("tinyint(1)")?
+  predictor_is_controllable                                    Unsupported("tinyint(1)")?
+  plausibly_causal                                             Unsupported("tinyint(1)")?
+  obvious                                                      Unsupported("tinyint(1)")?
+  number_of_up_votes                                           Int?
+  number_of_down_votes                                         Int?
+  strength_level                                               String
+  confidence_level                                             String
+  relationship                                                 String
+
+  @@unique([user_id, cause_variable_id, effect_variable_id], map: "correlations_user_id_cause_variable_id_effect_variable_id_uinde")
+  @@unique([user_id, cause_variable_id, effect_variable_id], map: "correlations_pk")
+  @@index([aggregate_correlation_id], map: "correlations_aggregate_correlations_id_fk")
+  @@index([effect_user_variable_id], map: "correlations_user_variables_effect_user_variable_id_fk")
+  @@index([cause_user_variable_id], map: "correlations_user_variables_cause_user_variable_id_fk")
+  @@index([analysis_started_at], map: "correlations_analysis_started_at_index")
+  @@index([effect_variable_category_id], map: "c_effect_variable_category_id_fk")
+  @@index([cause_variable_category_id], map: "correlations_cause_variable_category_id_fk")
+  @@index([wp_post_id], map: "correlations_wp_posts_ID_fk")
+  @@index([client_id], map: "correlations_client_id_fk")
+  @@index([updated_at], map: "correlations_updated_at_index")
+  @@index([cause_unit_id], map: "correlations_cause_unit_id_fk")
+  @@index([effect_variable_id], map: "correlations_effect_variable_id_fk")
+  @@index([cause_variable_id], map: "correlations_cause_variable_id_fk")
+  @@index([deleted_at, analysis_ended_at], map: "correlations_deleted_at_analysis_ended_at_index")
+  @@index([user_id, cause_variable_id, deleted_at, qm_score], map: "user_id_cause_variable_id_deleted_at_qm_score_index")
+  @@index([user_id, effect_variable_id, deleted_at, qm_score], map: "user_id_effect_variable_id_deleted_at_qm_score_index")
+  @@index([user_id, deleted_at, qm_score], map: "correlations_user_id_deleted_at_qm_score_index")
+}
+
+model credentials {
+  user_id      Int
+  connector_id Int
+  attr_key     String
+  attr_value   Bytes
+  status       String?   @default("UPDATED")
+  message      String?
+  expires_at   DateTime?
+  created_at   DateTime  @default(now())
+  updated_at   DateTime  @default(now())
+  deleted_at   DateTime?
+  client_id    String?
+
+  @@id([user_id, connector_id, attr_key])
+  @@index([client_id], map: "credentials_client_id_fk")
+  @@index([connector_id, expires_at, status], map: "IDX_status_expires_connector")
+}
+
+model ct_causes {
+  id                   Int       @id @default(autoincrement())
+  name                 String    @unique(map: "causeName")
+  variable_id          Int       @unique(map: "ct_causes_variable_id_uindex")
+  updated_at           DateTime  @default(now())
+  created_at           DateTime  @default(now())
+  deleted_at           DateTime?
+  number_of_conditions Int
+}
+
+model ct_condition_cause {
+  id                    Int       @id @default(autoincrement())
+  condition_id          Int
+  cause_id              Int
+  condition_variable_id Int
+  cause_variable_id     Int
+  votes_percent         Int
+  updated_at            DateTime  @default(now())
+  created_at            DateTime  @default(now())
+  deleted_at            DateTime?
+
+  @@unique([cause_id, condition_id], map: "ct_condition_cause_cause_id_condition_id_uindex")
+  @@unique([cause_variable_id, condition_variable_id], map: "ct_condition_cause_cause_uindex")
+  @@index([condition_variable_id], map: "ct_condition_cause_variables_id_condition_fk")
+  @@index([condition_id], map: "ct_condition_cause_ct_conditions_id_condition_fk")
+}
+
+model ct_condition_symptom {
+  id                    Int       @id @default(autoincrement())
+  condition_variable_id Int
+  condition_id          Int
+  symptom_variable_id   Int
+  symptom_id            Int
+  votes                 Int
+  extreme               Int?
+  severe                Int?
+  moderate              Int?
+  mild                  Int?
+  minimal               Int?
+  no_symptoms           Int?
+  updated_at            DateTime  @default(now())
+  deleted_at            DateTime?
+  created_at            DateTime  @default(now())
+
+  @@unique([symptom_variable_id, condition_variable_id], map: "ct_condition_symptom_variable_id_uindex")
+  @@unique([condition_variable_id, symptom_variable_id], map: "ct_condition_symptom_condition_uindex")
+  @@index([symptom_id], map: "ct_condition_symptom_symptoms_fk")
+  @@index([condition_id], map: "ct_condition_symptom_conditions_fk")
+}
+
+model ct_condition_treatment {
+  id                    Int       @id @default(autoincrement())
+  condition_id          Int
+  treatment_id          Int
+  condition_variable_id Int?
+  treatment_variable_id Int
+  major_improvement     Int       @default(0)
+  moderate_improvement  Int       @default(0)
+  no_effect             Int       @default(0)
+  worse                 Int       @default(0)
+  much_worse            Int       @default(0)
+  popularity            Int       @default(0)
+  average_effect        Int       @default(0)
+  updated_at            DateTime  @default(now())
+  created_at            DateTime  @default(now())
+  deleted_at            DateTime?
+
+  @@unique([treatment_id, condition_id], map: "treatment_id_condition_id_uindex")
+  @@unique([treatment_variable_id, condition_variable_id], map: "treatment_variable_id_condition_variable_id_uindex")
+  @@index([condition_variable_id], map: "ct_condition_treatment_variables_id_fk_2")
+  @@index([condition_id], map: "ct_condition_treatment_conditions_id_fk")
+}
+
+model ct_conditions {
+  id                   Int       @id @default(autoincrement())
+  name                 String    @unique(map: "conName")
+  variable_id          Int       @unique(map: "ct_conditions_variable_id_uindex")
+  updated_at           DateTime  @default(now())
+  created_at           DateTime  @default(now())
+  deleted_at           DateTime?
+  number_of_treatments Int
+  number_of_symptoms   Int?
+  number_of_causes     Int
+}
+
+model ct_correlations {
+  id                            Int       @id @default(autoincrement())
+  user_id                       Int
+  correlation_coefficient       Float?
+  cause_variable_id             Int
+  effect_variable_id            Int
+  onset_delay                   Int?
+  duration_of_action            Int?
+  number_of_pairs               Int?
+  value_predicting_high_outcome Float?
+  value_predicting_low_outcome  Float?
+  optimal_pearson_product       Float?
+  vote                          Float?    @default(0.5)
+  statistical_significance      Float?
+  cause_unit_id                 Int?
+  cause_changes                 Int?
+  effect_changes                Int?
+  qm_score                      Float?
+  error                         String?
+  created_at                    DateTime  @default(now())
+  updated_at                    DateTime  @default(now())
+  deleted_at                    DateTime?
+
+  @@unique([user_id, cause_variable_id, effect_variable_id], map: "ct_correlations_user")
+  @@index([effect_variable_id], map: "effect")
+  @@index([cause_variable_id], map: "cause")
+}
+
+model ct_side_effects {
+  id                   Int       @id @default(autoincrement())
+  name                 String    @unique(map: "seName")
+  variable_id          Int       @unique(map: "ct_side_effects_variable_id_uindex")
+  updated_at           DateTime  @default(now())
+  created_at           DateTime  @default(now())
+  deleted_at           DateTime?
+  number_of_treatments Int
+}
+
+model ct_symptoms {
+  id                   Int       @id @default(autoincrement())
+  name                 String    @unique(map: "symName")
+  variable_id          Int       @unique(map: "ct_symptoms_variable_id_uindex")
+  updated_at           DateTime  @default(now())
+  created_at           DateTime  @default(now())
+  deleted_at           DateTime?
+  number_of_conditions Int
+}
+
+model ct_treatment_side_effect {
+  id                      Int       @id @default(autoincrement())
+  treatment_variable_id   Int
+  side_effect_variable_id Int
+  treatment_id            Int
+  side_effect_id          Int
+  votes_percent           Int
+  updated_at              DateTime  @default(now())
+  created_at              DateTime  @default(now())
+  deleted_at              DateTime?
+
+  @@unique([treatment_variable_id, side_effect_variable_id], map: "treatment_variable_id_side_effect_variable_id_uindex")
+  @@unique([treatment_id, side_effect_id], map: "treatment_id_side_effect_id_uindex")
+  @@index([side_effect_id], map: "treatment_side_effect_side_effects_id_fk")
+  @@index([side_effect_variable_id], map: "side_effect_variables_id_fk")
+}
+
+model ct_treatments {
+  id                     Int       @id @default(autoincrement())
+  name                   String    @unique(map: "treName")
+  variable_id            Int
+  updated_at             DateTime  @default(now())
+  created_at             DateTime  @default(now())
+  deleted_at             DateTime?
+  number_of_conditions   Int?
+  number_of_side_effects Int
+
+  @@index([variable_id], map: "ct_treatments_variables_id_fk")
+}
+
+/// The underlying table does not contain a valid unique identifier and can therefore currently not be handled by Prisma Client.
+model ctg_conditions {
+  id            Int
+  nct_id        String
+  name          String
+  downcase_name String
+  variable_id   Int
+
+  @@ignore
+}
+
+/// The underlying table does not contain a valid unique identifier and can therefore currently not be handled by Prisma Client.
+model ctg_intervention_other_names {
+  id              Int
+  nct_id          String
+  intervention_id Int
+  name            String
+
+  @@ignore
+}
+
+/// The underlying table does not contain a valid unique identifier and can therefore currently not be handled by Prisma Client.
+model ctg_interventions {
+  id                Int
+  nct_id            String
+  intervention_type String
+  name              String?
+  description       String?
+  variable_id       Int
+  var               Int?
+
+  @@ignore
+}
+
+model device_tokens {
+  device_token                                      String    @id
+  created_at                                        DateTime  @default(now())
+  updated_at                                        DateTime  @default(now())
+  deleted_at                                        DateTime?
+  user_id                                           Int
+  number_of_waiting_tracking_reminder_notifications Int?
+  last_notified_at                                  DateTime?
+  platform                                          String
+  number_of_new_tracking_reminder_notifications     Int?
+  number_of_notifications_last_sent                 Int?
+  error_message                                     String?
+  last_checked_at                                   DateTime?
+  received_at                                       DateTime?
+  server_ip                                         String?
+  server_hostname                                   String?
+  client_id                                         String?
+
+  @@index([client_id], map: "device_tokens_client_id_fk")
+  @@index([user_id], map: "index_user_id")
+}
+
+model docs_api {
+  id          Int     @id @default(autoincrement())
+  model       String?
+  description String?
+  attribute   String?
+
+  @@unique([model, attribute], map: "docs_api_table_attribute_uindex")
+}
+
+model docs_models {
+  id          Int     @id @default(autoincrement())
+  model       String?
+  description String?
+  attribute   String?
+}
+
+model doctrine_migration_versions {
+  version    String    @id
+  updated_at DateTime  @default(now())
+  created_at DateTime  @default(now())
+  deleted_at DateTime?
+  client_id  String?
+}
+
+model domains {
+  id         Int       @id @default(autoincrement())
+  domain     String    @unique(map: "domains_domain_unique")
+  tenant_id  String
+  created_at DateTime?
+  updated_at DateTime?
+  tenants    tenants   @relation(fields: [tenant_id], references: [id], onDelete: Cascade)
+}
+
+model failed_jobs {
+  id         Int      @id @default(autoincrement())
+  connection String
+  queue      String
+  payload    String
+  exception  String
+  failed_at  DateTime @default(now())
+}
+
+model github_repositories {
+  id                          Int                  @unique(map: "github_repositories_id_uindex")
+  client_id                   String?
+  created_at                  DateTime             @default(now())
+  deleted_at                  DateTime?
+  updated_at                  DateTime
+  user_id                     Int?
+  github_repository_id        Int                  @unique(map: "github_repositories_github_repository_id_uindex")
+  node_id                     String
+  name                        String
+  full_name                   String
+  private                     Boolean
+  owner                       Unsupported("clob")
+  html_url                    String               @unique(map: "github_repositories_html_url_uindex")
+  description                 Unsupported("clob")?
+  fork                        Boolean
+  url                         String               @unique(map: "github_repositories_url_uindex")
+  forks_url                   String
+  keys_url                    String
+  collaborators_url           String
+  teams_url                   String
+  hooks_url                   String
+  issue_events_url            String
+  events_url                  String
+  assignees_url               String
+  branches_url                String
+  tags_url                    String
+  blobs_url                   String
+  git_tags_url                String
+  git_refs_url                String
+  trees_url                   String
+  statuses_url                String
+  languages_url               String
+  stargazers_url              String
+  contributors_url            String
+  subscribers_url             String
+  subscription_url            String
+  commits_url                 String
+  git_commits_url             String
+  comments_url                String
+  issue_comment_url           String
+  contents_url                String
+  compare_url                 String
+  merges_url                  String
+  archive_url                 String
+  downloads_url               String
+  issues_url                  String
+  pulls_url                   String
+  milestones_url              String
+  notifications_url           String
+  labels_url                  String
+  releases_url                String
+  deployments_url             String
+  pushed_at                   String
+  git_url                     String               @unique(map: "github_repositories_git_url_uindex")
+  ssh_url                     String               @unique(map: "github_repositories_ssh_url_uindex")
+  clone_url                   String
+  svn_url                     String
+  homepage                    String?
+  size                        Int
+  stargazers_count            Int
+  watchers_count              Int
+  has_issues                  Boolean
+  has_projects                Boolean
+  has_downloads               Boolean
+  has_wiki                    Boolean
+  has_pages                   Boolean
+  forks_count                 Int
+  archived                    Boolean
+  disabled                    Boolean
+  open_issues_count           Int
+  allow_forking               Boolean
+  is_template                 Boolean
+  topics                      Unsupported("clob")
+  visibility                  String
+  forks                       Int
+  open_issues                 Int
+  watchers                    Int
+  default_branch              String
+  permissions                 Unsupported("clob")
+  temp_clone_token            String?
+  allow_squash_merge          Boolean?
+  allow_merge_commit          Boolean?
+  allow_rebase_merge          Boolean?
+  allow_auto_merge            Boolean?
+  delete_branch_on_merge      Boolean?
+  network_count               Int?
+  subscribers_count           Int?
+  score                       Int?
+  mirror_url                  String?
+  license                     Unsupported("clob")?
+  web_commit_signoff_required Boolean?
+  language                    String?
+
+  @@index([client_id], map: "github_repositories_oa_clients_client_id_fk")
+  @@index([user_id], map: "github_repositories_wp_users_ID_fk")
+}
+
+model global_studies {
+  id                            Int                       @id @default(autoincrement())
+  aggregate_correlation_id      Int?
+  cause_variable_id             Int
+  effect_variable_id            Int
+  cause_user_variable_id        Int
+  effect_user_variable_id       Int
+  user_id                       Int
+  created_at                    DateTime                  @default(now())
+  deleted_at                    DateTime?
+  analysis_parameters           String?
+  user_study_text               String?
+  user_title                    String?
+  study_status                  String                    @default("publish")
+  comment_status                String                    @default("open")
+  study_password                String?
+  study_images                  String?
+  updated_at                    DateTime                  @default(now())
+  client_id                     String?
+  published_at                  DateTime?
+  wp_post_id                    Int?
+  newest_data_at                DateTime?
+  analysis_requested_at         DateTime?
+  reason_for_analysis           String?
+  analysis_ended_at             DateTime?
+  analysis_started_at           DateTime?
+  internal_error_message        String?
+  user_error_message            String?
+  status                        String?
+  analysis_settings_modified_at DateTime?
+  is_public                     Unsupported("tinyint(1)")
+  sort_order                    Int?
+  slug                          String?                   @unique(map: "global_studies_slug_uindex")
+
+  @@unique([user_id, cause_variable_id, effect_variable_id], map: "global_studies_cause_effect")
+  @@index([client_id], map: "global_studies_client_id_fk")
+  @@index([effect_variable_id], map: "global_studies_effect_variable_id")
+  @@index([cause_variable_id], map: "global_studies_cause_variable_id")
+  @@index([aggregate_correlation_id], map: "global_studies_aggregate_correlations_id_fk")
+}
+
+model health_checks {
+  id             Int                       @id @default(autoincrement())
+  resource_name  String
+  resource_slug  String
+  target_name    String
+  target_slug    String
+  target_display String
+  healthy        Unsupported("tinyint(1)")
+  error_message  String?
+  runtime        Float
+  value          String?
+  value_human    String?
+  created_at     DateTime
+
+  @@index([created_at], map: "health_checks_created_at_index")
+  @@index([target_slug], map: "health_checks_target_slug_index")
+  @@index([resource_slug], map: "health_checks_resource_slug_index")
+}
+
+model ip_data {
+  id             Int       @id @default(autoincrement())
+  created_at     DateTime? @default(now())
+  deleted_at     DateTime?
+  updated_at     DateTime? @default(now())
+  ip             String    @unique(map: "ip_data_ip_uindex")
+  hostname       String?
+  type           String?
+  continent_code String?
+  continent_name String?
+  country_code   String?
+  country_name   String?
+  region_code    String?
+  region_name    String?
+  city           String?
+  zip            String?
+  latitude       Float?
+  longitude      Float?
+  location       String?
+  time_zone      String?
+  currency       String?
+  connection     String?
+  security       String?
+}
+
+model jobs {
+  id           Int    @id @default(autoincrement())
+  queue        String
+  payload      String
+  attempts     Int
+  reserved_at  Int?
+  available_at Int
+  created_at   Int
+
+  @@index([queue], map: "jobs_queue_index")
+}
+
+model lightsail_instances {
+  id                  Int                       @id @default(autoincrement())
+  client_id           String?
+  created_at          DateTime                  @default(now())
+  deleted_at          DateTime?
+  updated_at          DateTime                  @default(now())
+  user_id             Int
+  name                String
+  arn                 String
+  support_code        String
+  external_created_at String
+  location            String
+  resource_type       String
+  tags                String
+  blueprint_id        String
+  blueprint_name      String
+  bundle_id           String
+  add_ons             String
+  is_static_ip        Unsupported("tinyint(1)")
+  private_ip_address  String
+  public_ip_address   String
+  ipv6_addresses      String
+  ip_address_type     String
+  hardware            String
+  networking          String
+  state               String
+  username            String
+  ssh_key_name        String
+  jenkins_labels      String
+  computer            String
+
+  @@index([user_id], map: "lightsail_instances_wp_users_ID_fk")
+  @@index([client_id], map: "lightsail_instances_client_id_fk")
+}
+
+model measurement_exports {
+  id            Int       @id @default(autoincrement())
+  user_id       Int
+  client_id     String?
+  status        String
+  type          String    @default("user")
+  output_type   String    @default("csv")
+  error_message String?
+  created_at    DateTime  @default(now())
+  updated_at    DateTime  @default(now())
+  deleted_at    DateTime?
+
+  @@index([client_id], map: "measurement_exports_client_id_fk")
+  @@index([user_id], map: "measurement_exports_user_id_fk")
+}
+
+model measurement_imports {
+  id                     Int       @id @default(autoincrement())
+  user_id                Int
+  file                   String
+  created_at             DateTime  @default(now())
+  updated_at             DateTime  @default(now())
+  status                 String    @default("WAITING")
+  error_message          String?
+  source_name            String?
+  deleted_at             DateTime?
+  client_id              String?
+  import_started_at      DateTime?
+  import_ended_at        DateTime?
+  reason_for_import      String?
+  user_error_message     String?
+  internal_error_message String?
+
+  @@index([client_id], map: "measurement_imports_client_id_fk")
+  @@index([user_id], map: "measurement_imports_user_id_fk")
+}
+
+model measurements {
+  id                   Int       @id @default(autoincrement())
+  user_id              Int
+  client_id            String?
+  connector_id         Int?
+  variable_id          Int
+  start_time           Int
+  value                Float
+  unit_id              Int
+  original_value       Float
+  original_unit_id     Int
+  duration             Int?
+  note                 String?
+  latitude             Float?
+  longitude            Float?
+  location             String?
+  created_at           DateTime  @default(now())
+  updated_at           DateTime  @default(now())
+  error                String?
+  variable_category_id Int
+  deleted_at           DateTime?
+  source_name          String?
+  user_variable_id     Int
+  start_at             DateTime?
+  connection_id        Int?
+  connector_import_id  Int?
+  deletion_reason      String?
+  original_start_at    DateTime?
+
+  @@unique([user_id, variable_id, start_time], map: "measurements_pk")
+  @@index([connector_import_id], map: "measurements_connector_imports_id_fk")
+  @@index([connection_id], map: "measurements_connections_id_fk")
+  @@index([user_variable_id], map: "measurements_user_variables_user_variable_id_fk")
+  @@index([variable_category_id], map: "measurements_variable_category_id_fk")
+  @@index([original_unit_id], map: "measurements_original_unit_id_fk")
+  @@index([unit_id], map: "fk_measurementUnits")
+  @@index([start_time], map: "measurements_start_time_index")
+  @@index([connector_id], map: "measurements_connectors_id_fk")
+  @@index([client_id], map: "measurements_client_id_fk")
+  @@index([variable_id, value, start_time], map: "measurements_variable_id_value_start_time_index")
+  @@index([user_id, variable_category_id, start_time], map: "measurements_user_id_variable_category_id_start_time_index")
+  @@index([variable_id, start_time], map: "measurements_variable_id_start_time_index")
+  @@index([variable_id, user_id], map: "measurements_user_variables_variable_id_user_id_fk")
+}
+
+model media {
+  id                Int       @id @default(autoincrement())
+  model_type        String
+  model_id          Int
+  collection_name   String
+  name              String
+  file_name         String
+  mime_type         String?
+  disk              String
+  size              Int
+  manipulations     String
+  custom_properties String
+  responsive_images String
+  order_column      Int?
+  created_at        DateTime?
+  updated_at        DateTime?
+
+  @@index([model_type, model_id], map: "media_model_type_model_id_index")
+}
+
+model migrations {
+  id        Int    @id @default(autoincrement())
+  migration String
+  batch     Int
+}
+
+model model_has_permissions {
+  permission_id Int
+  model_type    String
+  model_id      Int
+  permissions   permissions @relation(fields: [permission_id], references: [id], onDelete: Cascade, onUpdate: NoAction)
+
+  @@id([permission_id, model_id, model_type])
+  @@index([model_id, model_type], map: "model_has_permissions_model_id_model_type_index")
+}
+
+model model_has_roles {
+  role_id    Int
+  model_type String
+  model_id   Int
+  roles      roles  @relation(fields: [role_id], references: [id], onDelete: Cascade, onUpdate: NoAction)
+
+  @@id([role_id, model_id, model_type])
+  @@index([model_id, model_type], map: "model_has_roles_model_id_model_type_index")
+}
+
+model nfts {
+  id               Int       @id @default(autoincrement())
+  user_id          Int
+  tokenizable_type String
+  tokenizable_id   Int
+  chain            String
+  token_address    String    @unique(map: "nfts_token_address_unique")
+  token_id         String    @unique(map: "nfts_token_id_unique")
+  title            String
+  description      String
+  social_media_url String
+  quantity         Int
+  minting_address  String
+  file_url         String
+  ipfs_cid         String
+  tx_hash          String
+  client_id        String
+  created_at       DateTime?
+  updated_at       DateTime?
+  opensea_metadata String?
+
+  @@index([user_id], map: "nfts_user_id_index")
+  @@index([tokenizable_type, tokenizable_id], map: "nfts_tokenizable_type_tokenizable_id_index")
+}
+
+model nonces {
+  id         Int       @id @default(autoincrement())
+  nonce      String?
+  content    String?
+  type       String?
+  created_at DateTime?
+  updated_at DateTime?
+}
+
+model notifications {
+  id              String    @id
+  type            String
+  notifiable_type String
+  notifiable_id   Int
+  data            String
+  read_at         DateTime?
+  created_at      DateTime?
+  updated_at      DateTime?
+  deleted_at      DateTime?
+
+  @@index([notifiable_type, notifiable_id], map: "notifications_notifiable_type_notifiable_id_index")
+}
+
+model oa_access_tokens {
+  access_token String    @id
+  client_id    String
+  user_id      Int
+  expires      DateTime?
+  scope        String?
+  updated_at   DateTime  @default(now())
+  created_at   DateTime  @default(now())
+  deleted_at   DateTime?
+
+  @@index([user_id], map: "bshaffer_oauth_access_tokens_user_id_fk")
+  @@index([client_id], map: "access_tokens_client_id_fk")
+}
+
+model oa_authorization_codes {
+  authorization_code String    @id
+  client_id          String
+  user_id            Int
+  redirect_uri       String?
+  expires            DateTime?
+  scope              String?
+  updated_at         DateTime  @default(now())
+  created_at         DateTime  @default(now())
+  deleted_at         DateTime?
+
+  @@index([user_id], map: "bshaffer_oauth_authorization_codes_user_id_fk")
+  @@index([client_id], map: "bshaffer_oauth_authorization_codes_client_id_fk")
+}
+
+model oa_clients {
+  client_id                                 String    @id
+  client_secret                             String
+  redirect_uri                              String?
+  grant_types                               String?
+  user_id                                   Int
+  created_at                                DateTime  @default(now())
+  updated_at                                DateTime  @default(now())
+  icon_url                                  String?
+  app_identifier                            String?
+  deleted_at                                DateTime?
+  earliest_measurement_start_at             DateTime?
+  latest_measurement_start_at               DateTime?
+  number_of_aggregate_correlations          Int?
+  number_of_applications                    Int?
+  number_of_oauth_access_tokens             Int?
+  number_of_oauth_authorization_codes       Int?
+  number_of_oauth_refresh_tokens            Int?
+  number_of_button_clicks                   Int?
+  number_of_collaborators                   Int?
+  number_of_common_tags                     Int?
+  number_of_connections                     Int?
+  number_of_connector_imports               Int?
+  number_of_connectors                      Int?
+  number_of_correlations                    Int?
+  number_of_measurement_exports             Int?
+  number_of_measurement_imports             Int?
+  number_of_measurements                    Int?
+  number_of_sent_emails                     Int?
+  number_of_studies                         Int?
+  number_of_tracking_reminder_notifications Int?
+  number_of_tracking_reminders              Int?
+  number_of_user_tags                       Int?
+  number_of_user_variables                  Int?
+  number_of_variables                       Int?
+  number_of_votes                           Int?
+
+  @@index([user_id], map: "bshaffer_oauth_clients_user_id_fk")
+}
+
+model oa_refresh_tokens {
+  refresh_token String    @id
+  client_id     String
+  user_id       Int
+  expires       DateTime?
+  scope         String?
+  updated_at    DateTime  @default(now())
+  created_at    DateTime  @default(now())
+  deleted_at    DateTime?
+
+  @@index([user_id], map: "bshaffer_oauth_refresh_tokens_user_id_fk")
+  @@index([client_id], map: "refresh_tokens_client_id_fk")
+}
+
+model oauth_access_tokens {
+  id         String                    @id
+  user_id    Int?
+  client_id  Int
+  name       String?
+  scopes     String?
+  revoked    Unsupported("tinyint(1)")
+  created_at DateTime?
+  updated_at DateTime?
+  expires_at DateTime?
+
+  @@index([user_id], map: "oauth_access_tokens_user_id_index")
+}
+
+model oauth_auth_codes {
+  id         String                    @id
+  user_id    Int
+  client_id  Int
+  scopes     String?
+  revoked    Unsupported("tinyint(1)")
+  expires_at DateTime?
+
+  @@index([user_id], map: "oauth_auth_codes_user_id_index")
+}
+
+model oauth_clients {
+  id                     Int                       @id @default(autoincrement())
+  user_id                Int?
+  name                   String
+  secret                 String?
+  provider               String?
+  redirect               String
+  personal_access_client Unsupported("tinyint(1)")
+  password_client        Unsupported("tinyint(1)")
+  revoked                Unsupported("tinyint(1)")
+  created_at             DateTime?
+  updated_at             DateTime?
+
+  @@index([user_id], map: "oauth_clients_user_id_index")
+}
+
+model oauth_personal_access_clients {
+  id         Int       @id @default(autoincrement())
+  client_id  Int
+  created_at DateTime?
+  updated_at DateTime?
+}
+
+/// The underlying table does not contain a valid unique identifier and can therefore currently not be handled by Prisma Client.
+model password_resets {
+  email      String
+  token      String
+  created_at DateTime  @default(now())
+  updated_at DateTime  @default(now())
+  deleted_at DateTime?
+  client_id  String?
+
+  @@index([token], map: "password_resets_token_index")
+  @@index([email], map: "password_resets_email_index")
+  @@ignore
+}
+
+model patient_physicians {
+  id                Int       @id @default(autoincrement())
+  patient_user_id   Int
+  physician_user_id Int
+  scopes            String
+  created_at        DateTime  @default(now())
+  updated_at        DateTime  @default(now())
+  deleted_at        DateTime?
+
+  @@unique([patient_user_id, physician_user_id], map: "patients_patient_user_id_physician_user_id_uindex")
+  @@index([physician_user_id], map: "patient_physicians_wp_users_ID_fk_2")
+}
+
+model permission_role {
+  id            Int       @id @default(autoincrement())
+  permission_id Int
+  role_id       Int
+  created_at    DateTime?
+  updated_at    DateTime?
+  deleted_at    DateTime?
+
+  @@index([role_id], map: "permission_role_role_id_index")
+  @@index([permission_id], map: "permission_role_permission_id_index")
+}
+
+model permission_user {
+  id            Int       @id @default(autoincrement())
+  permission_id Int
+  user_id       Int
+  created_at    DateTime?
+  updated_at    DateTime?
+  deleted_at    DateTime?
+
+  @@index([user_id], map: "permission_user_user_id_index")
+  @@index([permission_id], map: "permission_user_permission_id_index")
+}
+
+model permissions {
+  id                    Int                     @id @default(autoincrement())
+  name                  String
+  guard_name            String
+  created_at            DateTime?
+  updated_at            DateTime?
+  model_has_permissions model_has_permissions[]
+  role_has_permissions  role_has_permissions[]
+
+  @@unique([name, guard_name], map: "permissions_name_guard_name_unique")
+}
+
+model phrases {
+  client_id                 String
+  created_at                DateTime  @default(now())
+  deleted_at                DateTime?
+  id                        Int       @id @default(autoincrement())
+  image                     String?
+  text                      String
+  title                     String?
+  type                      String
+  updated_at                DateTime  @default(now())
+  url                       String?
+  user_id                   Int
+  responding_to_phrase_id   Int?
+  response_phrase_id        Int?
+  recipient_user_ids        String?
+  number_of_times_heard     Int?
+  interpretative_confidence Float?
+
+  @@index([client_id], map: "phrases_client_id_fk")
+}
+
+model purchases {
+  id                                   Int       @id @default(autoincrement())
+  subscriber_user_id                   Int
+  referrer_user_id                     Int?
+  updated_at                           DateTime  @default(now())
+  created_at                           DateTime  @default(now())
+  subscription_provider                String
+  last_four                            String?
+  product_id                           String
+  subscription_provider_transaction_id String?
+  coupon                               String?
+  client_id                            String?
+  refunded_at                          DateTime?
+  deleted_at                           DateTime?
+
+  @@unique([subscriber_user_id, referrer_user_id], map: "subscriber_referrer")
+  @@index([client_id], map: "purchases_client_id_fk")
+}
+
+model queue_monitor {
+  id                Int                       @id @default(autoincrement())
+  job_id            String
+  name              String?
+  queue             String?
+  started_at        DateTime?
+  started_at_exact  String?
+  finished_at       DateTime?
+  finished_at_exact String?
+  time_elapsed      Float?
+  failed            Unsupported("tinyint(1)") @default(dbgenerated("'0'"))
+  attempt           Int                       @default(0)
+  progress          Int?
+  exception         String?
+  exception_message String?
+  exception_class   String?
+  data              String?
+
+  @@index([failed], map: "queue_monitor_failed_index")
+  @@index([time_elapsed], map: "queue_monitor_time_elapsed_index")
+  @@index([started_at], map: "queue_monitor_started_at_index")
+  @@index([job_id], map: "queue_monitor_job_id_index")
+}
+
+model role_has_permissions {
+  permission_id Int
+  role_id       Int
+  roles         roles       @relation(fields: [role_id], references: [id], onDelete: Cascade, onUpdate: NoAction)
+  permissions   permissions @relation(fields: [permission_id], references: [id], onDelete: Cascade, onUpdate: NoAction)
+
+  @@id([permission_id, role_id])
+}
+
+model role_user {
+  id         Int       @id @default(autoincrement())
+  role_id    Int
+  user_id    Int
+  created_at DateTime?
+  updated_at DateTime?
+  deleted_at DateTime?
+
+  @@index([user_id], map: "role_user_user_id_index")
+  @@index([role_id], map: "role_user_role_id_index")
+}
+
+model roles {
+  id                   Int                    @id @default(autoincrement())
+  name                 String
+  guard_name           String
+  created_at           DateTime?
+  updated_at           DateTime?
+  model_has_roles      model_has_roles[]
+  role_has_permissions role_has_permissions[]
+
+  @@unique([name, guard_name], map: "roles_name_guard_name_unique")
+}
+
+model schedule_histories {
+  id          Int       @id @default(autoincrement())
+  schedule_id Int
+  command     String
+  params      String?
+  output      String
+  options     String?
+  created_at  DateTime?
+  updated_at  DateTime?
+
+  @@index([schedule_id], map: "schedule_histories_schedule_id_foreign")
+}
+
+model schedules {
+  id                       Int                       @id @default(autoincrement())
+  command                  String
+  command_custom           String?
+  params                   String?
+  expression               String
+  environments             String?
+  options                  String?
+  log_filename             String?
+  even_in_maintenance_mode Unsupported("tinyint(1)") @default(dbgenerated("'0'"))
+  without_overlapping      Unsupported("tinyint(1)") @default(dbgenerated("'0'"))
+  on_one_server            Unsupported("tinyint(1)") @default(dbgenerated("'0'"))
+  webhook_before           String?
+  webhook_after            String?
+  email_output             String?
+  sendmail_error           Unsupported("tinyint(1)") @default(dbgenerated("'0'"))
+  log_success              Unsupported("tinyint(1)") @default(dbgenerated("'1'"))
+  log_error                Unsupported("tinyint(1)") @default(dbgenerated("'1'"))
+  status                   Unsupported("tinyint(1)") @default(dbgenerated("'1'"))
+  run_in_background        Unsupported("tinyint(1)") @default(dbgenerated("'0'"))
+  groups                   String?
+  created_at               DateTime?
+  updated_at               DateTime?
+  deleted_at               DateTime?
+  sendmail_success         Unsupported("tinyint(1)") @default(dbgenerated("'0'"))
+}
+
+model sent_emails {
+  id            Int                  @id @default(autoincrement())
+  user_id       Int?
+  type          String
+  created_at    DateTime             @default(now())
+  updated_at    DateTime             @default(now())
+  deleted_at    DateTime?
+  client_id     String?
+  slug          String?
+  response      String?
+  content       Unsupported("clob")?
+  wp_post_id    Int?
+  email_address String?
+  subject       String
+
+  @@index([user_id, type], map: "sent_emails_user_id_type_index")
+  @@index([client_id], map: "sent_emails_client_id_fk")
+  @@index([wp_post_id], map: "sent_emails_wp_posts_ID_fk")
+}
+
+model sessions {
+  id            String  @unique(map: "sessions_id_unique")
+  user_id       Int?
+  ip_address    String?
+  user_agent    String?
+  payload       String
+  last_activity Int
+}
+
+model sharer_trustees {
+  id                Int       @id @default(autoincrement())
+  sharer_user_id    Int
+  trustee_user_id   Int
+  scopes            String
+  relationship_type String
+  created_at        DateTime  @default(now())
+  updated_at        DateTime  @default(now())
+  deleted_at        DateTime?
+
+  @@unique([sharer_user_id, trustee_user_id], map: "sharer_user_id_trustee_user_id_uindex")
+  @@index([trustee_user_id], map: "sharer_trustees_wp_users_ID_fk_2")
+}
+
+model social_providers {
+  id                       Int                        @id @default(autoincrement())
+  label                    String
+  slug                     String                     @unique(map: "social_providers_slug_unique")
+  scopes                   String?
+  parameters               String?
+  override_scopes          Unsupported("tinyint(1)")  @default(dbgenerated("'0'"))
+  stateless                Unsupported("tinyint(1)")  @default(dbgenerated("'0'"))
+  created_at               DateTime?
+  updated_at               DateTime?
+  user_has_social_provider user_has_social_provider[]
+}
+
+model socialite_users {
+  id          Int       @id @default(autoincrement())
+  user_id     Int
+  provider    String
+  provider_id String
+  created_at  DateTime?
+  updated_at  DateTime?
+
+  @@unique([provider, provider_id], map: "socialite_users_provider_provider_id_unique")
+}
+
+model source_platforms {
+  id         Int       @id @default(autoincrement())
+  name       String
+  created_at DateTime  @default(now())
+  updated_at DateTime  @default(now())
+  deleted_at DateTime?
+  client_id  String?
+
+  @@index([client_id], map: "source_platforms_client_id_fk")
+}
+
+model sources {
+  id         Int       @id @default(autoincrement())
+  client_id  String?
+  name       String    @unique(map: "sources_name_UNIQUE")
+  created_at DateTime  @default(now())
+  updated_at DateTime  @default(now())
+  deleted_at DateTime?
+
+  @@index([client_id], map: "sources_client_id_fk")
+}
+
+model spreadsheet_importers {
+  id                            Int                       @id @default(autoincrement())
+  name                          String
+  display_name                  String
+  image                         String
+  get_it_url                    String?
+  short_description             String
+  long_description              String
+  enabled                       Unsupported("tinyint(1)") @default(dbgenerated("'1'"))
+  created_at                    DateTime                  @default(now())
+  updated_at                    DateTime                  @default(now())
+  client_id                     String?
+  deleted_at                    DateTime?
+  wp_post_id                    Int?
+  number_of_measurement_imports Int?
+  number_of_measurements        Int?
+  sort_order                    Int?
+
+  @@index([wp_post_id], map: "spreadsheet_importers_wp_posts_ID_fk")
+  @@index([client_id], map: "spreadsheet_importers_client_id_fk")
+}
+
+model studies {
+  id                            String                    @id
+  type                          String
+  cause_variable_id             Int
+  effect_variable_id            Int
+  user_id                       Int
+  created_at                    DateTime                  @default(now())
+  deleted_at                    DateTime?
+  analysis_parameters           String?
+  user_study_text               String?
+  user_title                    String?
+  study_status                  String                    @default("publish")
+  comment_status                String                    @default("open")
+  study_password                String?
+  study_images                  String?
+  updated_at                    DateTime                  @default(now())
+  client_id                     String?
+  published_at                  DateTime?
+  wp_post_id                    Int?
+  newest_data_at                DateTime?
+  analysis_requested_at         DateTime?
+  reason_for_analysis           String?
+  analysis_ended_at             DateTime?
+  analysis_started_at           DateTime?
+  internal_error_message        String?
+  user_error_message            String?
+  status                        String?
+  analysis_settings_modified_at DateTime?
+  is_public                     Unsupported("tinyint(1)")
+  sort_order                    Int?
+  slug                          String?                   @unique(map: "studies_slug_uindex")
+
+  @@unique([user_id, cause_variable_id, effect_variable_id, type], map: "user_cause_effect_type")
+  @@index([client_id], map: "studies_client_id_fk")
+  @@index([effect_variable_id], map: "studies_effect_variable_id")
+  @@index([cause_variable_id], map: "studies_cause_variable_id")
+}
+
+model subscription_items {
+  id              Int       @id @default(autoincrement())
+  subscription_id Int
+  stripe_id       String    @unique(map: "subscription_items_stripe_id_unique")
+  stripe_product  String
+  stripe_price    String
+  quantity        Int?
+  created_at      DateTime?
+  updated_at      DateTime?
+
+  @@unique([subscription_id, stripe_price], map: "subscription_items_subscription_id_stripe_price_unique")
+}
+
+model subscriptions {
+  id            Int       @id @default(autoincrement())
+  user_id       Int
+  name          String
+  stripe_id     String    @unique(map: "subscriptions_stripe_id_unique")
+  stripe_status String?
+  stripe_plan   String
+  stripe_price  String?
+  quantity      Int?
+  trial_ends_at DateTime?
+  ends_at       DateTime?
+  deleted_at    DateTime?
+  created_at    DateTime?
+  updated_at    DateTime?
+
+  @@index([user_id, stripe_status], map: "subscriptions_user_id_stripe_status_index")
+}
+
+model taggables {
+  tag_id        Int
+  taggable_type String
+  taggable_id   Int
+
+  @@unique([tag_id, taggable_id, taggable_type], map: "taggables_tag_id_taggable_id_taggable_type_unique")
+  @@index([taggable_type, taggable_id], map: "taggables_taggable_type_taggable_id_index")
+}
+
+model tags {
+  id           Int       @id @default(autoincrement())
+  name         String
+  slug         String
+  type         String?
+  order_column Int?
+  created_at   DateTime?
+  updated_at   DateTime?
+}
+
+model telescope_entries {
+  sequence                Int                       @id @default(autoincrement())
+  uuid                    String                    @unique(map: "telescope_entries_uuid_unique")
+  batch_id                String
+  family_hash             String?
+  should_display_on_index Unsupported("tinyint(1)") @default(dbgenerated("'1'"))
+  type                    String
+  content                 String
+  created_at              DateTime?
+
+  @@index([family_hash], map: "telescope_entries_family_hash_index")
+  @@index([batch_id], map: "telescope_entries_batch_id_index")
+  @@index([type, should_display_on_index], map: "telescope_entries_type_should_display_on_index_index")
+}
+
+/// The underlying table does not contain a valid unique identifier and can therefore currently not be handled by Prisma Client.
+model telescope_entries_tags {
+  entry_uuid String
+  tag        String
+
+  @@index([tag], map: "telescope_entries_tags_tag_index")
+  @@index([entry_uuid, tag], map: "telescope_entries_tags_entry_uuid_tag_index")
+  @@ignore
+}
+
+/// The underlying table does not contain a valid unique identifier and can therefore currently not be handled by Prisma Client.
+model telescope_monitoring {
+  tag String
+
+  @@ignore
+}
+
+model tenants {
+  id         String    @id
+  created_at DateTime?
+  updated_at DateTime?
+  data       String?
+  domains    domains[]
+}
+
+model third_party_correlations {
+  cause_id                                                     Int
+  effect_id                                                    Int
+  qm_score                                                     Float?
+  forward_pearson_correlation_coefficient                      Float?
+  value_predicting_high_outcome                                Float?
+  value_predicting_low_outcome                                 Float?
+  predicts_high_effect_change                                  Int?
+  predicts_low_effect_change                                   Int?
+  average_effect                                               Float?
+  average_effect_following_high_cause                          Float?
+  average_effect_following_low_cause                           Float?
+  average_daily_low_cause                                      Float?
+  average_daily_high_cause                                     Float?
+  average_forward_pearson_correlation_over_onset_delays        Float?
+  average_reverse_pearson_correlation_over_onset_delays        Float?
+  cause_changes                                                Int?
+  cause_filling_value                                          Float?
+  cause_number_of_processed_daily_measurements                 Int
+  cause_number_of_raw_measurements                             Int
+  cause_unit_id                                                Int?
+  confidence_interval                                          Float?
+  critical_t_value                                             Float?
+  created_at                                                   DateTime                   @default(now())
+  data_source_name                                             String?
+  deleted_at                                                   DateTime?
+  duration_of_action                                           Int?
+  effect_changes                                               Int?
+  effect_filling_value                                         Float?
+  effect_number_of_processed_daily_measurements                Int
+  effect_number_of_raw_measurements                            Int
+  error                                                        String?
+  forward_spearman_correlation_coefficient                     Float?
+  id                                                           Int                        @id @default(autoincrement())
+  number_of_days                                               Int
+  number_of_pairs                                              Int?
+  onset_delay                                                  Int?
+  onset_delay_with_strongest_pearson_correlation               Int?
+  optimal_pearson_product                                      Float?
+  p_value                                                      Float?
+  pearson_correlation_with_no_onset_delay                      Float?
+  predictive_pearson_correlation_coefficient                   Float?
+  reverse_pearson_correlation_coefficient                      Float?
+  statistical_significance                                     Float?
+  strongest_pearson_correlation_coefficient                    Float?
+  t_value                                                      Float?
+  updated_at                                                   DateTime                   @default(now())
+  user_id                                                      Int
+  grouped_cause_value_closest_to_value_predicting_low_outcome  Float?
+  grouped_cause_value_closest_to_value_predicting_high_outcome Float?
+  client_id                                                    String
+  published_at                                                 DateTime?
+  wp_post_id                                                   Int?
+  status                                                       String?
+  cause_variable_category_id                                   Int
+  effect_variable_category_id                                  Int
+  interesting_variable_category_pair                           Unsupported("tinyint(1)")?
+  cause_variable_id                                            Int?
+  effect_variable_id                                           Int?
+
+  @@unique([user_id, cause_id, effect_id], map: "tpc_user_cause_effect")
+}
+
+model tracker_log {
+  id            Int                       @id @default(autoincrement())
+  session_id    Int?
+  path_id       Int?
+  query_id      Int?
+  method        String
+  route_path_id Int?
+  is_ajax       Unsupported("tinyint(1)")
+  is_secure     Unsupported("tinyint(1)")
+  is_json       Unsupported("tinyint(1)")
+  wants_json    Unsupported("tinyint(1)")
+  error_id      Int?
+  created_at    DateTime                  @default(now())
+  updated_at    DateTime                  @default(now())
+  client_id     String?
+  user_id       Int
+  deleted_at    DateTime?
+
+  @@index([user_id], map: "tracker_log_user_id_fk")
+  @@index([client_id], map: "tracker_log_client_id_fk")
+  @@index([updated_at], map: "tracker_log_updated_at_index")
+  @@index([created_at], map: "tracker_log_created_at_index")
+  @@index([error_id], map: "tracker_log_error_id_index")
+  @@index([route_path_id], map: "tracker_log_route_path_id_index")
+  @@index([method], map: "tracker_log_method_index")
+  @@index([query_id], map: "tracker_log_query_id_index")
+  @@index([path_id], map: "tracker_log_path_id_index")
+  @@index([session_id], map: "tracker_log_session_id_index")
+}
+
+model tracker_sessions {
+  id         Int                       @id @default(autoincrement())
+  uuid       String                    @unique(map: "tracker_sessions_uuid_unique")
+  user_id    Int
+  device_id  Int?
+  agent_id   Int?
+  client_ip  String
+  referer_id Int?
+  cookie_id  Int?
+  geoip_id   Int?
+  is_robot   Unsupported("tinyint(1)")
+  created_at DateTime                  @default(now())
+  updated_at DateTime                  @default(now())
+  deleted_at DateTime?
+  client_id  String?
+
+  @@index([client_id], map: "tracker_sessions_client_id_fk")
+  @@index([updated_at], map: "tracker_sessions_updated_at_index")
+  @@index([created_at], map: "tracker_sessions_created_at_index")
+  @@index([geoip_id], map: "tracker_sessions_geoip_id_index")
+  @@index([cookie_id], map: "tracker_sessions_cookie_id_index")
+  @@index([referer_id], map: "tracker_sessions_referer_id_index")
+  @@index([client_ip], map: "tracker_sessions_client_ip_index")
+  @@index([agent_id], map: "tracker_sessions_agent_id_index")
+  @@index([device_id], map: "tracker_sessions_device_id_index")
+  @@index([user_id], map: "tracker_sessions_user_id_index")
+}
+
+model tracking_reminder_notifications {
+  id                   Int       @id @default(autoincrement())
+  tracking_reminder_id Int
+  created_at           DateTime  @default(now())
+  updated_at           DateTime  @default(now())
+  deleted_at           DateTime?
+  user_id              Int
+  notified_at          DateTime?
+  received_at          DateTime?
+  client_id            String?
+  variable_id          Int
+  notify_at            DateTime?
+  user_variable_id     Int
+
+  @@unique([notify_at, tracking_reminder_id], map: "notify_at_tracking_reminder_id_uindex")
+  @@index([user_variable_id], map: "tracking_reminder_notifications_user_variables_id_fk")
+  @@index([variable_id], map: "tracking_reminder_notifications_variable_id_fk")
+  @@index([client_id], map: "tracking_reminder_notifications_client_id_fk")
+  @@index([user_id], map: "tracking_reminder_notifications_user_id_fk")
+  @@index([tracking_reminder_id], map: "tracking_reminder_notifications_tracking_reminders_id_fk")
+}
+
+model tracking_reminders {
+  id                                              Int                        @id @default(autoincrement())
+  user_id                                         Int
+  client_id                                       String
+  variable_id                                     Int
+  default_value                                   Float?
+  reminder_start_time                             Unsupported("time")        @default(dbgenerated("'00:00:00'"))
+  reminder_end_time                               Unsupported("time")?
+  reminder_sound                                  String?
+  reminder_frequency                              Int?
+  pop_up                                          Unsupported("tinyint(1)")?
+  sms                                             Unsupported("tinyint(1)")?
+  email                                           Unsupported("tinyint(1)")?
+  notification_bar                                Unsupported("tinyint(1)")?
+  last_tracked                                    DateTime?
+  created_at                                      DateTime                   @default(now())
+  updated_at                                      DateTime                   @default(now())
+  start_tracking_date                             DateTime?
+  stop_tracking_date                              DateTime?
+  instructions                                    String?
+  deleted_at                                      DateTime?
+  image_url                                       String?
+  user_variable_id                                Int
+  latest_tracking_reminder_notification_notify_at DateTime?
+  number_of_tracking_reminder_notifications       Int?
+
+  @@unique([user_id, variable_id, reminder_start_time, reminder_frequency], map: "UK_user_var_time_freq")
+  @@index([user_variable_id], map: "tracking_reminders_user_variables_user_variable_id_fk")
+  @@index([client_id], map: "tracking_reminders_client_id_fk")
+  @@index([variable_id, user_id], map: "tracking_reminders_user_variables_variable_id_user_id_fk")
+  @@index([user_id, client_id], map: "user_client")
+}
+
+model unit_categories {
+  id            Int                       @id @default(autoincrement())
+  name          String                    @unique(map: "unit_categories_name_UNIQUE")
+  created_at    DateTime                  @default(now())
+  updated_at    DateTime                  @default(now())
+  can_be_summed Unsupported("tinyint(1)") @default(dbgenerated("'1'"))
+  deleted_at    DateTime?
+  sort_order    Int?
+}
+
+model units {
+  id                                               Int                              @id @default(autoincrement())
+  name                                             String                           @unique(map: "units_name_UNIQUE")
+  unit_category_id                                 Int
+  minimum_value                                    Unsupported("double precision")?
+  maximum_value                                    Unsupported("double precision")?
+  created_at                                       DateTime                         @default(now())
+  updated_at                                       DateTime                         @default(now())
+  deleted_at                                       DateTime?
+  filling_type                                     String
+  number_of_outcome_population_studies             Int?
+  number_of_common_tags_where_tag_variable_unit    Int?
+  number_of_common_tags_where_tagged_variable_unit Int?
+  number_of_outcome_case_studies                   Int?
+  number_of_measurements                           Int?
+  number_of_user_variables_where_default_unit      Int?
+  number_of_variable_categories_where_default_unit Int?
+  number_of_variables_where_default_unit           Int?
+  advanced                                         Boolean
+  manual_tracking                                  Boolean
+  filling_value                                    Unsupported("double precision")?
+  scale                                            String
+  conversion_steps                                 Unsupported("clob")?
+  maximum_daily_value                              Unsupported("double precision")?
+  sort_order                                       Int?
+  slug                                             String?                          @unique(map: "units_slug_uindex")
+  code                                             String?
+  descriptive_name                                 String?
+  code_system                                      String?
+  definition                                       String?
+  synonym                                          String?
+  status                                           String?
+  kind_of_quantity                                 String?
+  concept_id                                       String?
+  dimension                                        String?
+  abbreviated_name                                 String?                          @unique(map: "abbr_name_UNIQUE")
+
+  @@index([unit_category_id], map: "fk_unitCategory")
+}
+
+model user_clients {
+  id                      Int       @id @default(autoincrement())
+  client_id               String?
+  created_at              DateTime  @default(now())
+  deleted_at              DateTime?
+  earliest_measurement_at DateTime?
+  latest_measurement_at   DateTime?
+  number_of_measurements  Int?
+  updated_at              DateTime  @default(now())
+  user_id                 Int
+
+  @@unique([user_id, client_id], map: "user_clients_user")
+  @@index([client_id], map: "user_clients_client_id_fk")
+}
+
+model user_has_social_provider {
+  user_id            Int
+  social_provider_id Int
+  token              String
+  social_id          String
+  expires_in         DateTime?
+  social_providers   social_providers @relation(fields: [social_provider_id], references: [id], onDelete: Cascade, onUpdate: NoAction)
+  users              users            @relation(fields: [user_id], references: [id], onDelete: Cascade, onUpdate: NoAction)
+
+  @@id([user_id, social_provider_id])
+}
+
+model user_studies {
+  id                            String                     @id
+  cause_variable_id             Int
+  effect_variable_id            Int
+  cause_user_variable_id        Int
+  effect_user_variable_id       Int
+  correlation_id                Int?                       @unique(map: "user_studies_correlation_id_uindex")
+  user_id                       Int
+  created_at                    DateTime                   @default(now())
+  deleted_at                    DateTime?
+  analysis_parameters           String?
+  user_study_text               String?
+  user_title                    String?
+  study_status                  String                     @default("publish")
+  comment_status                String                     @default("open")
+  study_password                String?
+  study_images                  String?
+  updated_at                    DateTime                   @default(now())
+  client_id                     String?
+  published_at                  DateTime?
+  wp_post_id                    Int?
+  newest_data_at                DateTime?
+  analysis_requested_at         DateTime?
+  reason_for_analysis           String?
+  analysis_ended_at             DateTime?
+  analysis_started_at           DateTime?
+  internal_error_message        String?
+  user_error_message            String?
+  status                        String?
+  analysis_settings_modified_at DateTime?
+  is_public                     Unsupported("tinyint(1)")?
+  sort_order                    Int?
+  slug                          String?                    @unique(map: "user_studies_slug_uindex")
+
+  @@unique([user_id, cause_variable_id, effect_variable_id], map: "user_studies_user_cause_effect")
+  @@index([effect_user_variable_id], map: "user_studies_effect_user_variables_id_fk")
+  @@index([cause_user_variable_id], map: "user_studies_cause_user_variables_id_fk")
+  @@index([effect_variable_id], map: "user_studies_effect_variables_id_fk")
+  @@index([cause_variable_id], map: "user_studies_cause_variables_id_fk")
+}
+
+model user_tags {
+  id                      Int       @id @default(autoincrement())
+  tagged_variable_id      Int
+  tag_variable_id         Int
+  conversion_factor       Float
+  user_id                 Int
+  created_at              DateTime  @default(now())
+  updated_at              DateTime  @default(now())
+  client_id               String?
+  deleted_at              DateTime?
+  tagged_user_variable_id Int?
+  tag_user_variable_id    Int
+
+  @@unique([tagged_variable_id, tag_variable_id, user_id], map: "UK_user_tag_tagged")
+  @@index([tagged_user_variable_id], map: "user_tags_tagged_user_variable_id_fk")
+  @@index([client_id], map: "user_tags_client_id_fk")
+  @@index([user_id], map: "user_tags_user_id_fk")
+  @@index([tag_variable_id], map: "fk_conversionUnit")
+}
+
+model user_variable_clients {
+  id                      Int       @id @default(autoincrement())
+  client_id               String
+  created_at              DateTime  @default(now())
+  deleted_at              DateTime?
+  earliest_measurement_at DateTime?
+  latest_measurement_at   DateTime?
+  number_of_measurements  Int?
+  updated_at              DateTime  @default(now())
+  user_id                 Int
+  user_variable_id        Int
+  variable_id             Int
+
+  @@unique([user_id, variable_id, client_id], map: "user_variable_clients_user")
+  @@index([variable_id], map: "user_variable_clients_variable_id_fk")
+  @@index([user_variable_id], map: "user_variable_clients_user_variables_user_variable_id_fk")
+  @@index([client_id], map: "user_variable_clients_client_id_fk")
+}
+
+model user_variable_outcome_category {
+  id                               Int       @id @default(autoincrement())
+  user_variable_id                 Int
+  variable_id                      Int
+  variable_category_id             Int
+  number_of_outcome_user_variables Int
+  created_at                       DateTime  @default(now())
+  updated_at                       DateTime  @default(now())
+  deleted_at                       DateTime?
+
+  @@unique([user_variable_id, variable_category_id], map: "user_variable_outcome_category_uindex")
+  @@index([variable_category_id], map: "user_variable_outcome_category_variable_categories_id_fk")
+  @@index([variable_id], map: "user_variable_outcome_category_variables_id_fk")
+}
+
+model user_variable_predictor_category {
+  id                                 Int       @id @default(autoincrement())
+  user_variable_id                   Int
+  variable_id                        Int
+  variable_category_id               Int
+  number_of_predictor_user_variables Int
+  created_at                         DateTime  @default(now())
+  updated_at                         DateTime  @default(now())
+  deleted_at                         DateTime?
+
+  @@unique([user_variable_id, variable_category_id], map: "user_variable_predictor_category_uindex")
+  @@index([variable_category_id], map: "user_variable_predictor_category_variable_categories_id_fk")
+  @@index([variable_id], map: "user_variable_predictor_category_variables_id_fk")
+}
+
+model user_variables {
+  id                                                   Int                        @id @default(autoincrement())
+  parent_id                                            Int?
+  client_id                                            String?
+  user_id                                              Int
+  variable_id                                          Int
+  default_unit_id                                      Int?
+  minimum_allowed_value                                Float?
+  maximum_allowed_value                                Float?
+  filling_value                                        Float?                     @default(-1)
+  join_with                                            Int?
+  onset_delay                                          Int?
+  duration_of_action                                   Int?
+  variable_category_id                                 Int?
+  cause_only                                           Unsupported("tinyint(1)")?
+  filling_type                                         String?
+  number_of_processed_daily_measurements               Int?
+  measurements_at_last_analysis                        Int                        @default(0)
+  last_unit_id                                         Int?
+  last_original_unit_id                                Int?
+  last_value                                           Float?
+  last_original_value                                  Float?
+  number_of_correlations                               Int?
+  status                                               String?
+  standard_deviation                                   Float?
+  variance                                             Float?
+  minimum_recorded_value                               Float?
+  maximum_recorded_value                               Float?
+  mean                                                 Float?
+  median                                               Float?
+  most_common_original_unit_id                         Int?
+  most_common_value                                    Float?
+  number_of_unique_daily_values                        Int?
+  number_of_unique_values                              Int?
+  number_of_changes                                    Int?
+  skewness                                             Float?
+  kurtosis                                             Float?
+  latitude                                             Float?
+  longitude                                            Float?
+  location                                             String?
+  created_at                                           DateTime                   @default(now())
+  updated_at                                           DateTime                   @default(now())
+  outcome                                              Unsupported("tinyint(1)")?
+  data_sources_count                                   String?
+  earliest_filling_time                                Int?
+  latest_filling_time                                  Int?
+  last_processed_daily_value                           Float?
+  outcome_of_interest                                  Unsupported("tinyint(1)")? @default(dbgenerated("'0'"))
+  predictor_of_interest                                Unsupported("tinyint(1)")? @default(dbgenerated("'0'"))
+  experiment_start_time                                DateTime?
+  experiment_end_time                                  DateTime?
+  description                                          String?
+  deleted_at                                           DateTime?
+  alias                                                String?
+  second_to_last_value                                 Float?
+  third_to_last_value                                  Float?
+  number_of_user_correlations_as_effect                Int?
+  number_of_user_correlations_as_cause                 Int?
+  combination_operation                                String?
+  informational_url                                    String?
+  most_common_connector_id                             Int?
+  valence                                              String?
+  wikipedia_title                                      String?
+  number_of_tracking_reminders                         Int
+  number_of_raw_measurements_with_tags_joins_children  Int?
+  most_common_source_name                              String?
+  optimal_value_message                                String?
+  best_cause_variable_id                               Int?
+  best_effect_variable_id                              Int?
+  user_maximum_allowed_daily_value                     Float?
+  user_minimum_allowed_daily_value                     Float?
+  user_minimum_allowed_non_zero_value                  Float?
+  minimum_allowed_seconds_between_measurements         Int?
+  average_seconds_between_measurements                 Int?
+  median_seconds_between_measurements                  Int?
+  last_correlated_at                                   DateTime?
+  number_of_measurements_with_tags_at_last_correlation Int?
+  analysis_settings_modified_at                        DateTime?
+  newest_data_at                                       DateTime?
+  analysis_requested_at                                DateTime?
+  reason_for_analysis                                  String?
+  analysis_started_at                                  DateTime?
+  analysis_ended_at                                    DateTime?
+  user_error_message                                   String?
+  internal_error_message                               String?
+  earliest_source_measurement_start_at                 DateTime?
+  latest_source_measurement_start_at                   DateTime?
+  latest_tagged_measurement_start_at                   DateTime?
+  earliest_tagged_measurement_start_at                 DateTime?
+  latest_non_tagged_measurement_start_at               DateTime?
+  earliest_non_tagged_measurement_start_at             DateTime?
+  wp_post_id                                           Int?
+  number_of_soft_deleted_measurements                  Int?
+  best_user_correlation_id                             Int?
+  number_of_measurements                               Int?
+  number_of_tracking_reminder_notifications            Int?
+  deletion_reason                                      String?
+  record_size_in_kb                                    Int?
+  number_of_common_tags                                Int?
+  number_common_tagged_by                              Int?
+  number_of_common_joined_variables                    Int?
+  number_of_common_ingredients                         Int?
+  number_of_common_foods                               Int?
+  number_of_common_children                            Int?
+  number_of_common_parents                             Int?
+  number_of_user_tags                                  Int?
+  number_user_tagged_by                                Int?
+  number_of_user_joined_variables                      Int?
+  number_of_user_ingredients                           Int?
+  number_of_user_foods                                 Int?
+  number_of_user_children                              Int?
+  number_of_user_parents                               Int?
+  is_public                                            Unsupported("tinyint(1)")?
+  slug                                                 String?                    @unique(map: "user_variables_slug_uindex")
+  is_goal                                              Unsupported("tinyint(1)")?
+  controllable                                         Unsupported("tinyint(1)")?
+  boring                                               Unsupported("tinyint(1)")?
+  predictor                                            Unsupported("tinyint(1)")?
+
+  @@unique([user_id, variable_id], map: "uv_user_id")
+  @@index([best_user_correlation_id], map: "user_variables_correlations_qm_score_fk")
+  @@index([wp_post_id], map: "user_variables_wp_posts_ID_fk")
+  @@index([analysis_started_at], map: "user_variables_analysis_started_at_index")
+  @@index([variable_category_id], map: "user_variables_variable_category_id_fk")
+  @@index([default_unit_id], map: "user_variables_default_unit_id_fk")
+  @@index([variable_id], map: "fk_variableSettings")
+  @@index([user_id], map: "user_variables_user_id_latest_tagged_measurement_time_index")
+  @@index([client_id], map: "user_variables_client_id_fk")
+}
+
+model usermeta {
+  umeta_id   Int       @id @default(autoincrement())
+  user_id    Int?      @default(0)
+  meta_key   String?
+  meta_value String?
+  updated_at DateTime  @default(now())
+  created_at DateTime  @default(now())
+  deleted_at DateTime?
+  client_id  String?
+
+  @@index([meta_key], map: "wp_usermeta_meta_key")
+  @@index([user_id], map: "user_id")
+}
+
+model users {
+  id                                                       Int                        @id @default(autoincrement())
+  client_id                                                String
+  user_login                                               String?
+  email                                                    String?
+  user_url                                                 String?
+  user_registered                                          DateTime?
+  user_activation_key                                      String?
+  user_status                                              Int?                       @default(0)
+  display_name                                             String?
+  avatar_image                                             String?
+  reg_provider                                             String?
+  provider_id                                              String?
+  provider_token                                           String?
+  remember_token                                           String?
+  updated_at                                               DateTime                   @default(now())
+  created_at                                               DateTime                   @default(now())
+  refresh_token                                            String?
+  unsubscribed                                             Unsupported("tinyint(1)")? @default(dbgenerated("'0'"))
+  old_user                                                 Unsupported("tinyint(1)")? @default(dbgenerated("'0'"))
+  stripe_active                                            Unsupported("tinyint(1)")? @default(dbgenerated("'0'"))
+  stripe_id                                                String?
+  stripe_subscription                                      String?
+  stripe_plan                                              String?
+  last_four                                                String?
+  trial_ends_at                                            DateTime?
+  subscription_ends_at                                     DateTime?
+  roles                                                    String?
+  time_zone_offset                                         Int?
+  deleted_at                                               DateTime?
+  earliest_reminder_time                                   Unsupported("time")        @default(dbgenerated("'07:00:00'"))
+  latest_reminder_time                                     Unsupported("time")        @default(dbgenerated("'21:00:00'"))
+  push_notifications_enabled                               Unsupported("tinyint(1)")? @default(dbgenerated("'1'"))
+  track_location                                           Unsupported("tinyint(1)")? @default(dbgenerated("'0'"))
+  combine_notifications                                    Unsupported("tinyint(1)")? @default(dbgenerated("'0'"))
+  send_reminder_notification_emails                        Unsupported("tinyint(1)")? @default(dbgenerated("'0'"))
+  send_predictor_emails                                    Unsupported("tinyint(1)")? @default(dbgenerated("'1'"))
+  get_preview_builds                                       Unsupported("tinyint(1)")? @default(dbgenerated("'0'"))
+  subscription_provider                                    String?
+  last_sms_tracking_reminder_notification_id               Int?
+  sms_notifications_enabled                                Unsupported("tinyint(1)")? @default(dbgenerated("'0'"))
+  phone_verification_code                                  String?
+  phone_number                                             String?
+  has_android_app                                          Unsupported("tinyint(1)")? @default(dbgenerated("'0'"))
+  has_ios_app                                              Unsupported("tinyint(1)")? @default(dbgenerated("'0'"))
+  has_chrome_extension                                     Unsupported("tinyint(1)")? @default(dbgenerated("'0'"))
+  referrer_user_id                                         Int?
+  address                                                  String?
+  birthday                                                 String?
+  country                                                  String?
+  cover_photo                                              String?
+  currency                                                 String?
+  first_name                                               String?
+  gender                                                   String?
+  language                                                 String?
+  last_name                                                String?
+  state                                                    String?
+  tag_line                                                 String?
+  verified                                                 String?
+  zip_code                                                 String?
+  card_brand                                               String?
+  card_last_four                                           String?
+  last_login_at                                            DateTime?
+  timezone                                                 String?
+  number_of_correlations                                   Int?
+  number_of_connections                                    Int?
+  number_of_tracking_reminders                             Int?
+  number_of_user_variables                                 Int?
+  number_of_raw_measurements_with_tags                     Int?
+  number_of_raw_measurements_with_tags_at_last_correlation Int?
+  number_of_votes                                          Int?
+  number_of_studies                                        Int?
+  last_correlation_at                                      DateTime?
+  last_email_at                                            DateTime?
+  last_push_at                                             DateTime?
+  primary_outcome_variable_id                              Int?
+  spam                                                     Int                        @default(0)
+  deleted                                                  Int                        @default(0)
+  wp_post_id                                               Int?
+  analysis_ended_at                                        DateTime?
+  analysis_requested_at                                    DateTime?
+  analysis_started_at                                      DateTime?
+  internal_error_message                                   String?
+  newest_data_at                                           DateTime?
+  reason_for_analysis                                      String?
+  user_error_message                                       String?
+  status                                                   String?
+  analysis_settings_modified_at                            DateTime?
+  number_of_applications                                   Int?
+  number_of_oauth_access_tokens                            Int?
+  number_of_oauth_authorization_codes                      Int?
+  number_of_oauth_clients                                  Int?
+  number_of_oauth_refresh_tokens                           Int?
+  number_of_button_clicks                                  Int?
+  number_of_collaborators                                  Int?
+  number_of_connector_imports                              Int?
+  number_of_connector_requests                             Int?
+  number_of_measurement_exports                            Int?
+  number_of_measurement_imports                            Int?
+  number_of_measurements                                   Int?
+  number_of_sent_emails                                    Int?
+  number_of_subscriptions                                  Int?
+  number_of_tracking_reminder_notifications                Int?
+  number_of_user_tags                                      Int?
+  number_of_users_where_referrer_user                      Int?
+  share_all_data                                           Unsupported("tinyint(1)")  @default(dbgenerated("'0'"))
+  deletion_reason                                          String?
+  password                                                 String?
+  number_of_patients                                       Int?
+  is_public                                                Unsupported("tinyint(1)")?
+  sort_order                                               Int?
+  slug                                                     String?
+  number_of_sharers                                        Int?
+  number_of_trustees                                       Int?
+  eth_address                                              String?
+  salt                                                     String?
+  fdai_user_id                                             Int?
+  user_has_social_provider                                 user_has_social_provider[]
+}
+
+model variable_categories {
+  id                                           Int                        @id @default(autoincrement())
+  name                                         String
+  filling_value                                Float?
+  maximum_allowed_value                        Float?
+  minimum_allowed_value                        Float?
+  duration_of_action                           Int                        @default(86400)
+  onset_delay                                  Int                        @default(0)
+  combination_operation                        String                     @default("SUM")
+  cause_only                                   Unsupported("tinyint(1)")  @default(dbgenerated("'0'"))
+  outcome                                      Unsupported("tinyint(1)")?
+  created_at                                   DateTime                   @default(now())
+  updated_at                                   DateTime                   @default(now())
+  image_url                                    String?
+  default_unit_id                              Int?                       @default(12)
+  deleted_at                                   DateTime?
+  manual_tracking                              Unsupported("tinyint(1)")? @default(dbgenerated("'0'"))
+  minimum_allowed_seconds_between_measurements Int?
+  average_seconds_between_measurements         Int?
+  median_seconds_between_measurements          Int?
+  wp_post_id                                   Int?
+  filling_type                                 String?
+  number_of_outcome_population_studies         Int?
+  number_of_predictor_population_studies       Int?
+  number_of_outcome_case_studies               Int?
+  number_of_predictor_case_studies             Int?
+  number_of_measurements                       Int?
+  number_of_user_variables                     Int?
+  number_of_variables                          Int?
+  is_public                                    Unsupported("tinyint(1)")?
+  synonyms                                     String
+  amazon_product_category                      String
+  boring                                       Unsupported("tinyint(1)")?
+  effect_only                                  Unsupported("tinyint(1)")?
+  predictor                                    Unsupported("tinyint(1)")?
+  font_awesome                                 String?
+  ion_icon                                     String?
+  more_info                                    String?
+  valence                                      String?
+  name_singular                                String
+  sort_order                                   Int?
+  slug                                         String                     @unique(map: "vc_slug_uindex")
+  is_goal                                      String
+  controllable                                 String
+  string_id                                    String?
+  description                                  String?
+
+  @@index([wp_post_id], map: "variable_categories_wp_posts_ID_fk")
+  @@index([default_unit_id], map: "variable_categories_default_unit_id_fk")
+}
+
+model variable_outcome_category {
+  id                          Int       @id @default(autoincrement())
+  variable_id                 Int
+  variable_category_id        Int
+  number_of_outcome_variables Int
+  created_at                  DateTime  @default(now())
+  updated_at                  DateTime  @default(now())
+  deleted_at                  DateTime?
+
+  @@unique([variable_id, variable_category_id], map: "variable_outcome_category_uindex")
+  @@index([variable_category_id], map: "v_outcome_category_variable_categories_id_fk")
+}
+
+model variable_predictor_category {
+  id                            Int      @id @default(autoincrement())
+  variable_id                   Int
+  variable_category_id          Int
+  number_of_predictor_variables Int
+  created_at                    DateTime @default(now())
+  updated_at                    DateTime @default(now())
+}
+
+model variable_user_sources {
+  user_id                       Int
+  variable_id                   Int
+  timestamp                     Int?
+  earliest_measurement_time     Int?
+  latest_measurement_time       Int?
+  created_at                    DateTime  @default(now())
+  updated_at                    DateTime  @default(now())
+  deleted_at                    DateTime?
+  data_source_name              String
+  number_of_raw_measurements    Int?
+  client_id                     String?
+  id                            Int       @id @default(autoincrement())
+  user_variable_id              Int
+  earliest_measurement_start_at DateTime?
+  latest_measurement_start_at   DateTime?
+
+  @@unique([user_id, variable_id, data_source_name], map: "variable_user_sources_user")
+  @@index([user_variable_id], map: "variable_user_sources_user_variables_user_variable_id_fk")
+  @@index([variable_id, user_id], map: "variable_user_sources_user_variables_variable_id_user_id_fk")
+}
+
+model variables {
+  id                                                  Int                        @id @default(autoincrement())
+  name                                                String                     @unique(map: "variables_name_UNIQUE")
+  number_of_user_variables                            Int                        @default(0)
+  variable_category_id                                Int
+  default_unit_id                                     Int
+  default_value                                       Float?
+  cause_only                                          Unsupported("tinyint(1)")?
+  client_id                                           String?
+  combination_operation                               String?
+  common_alias                                        String?
+  created_at                                          DateTime                   @default(now())
+  description                                         String?
+  duration_of_action                                  Int?
+  filling_value                                       Float?                     @default(-1)
+  image_url                                           String?
+  informational_url                                   String?
+  ion_icon                                            String?
+  kurtosis                                            Float?
+  maximum_allowed_value                               Float?
+  maximum_recorded_value                              Float?
+  mean                                                Float?
+  median                                              Float?
+  minimum_allowed_value                               Float?
+  minimum_recorded_value                              Float?
+  number_of_aggregate_correlations_as_cause           Int?
+  most_common_original_unit_id                        Int?
+  most_common_value                                   Float?
+  number_of_aggregate_correlations_as_effect          Int?
+  number_of_unique_values                             Int?
+  onset_delay                                         Int?
+  outcome                                             Unsupported("tinyint(1)")?
+  parent_id                                           Int?
+  price                                               Float?
+  product_url                                         String?
+  second_most_common_value                            Float?
+  skewness                                            Float?
+  standard_deviation                                  Float?
+  status                                              String                     @default("WAITING")
+  third_most_common_value                             Float?
+  updated_at                                          DateTime                   @default(now())
+  variance                                            Float?
+  most_common_connector_id                            Int?
+  synonyms                                            String?
+  wikipedia_url                                       String?
+  brand_name                                          String?
+  valence                                             String?
+  wikipedia_title                                     String?
+  number_of_tracking_reminders                        Int?
+  upc_12                                              String?
+  upc_14                                              String?
+  number_common_tagged_by                             Int?
+  number_of_common_tags                               Int?
+  deleted_at                                          DateTime?
+  most_common_source_name                             String?
+  data_sources_count                                  String?
+  optimal_value_message                               String?
+  best_cause_variable_id                              Int?
+  best_effect_variable_id                             Int?
+  common_maximum_allowed_daily_value                  Float?
+  common_minimum_allowed_daily_value                  Float?
+  common_minimum_allowed_non_zero_value               Float?
+  minimum_allowed_seconds_between_measurements        Int?
+  average_seconds_between_measurements                Int?
+  median_seconds_between_measurements                 Int?
+  number_of_raw_measurements_with_tags_joins_children Int?
+  additional_meta_data                                String?
+  manual_tracking                                     Unsupported("tinyint(1)")?
+  analysis_settings_modified_at                       DateTime?
+  newest_data_at                                      DateTime?
+  analysis_requested_at                               DateTime?
+  reason_for_analysis                                 String?
+  analysis_started_at                                 DateTime?
+  analysis_ended_at                                   DateTime?
+  user_error_message                                  String?
+  internal_error_message                              String?
+  latest_tagged_measurement_start_at                  DateTime?
+  earliest_tagged_measurement_start_at                DateTime?
+  latest_non_tagged_measurement_start_at              DateTime?
+  earliest_non_tagged_measurement_start_at            DateTime?
+  wp_post_id                                          Int?
+  number_of_soft_deleted_measurements                 Int?
+  charts                                              String?
+  creator_user_id                                     Int
+  best_aggregate_correlation_id                       Int?
+  filling_type                                        String?
+  number_of_outcome_population_studies                Int?
+  number_of_predictor_population_studies              Int?
+  number_of_applications_where_outcome_variable       Int?
+  number_of_applications_where_predictor_variable     Int?
+  number_of_common_tags_where_tag_variable            Int?
+  number_of_common_tags_where_tagged_variable         Int?
+  number_of_outcome_case_studies                      Int?
+  number_of_measurements                              Int?
+  number_of_predictor_case_studies                    Int?
+  number_of_studies_where_cause_variable              Int?
+  number_of_studies_where_effect_variable             Int?
+  number_of_tracking_reminder_notifications           Int?
+  number_of_user_tags_where_tag_variable              Int?
+  number_of_user_tags_where_tagged_variable           Int?
+  number_of_variables_where_best_cause_variable       Int?
+  number_of_variables_where_best_effect_variable      Int?
+  number_of_votes_where_cause_variable                Int?
+  number_of_votes_where_effect_variable               Int?
+  number_of_users_where_primary_outcome_variable      Int?
+  deletion_reason                                     String?
+  maximum_allowed_daily_value                         Float?
+  record_size_in_kb                                   Int?
+  number_of_common_joined_variables                   Int?
+  number_of_common_ingredients                        Int?
+  number_of_common_foods                              Int?
+  number_of_common_children                           Int?
+  number_of_common_parents                            Int?
+  number_of_user_joined_variables                     Int?
+  number_of_user_ingredients                          Int?
+  number_of_user_foods                                Int?
+  number_of_user_children                             Int?
+  number_of_user_parents                              Int?
+  is_public                                           Unsupported("tinyint(1)")?
+  sort_order                                          Int?
+  slug                                                String?                    @unique(map: "variables_slug_uindex")
+  is_goal                                             Unsupported("tinyint(1)")?
+  controllable                                        Unsupported("tinyint(1)")?
+  boring                                              Unsupported("tinyint(1)")?
+  canonical_variable_id                               Int?
+  predictor                                           Unsupported("tinyint(1)")?
+  source_url                                          String?
+  string_id                                           String?
+
+  @@index([best_aggregate_correlation_id], map: "variables_aggregate_correlations_id_fk")
+  @@index([wp_post_id], map: "variables_wp_posts_ID_fk")
+  @@index([best_effect_variable_id], map: "variables_best_effect_variable_id_fk")
+  @@index([best_cause_variable_id], map: "variables_best_cause_variable_id_fk")
+  @@index([client_id], map: "variables_client_id_fk")
+  @@index([default_unit_id], map: "fk_variableDefaultUnit")
+  @@index([deleted_at, synonyms, number_of_user_variables], map: "public_deleted_at_synonyms_number_of_user_variables_index")
+  @@index([name, number_of_user_variables], map: "variables_public_name_number_of_user_variables_index")
+  @@index([variable_category_id, default_unit_id, name, number_of_user_variables, id], map: "IDX_cat_unit_public_name")
+}
+
+model votes {
+  id                       Int                        @id @default(autoincrement())
+  client_id                String?
+  user_id                  Int
+  value                    Int
+  created_at               DateTime                   @default(now())
+  updated_at               DateTime                   @default(now())
+  deleted_at               DateTime?
+  cause_variable_id        Int
+  effect_variable_id       Int
+  correlation_id           Int?
+  aggregate_correlation_id Int?
+  is_public                Unsupported("tinyint(1)")?
+
+  @@unique([user_id, cause_variable_id, effect_variable_id], map: "votes_user_id_cause_variable_id_effect_variable_id_uindex")
+  @@index([aggregate_correlation_id], map: "votes_aggregate_correlations_id_fk")
+  @@index([correlation_id], map: "votes_correlations_id_fk")
+  @@index([effect_variable_id], map: "votes_effect_variable_id_index")
+  @@index([cause_variable_id], map: "votes_cause_variable_id_index")
+  @@index([client_id], map: "votes_client_id_fk")
+}

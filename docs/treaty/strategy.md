@@ -1,5 +1,14 @@
 # Roadmap
 
+So, roughly the process would be: 
+👉 $1M to initially create the DAO 
+👉 $40M from token crowdfunding 
+👉 $20M Lobbying + $20M Marketing to Get Signatures from 1% 
+👉 $20B/year funding 
+👉 If necessary, pay back initial contributors, with 0.5% of the $20B 
+👉 260X Faster Medical Progress and 1% Less War
+👉 [$179T](logical-treaty.md) Equivalent Economic Value of Less War and Disease
+
 Here is a list of GitHub issues with added labels, milestones, and estimated costs:
 
 ### Pre-Launch Phase

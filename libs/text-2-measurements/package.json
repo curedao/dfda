@@ -1,5 +1,5 @@
 {
-  "name": "@curedao/text-2-measurements",
+  "name": "@fdai/text-2-measurements",
   "version": "0.0.1",
   "description": "This library uses artificial intelligence to convert natural language inputs into structured data about diet, treatment, and symptom tracking.",
   "main": "index.js",
@@ -10,7 +10,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/curedao/decentralized-fda.git"
+    "url": "git+https://github.com/FDA-AI/FDAi.git"
   },
   "keywords": [
     "natural language processing",
@@ -23,7 +23,21 @@
   "author": "",
   "license": "GPL-3.0-or-later",
   "bugs": {
-    "url": "https://github.com/curedao/decentralized-fda/issues"
+    "url": "https://github.com/FDA-AI/FDAi/issues"
   },
-  "homepage": "https://curedao.org"
+  "homepage": "https://fdai.earth",
+  "dependencies": {
+    "axios": "*",
+    "dotenv": "*",
+    "typechat": "^0.0.10"
+  },
+  "devDependencies": {
+    "@types/jest": "*",
+    "@types/node": "*",
+    "jest": "*",
+    "ts-jest": "*",
+    "typescript": "*",
+    "express-session": "*",
+    "express": "*"
+  }
 }
