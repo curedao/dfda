@@ -30,7 +30,7 @@
     "cors": "^2.8.5",
     "debug": "~2.6.3",
     "dotenv": "^16.0.2",
-    "express": "^4.16.4",
+    "express": "^4.19.2",
     "express-access-token": "^1.1.6",
     "express-ejs-layouts": "^2.5.0",
     "express-http-proxy": "^1.6.3",
