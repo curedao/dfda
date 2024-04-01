@@ -8,6 +8,7 @@ const human = {
         mouth.classList.add('human-mouth-open');
 
         const utterance = new SpeechSynthesisUtterance(text);
+        utterance.rate = 1.5;
         utterance.voice = speechSynthesis.getVoices()
             //.find(voice => voice.lang === 'en-US' && voice.gender === 'male')
             .find(voice => voice.voiceURI === 'Microsoft Mark - English (United States)')

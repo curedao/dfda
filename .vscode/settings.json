@@ -13,5 +13,9 @@
   "gulptasks.notifications.restarted": true,
   "fiveServer.navigate": true,
   "editor.acceptSuggestionOnEnter": "on",
-  "eslint.validate": ["json"]
+  "eslint.validate": [
+    "json"
+  ],
+  "WillLuke.nextjs.addTypesOnSave": true,
+  "WillLuke.nextjs.hasPrompted": true
 }

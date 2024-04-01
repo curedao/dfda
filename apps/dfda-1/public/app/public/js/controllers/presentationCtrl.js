@@ -59,7 +59,11 @@ angular.module('starter').controller('PresentationCtrl', ["$scope", "$state", "$
             if (slide.volume) {
                 audio.volume = slide.volume;
             }
-            audio.play();
+            audio.play().then(function() {
+                // slide.audio = null;
+                // audioEnded = true;
+                // checkAndProceed();
+            });
             audio.onended = function () {
                 audioEnded = true;
                 checkAndProceed();
@@ -174,7 +178,7 @@ angular.module('starter').controller('PresentationCtrl', ["$scope", "$state", "$
                 //qm.robot.openMouth();
                 speechEnded = false;
 		        qm.speech.talkRobot(
-                    formatSpeech(slide.humanSpeech),
+                    formatSpeech(slide.robotSpeech),
                     function(){
                         speechEnded = true;
                         checkAndProceed();
@@ -210,10 +214,10 @@ angular.module('starter').controller('PresentationCtrl', ["$scope", "$state", "$
                 index = 0;
             }
             $scope.state.slideIndex = index;
-            qm.storage.setItem('presentationSlideIndex', index);
+            //qm.storage.setItem('presentationSlideIndex', index);
         }
         $scope.$on('$ionicView.afterEnter', function(){
-            setSlideIndex(qm.storage.getItem('presentationSlideIndex') || 0);
+            //setSlideIndex(qm.storage.getItem('presentationSlideIndex') || 0);
             qmService.navBar.hideNavigationMenu();
             qm.robot.onRobotClick = $scope.state.next;
 			qmService.hideLoader();
@@ -254,6 +258,10 @@ angular.module('starter').controller('PresentationCtrl', ["$scope", "$state", "$
                     });
                     // Add event listener for 'ended' event
                     videoElement.addEventListener('ended', function() {
+                        if(videoEnded){
+                            console.error("Video ended called twice");
+                            return;
+                        }
                         this.loop = false; // prevent looping after video ends
                         setVideoEnded(true, slide);
                         checkAndProceed();
@@ -289,6 +297,8 @@ angular.module('starter').controller('PresentationCtrl', ["$scope", "$state", "$
         });
         // Fade out function
         function fadeOut(audio, duration) {
+            audio.pause();
+            return;
             var step = 0.01; // volume change step
             duration = duration || 1; // duration in seconds
             var interval = duration * 1000 / (1/step); // calculate interval length
