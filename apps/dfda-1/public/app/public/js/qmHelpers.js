@@ -1973,7 +1973,7 @@ var qm = {
             return qm.auth.getAccessTokenFromUrlUserOrStorage();
         },
         getAndSaveAccessTokenFromCurrentUrl: function(){
-            qmLog.authDebug("getAndSaveAccessTokenFromCurrentUrl " + qm.urlHelper.getCurrentUrl());
+            //qmLog.authDebug("getAndSaveAccessTokenFromCurrentUrl " + qm.urlHelper.getCurrentUrl());
             var accessTokenFromUrl = qm.auth.getAccessTokenFromCurrentUrl();
             if(accessTokenFromUrl){
                 if(!qm.auth.accessTokenIsValid(accessTokenFromUrl)){
@@ -2085,7 +2085,7 @@ var qm = {
                 {groupingHash: groupingHash}, "error");
         },
         getAccessTokenFromCurrentUrl: function(){
-            qmLog.webAuthDebug("getAndSaveAccessTokenFromCurrentUrl " + qm.urlHelper.getCurrentUrl());
+            //qmLog.webAuthDebug("getAndSaveAccessTokenFromCurrentUrl " + qm.urlHelper.getCurrentUrl());
 	        var names = ['accessToken', 'quantimodoAccessToken', 'qmAccessToken'];
 	        var accessTokenFromUrl;
 	        for(var i = 0; i < names.length; i++){
@@ -9186,7 +9186,7 @@ var qm = {
         getUtterance: function(text, errorHandler){
             var utterance = new SpeechSynthesisUtterance(text);
             utterance.lang = 'en-US';
-            utterance.rate = 1;
+            utterance.rate = 1.1;
             utterance.pitch = 1;
             utterance.onerror = function(event){
                 var message = 'An error has occurred with the speech synthesis: ' + event.error;
@@ -9196,8 +9196,7 @@ var qm = {
                 }
             };
             utterance.text = text;
-            utterance.pitch = 1;
-            utterance.volume = 0.5;
+            utterance.volume = 0.8;
             utterance.voice = qm.speech.voices.find(function(voice){
                 return voice.name === qm.speech.config.VOICE;
             });
@@ -13774,6 +13773,10 @@ if(qm.appMode.isBackEnd()){
         }
         init();
     }
-	qm.auth.getAndSaveAccessTokenFromCurrentUrl();
+    try {
+        qm.auth.getAndSaveAccessTokenFromCurrentUrl();
+    } catch (e) {
+        console.debug("could not getAndSaveAccessTokenFromCurrentUrl");
+    }
 }());
 // END localStorage POLYFILL

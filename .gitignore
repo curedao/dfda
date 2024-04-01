@@ -58,3 +58,5 @@ litellm_uuid.txt
 .space
 .makemd
 desktop.ini
+coverage/
+/apps/js-examples/data

@@ -5184,6 +5184,94 @@ components:
         userUrl:
           type: string
           description: 'Ex: https://plus.google.com/+MikeSinn'
+    UserPostBody:
+      type: object
+      description: The main thing you need here is the clientUserId that will be needed to fetch the user later.
+      properties:
+        clientUserId:
+          type: string
+          description: 'The user id from your system so you can match the user in our system to the user in your system.'
+        combineNotifications:
+          type: boolean
+          description: 'Whether to combine notifications for multiple variables into a single notification'
+        description:
+          type: string
+          description: Your bio will be displayed on your published studies
+        displayName:
+          type: string
+          description: User display name
+        earliestReminderTime:
+          type: string
+          description: 'Earliest time user should get notifications. Ex: 05:00:00'
+        email:
+          type: string
+          description: User email
+        firstName:
+          type: string
+          description: 'Ex: Mike'
+        getPreviewBuilds:
+          type: boolean
+          description: 'Whether the user should get preview builds of their custom app'
+        hasAndroidApp:
+          type: boolean
+          description: 'Whether the user has the Android app installed'
+        hasChromeExtension:
+          type: boolean
+          description: 'Whether the user has the Chrome extension installed'
+        hasIosApp:
+          type: boolean
+          description: 'Whether the user has the iOS app installed'
+        lastActive:
+          type: string
+          description: 'Ex: Date the user last logged in'
+        lastName:
+          type: string
+          description: 'Ex: Sinn'
+        latestReminderTime:
+          type: string
+          description: 'Latest time user should get notifications. Ex: 23:00:00'
+        loginName:
+          type: string
+          description: User login name
+        password:
+          type: string
+          description: 'Ex: PASSWORD'
+        phoneNumber:
+          type: string
+          description: 'Ex: +1-618-555-0002'
+        phoneVerificationCode:
+          type: string
+          description: 'Ex: 1234'
+        primaryOutcomeVariableId:
+          type: integer
+          description: 'A good primary outcome variable is something that you want to improve and that changes inexplicably. For instance, if you have anxiety, back pain or arthritis which is worse on some days than others, these would be good candidates for primary outcome variables.  Recording their severity and potential factors will help you identify hidden factors exacerbating or improving them. '
+        primaryOutcomeVariableName:
+          type: string
+          description: 'A good primary outcome variable is something that you want to improve and that changes inexplicably. For instance, if you have anxiety, back pain or arthritis which is worse on some days than others, these would be good candidates for primary outcome variables.  Recording their severity and potential factors will help you identify hidden factors exacerbating or improving them. '
+        pushNotificationsEnabled:
+          type: boolean
+          description: 'Whether the user should get push notifications'
+        sendPredictorEmails:
+          type: boolean
+          description: 'Whether the user should get weekly emails on the factors most predictive of their primary outcome to improve'
+        sendReminderNotificationEmails:
+          type: boolean
+          description: 'Whether the user should get emails when they have tracking reminders'
+        shareAllData:
+          type: boolean
+          description: 'Share all studies, charts, and measurement data with all other users'
+        smsNotificationsEnabled:
+          type: boolean
+          description: 'Whether the user should get SMS notifications'
+        timeZoneOffset:
+          type: integer
+          description: 'Minutes offset from UTC time'
+        trackLocation:
+          type: boolean
+          description: 'Whether the user wants to automatically track their location with measurements'
+        userUrl:
+          type: string
+          description: 'The URL the user wants to associate with their account'
     UsersResponse:
       required:
         - users

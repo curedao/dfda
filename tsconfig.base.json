@@ -15,7 +15,9 @@
     "skipLibCheck": true,
     "skipDefaultLibCheck": true,
     "baseUrl": ".",
-    "paths": {}
+    "paths": {
+      "@dfda/fdai-auth": ["libs/fdai-auth/src/index.ts"]
+    }
   },
   "exclude": ["node_modules", "tmp"]
 }
