@@ -1,11 +1,54 @@
 import { Metadata } from "next"
 import { notFound, redirect } from "next/navigation"
+import { render, screen } from '@testing-library/react';
+import fetchMock from 'jest-fetch-mock';
 
 import { authOptions } from "@/lib/auth"
 import { getCurrentUser } from "@/lib/session"
 import { Shell } from "@/components/layout/shell"
 import { DashboardHeader } from "@/components/pages/dashboard/dashboard-header"
 import { UserVariableCharts } from '@/components/userVariable/user-variable-charts';
+
+describe('UserVariableChart component', () => {
+  beforeEach(() => {
+    fetchMock.resetMocks();
+  });
+  
+  it('fetches user variable data', async () => {
+    fetchMock.mockResponseOnce(JSON.stringify([{ id: 1, name: 'Test Var' }]));
+    
+    render(<UserVariableChart params={{variableId: '1'}} />);
+
+    expect(fetchMock).toHaveBeenCalledWith(
+      `/api/dfda/userVariables?variableId=1&includeCharts=true`  
+    );
+  });
+
+  it('renders not found when user variable does not exist', async () => {
+    fetchMock.mockResponseOnce(JSON.stringify([]));
+
+    render(<UserVariableChart params={{variableId: '1'}} />);
+
+    expect(await screen.findByText('Not Found')).toBeInTheDocument();
+  });
+
+  it('renders UserVariableCharts with user variable', async () => {
+    const userVariable = {
+      id: 1,
+      name: 'Test Var',
+      charts: {
+        lineChartWithoutSmoothing: {
+          highchartConfig: {}
+        }
+      }
+    };
+    fetchMock.mockResponseOnce(JSON.stringify([userVariable]));
+
+    render(<UserVariableChart params={{variableId: '1'}} />);
+
+    expect(await screen.findByText('Test Var')).toBeInTheDocument();
+  });
+});
 
 export const metadata: Metadata = {
   title: "UserVariable Charts",
