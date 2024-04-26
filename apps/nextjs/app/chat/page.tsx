@@ -119,3 +119,39 @@ const App: React.FC = () => {
 }
 
 export default App;
+
+// Unit tests for file handling logic
+describe('App component', () => {
+  beforeEach(() => {
+    jest.clearAllMocks();
+  });
+
+  it('handleFileChange should update state correctly with a valid file', async () => {
+    const mockFile = new File(['test'], 'test.png', { type: 'image/png' });
+    const mockBase64 = 'mockBase64String';
+    
+    jest.spyOn(URL, 'createObjectURL').mockReturnValueOnce('mockUrl');
+    jest.spyOn(global, 'convertFileToBase64').mockResolvedValueOnce(mockBase64);
+
+    await act(async () => {
+      await handleFileChange(mockFile);
+    });
+
+    expect(setFile).toHaveBeenCalledWith(mockFile);
+    expect(setPreview).toHaveBeenCalledWith('mockUrl');
+    expect(setStatusMessage).toHaveBeenCalledWith('Image selected. Click "Analyze Image" to proceed.');
+    expect(setUploadProgress).toHaveBeenCalledWith(0);
+    expect(setBase64Image).toHaveBeenCalledWith(mockBase64);
+  });
+
+  it('handleCapture should call handleFileChange with the captured Blob', async () => {
+    const mockBlob = new Blob(['test'], { type: 'image/png' });
+    const mockFile = new File([mockBlob], 'captured_image.png', { type: 'image/png' });
+
+    await act(async () => {
+      await handleCapture(mockBlob);
+    });
+
+    expect(handleFileChange).toHaveBeenCalledWith(mockFile);
+  });
+});

@@ -69,3 +69,114 @@ export function MeasurementButton({ userVariable, ...props }: MeasurementButtonP
     </>
   );
 }
+
+// Unit tests for MeasurementButton component
+describe('MeasurementButton component', () => {
+  beforeEach(() => {
+    jest.clearAllMocks();
+  });
+
+  it('should open the measurement form when the button is clicked', async () => {
+    const mockUserVariable = {
+      id: '1',
+      name: 'Test Variable',
+      description: 'Test description',
+      // ... other properties
+    };
+
+    const { getByRole } = render(<MeasurementButton userVariable={mockUserVariable} />);
+    const button = getByRole('button');
+
+    await act(async () => {
+      fireEvent.click(button);
+    });
+
+    expect(setShowMeasurementAlert).toHaveBeenCalledWith(true);
+  });
+
+  it('should submit the measurement form successfully', async () => {
+    const mockUserVariable = {
+      id: '1',
+      name: 'Test Variable',
+      description: 'Test description',
+      // ... other properties
+    };
+
+    global.fetch = jest.fn().mockResolvedValueOnce({
+      ok: true,
+      json: jest.fn().mockResolvedValueOnce({}),
+    });
+
+    const { getByRole } = render(<MeasurementButton userVariable={mockUserVariable} />);
+    const button = getByRole('button');
+
+    await act(async () => {
+      fireEvent.click(button);
+    });
+
+    const form = getByRole('form');
+
+    await act(async () => {
+      fireEvent.submit(form);
+    });
+
+    expect(global.fetch).toHaveBeenCalledWith('/api/measurements', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        userVariableId: mockUserVariable.id,
+        value: expect.any(Number),
+        note: '',
+      }),
+    });
+
+    expect(setShowMeasurementAlert).toHaveBeenCalledWith(false);
+  });
+
+  it('should handle form submission errors', async () => {
+    const mockUserVariable = {
+      id: '1',
+      name: 'Test Variable',
+      description: 'Test description',
+      // ... other properties
+    };
+
+    global.fetch = jest.fn().mockResolvedValueOnce({
+      ok: false,
+      json: jest.fn().mockResolvedValueOnce({ error: 'Test error' }),
+    });
+
+    const { getByRole } = render(<MeasurementButton userVariable={mockUserVariable} />);
+    const button = getByRole('button');
+
+    await act(async () => {
+      fireEvent.click(button);
+    });
+
+    const form = getByRole('form');
+
+    await act(async () => {
+      fireEvent.submit(form);
+    });
+
+    expect(global.fetch).toHaveBeenCalledWith('/api/measurements', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        userVariableId: mockUserVariable.id,
+        value: expect.any(Number),
+        note: '',
+      }),
+    });
+
+    expect(toast).toHaveBeenCalledWith({
+      title: 'Something went wrong.',
+      description: 'Your measurement was not recorded. Please try again.',
+      variant: 'destructive',
+    });
+  });
+});

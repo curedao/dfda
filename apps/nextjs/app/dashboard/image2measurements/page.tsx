@@ -158,3 +158,80 @@ export default function Home() {
     </div>
   )
 }
+
+// Unit tests for image upload and processing flow
+describe('Home component', () => {
+  beforeEach(() => {
+    jest.clearAllMocks();
+  });
+
+  it('handleFileChange should update state correctly with a valid file', async () => {
+    const mockFile = new File(['test'], 'test.png', { type: 'image/png' });
+    const mockEvent = { target: { files: [mockFile] } };
+
+    await act(async () => {
+      await handleFileChange(mockEvent);
+    });
+
+    expect(setImage).toHaveBeenCalledWith(expect.stringContaining('data:image/png;base64,'));
+  });
+
+  it('handleSubmit should send a POST request with the correct data', async () => {
+    const mockImage = 'mockBase64Image';
+    const mockResponse = { success: true, analysis: 'Mock analysis result' };
+    
+    global.fetch = jest.fn().mockResolvedValueOnce({
+      ok: true,
+      json: jest.fn().mockResolvedValueOnce(mockResponse),
+    });
+
+    setImage(mockImage);
+
+    await act(async () => {
+      await handleSubmit(new Event('submit'));
+    });
+
+    expect(global.fetch).toHaveBeenCalledWith('/api/image2measurements', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ image: mockImage }),
+    });
+
+    expect(setIsLoading).toHaveBeenCalledWith(true);
+    expect(setOpenAIResponse).toHaveBeenCalledWith('');
+    expect(setNutritionData).toHaveBeenCalledWith([]);
+    expect(setIsLoading).toHaveBeenCalledWith(false);
+  });
+
+  it('handleSubmit should handle API errors correctly', async () => {
+    const mockImage = 'mockBase64Image';
+    
+    global.fetch = jest.fn().mockResolvedValueOnce({
+      ok: false,
+      status: 500,
+    });
+
+    setImage(mockImage);
+
+    await act(async () => {
+      await handleSubmit(new Event('submit'));
+    });
+
+    expect(global.fetch).toHaveBeenCalledWith('/api/image2measurements', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ image: mockImage }),
+    });
+
+    expect(setIsLoading).toHaveBeenCalledWith(true);
+    expect(setOpenAIResponse).toHaveBeenCalledWith('');
+    expect(setNutritionData).toHaveBeenCalledWith([]);
+    expect(setIsLoading).toHaveBeenCalledWith(false);
+    expect(console.error).toHaveBeenCalledWith('Error fetching data:', expect.any(Error));
+    expect(window.alert).toHaveBeenCalledWith('Failed to fetch data.');
+  });
+});

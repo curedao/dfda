@@ -96,3 +96,91 @@ export function UserVariableAddButton({ ...props }: UserVariableAddButtonProps) 
     </>
   )
 }
+
+// Unit tests for UserVariableAddButton component
+describe('UserVariableAddButton component', () => {
+  beforeEach(() => {
+    jest.clearAllMocks();
+  });
+
+  it('should open the add alert when the button is clicked', async () => {
+    const { getByRole } = render(<UserVariableAddButton />);
+    const button = getByRole('button', { name: 'New variable' });
+
+    await act(async () => {
+      fireEvent.click(button);
+    });
+
+    expect(setShowAddAlert).toHaveBeenCalledWith(true);
+  });
+
+  it('should create a new user variable successfully', async () => {
+    const mockUserVariable = { id: '1', name: 'New Variable' };
+
+    global.fetch = jest.fn().mockResolvedValueOnce({
+      ok: true,
+      json: jest.fn().mockResolvedValueOnce(mockUserVariable),
+    });
+
+    const { getByRole } = render(<UserVariableAddButton />);
+    const button = getByRole('button', { name: 'New variable' });
+
+    await act(async () => {
+      fireEvent.click(button);
+    });
+
+    const addButton = getByRole('button', { name: 'Add userVariable' });
+
+    await act(async () => {
+      fireEvent.click(addButton);
+    });
+
+    expect(global.fetch).toHaveBeenCalledWith('/api/userVariables', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ name: 'New Variable' }),
+    });
+
+    expect(toast).toHaveBeenCalledWith({
+      description: 'A new variable has been created successfully.',
+    });
+
+    expect(router.push).toHaveBeenCalledWith(`/dashboard/userVariables/${mockUserVariable.id}/settings`);
+    expect(router.refresh).toHaveBeenCalled();
+  });
+
+  it('should handle errors when creating a new user variable', async () => {
+    global.fetch = jest.fn().mockResolvedValueOnce({
+      ok: false,
+    });
+
+    const { getByRole } = render(<UserVariableAddButton />);
+    const button = getByRole('button', { name: 'New variable' });
+
+    await act(async () => {
+      fireEvent.click(button);
+    });
+
+    const addButton = getByRole('button', { name: 'Add userVariable' });
+
+    await act(async () => {
+      fireEvent.click(addButton);
+    });
+
+    expect(global.fetch).toHaveBeenCalledWith('/api/userVariables', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ name: 'New Variable' }),
+    });
+
+    expect(toast).toHaveBeenCalledWith({
+      title: 'Something went wrong.',
+      description: 'Your userVariable was not created. Please try again.',
+      variant: 'destructive',
+    });
+  });
+});
