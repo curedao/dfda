@@ -131,7 +131,7 @@
     "quantimodo": "^5.12.0",
     "react-query": "^3.39.3",
     "simple-git": "^3.16.0",
-    "superagent": "7.0.2",
+    "superagent": "9.0.1",
     "sweetalert2": "^11.1.11",
     "typescript": "^4.9.4",
     "underscore.string": "3.3.5"
